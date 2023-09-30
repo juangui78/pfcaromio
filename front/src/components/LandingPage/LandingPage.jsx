@@ -1,9 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const LandingPage = () => {
+  const {isAuthenticated, isLoading} = useAuth0()
+
+  const redirectToHome = () => {
+    if (isAuthenticated) {
+      window.location.href = '/home'
+      return null
+    }
+  }
+  
   return (
+    isAuthenticated ? redirectToHome() :
     <div className="landing-page">
       <div className="left-half">
 
