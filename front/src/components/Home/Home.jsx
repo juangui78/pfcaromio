@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.css';
-import Navbar from '../NavBar/Navbar';
+//import Navbar from '../NavBar/Navbar';
 import CardDescuento from '../CardDescuento/CardDescuento';
 import Card from '../Card/Card';
 
@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className='card-descuento-container'>
         <CardDescuento />
       </div>
