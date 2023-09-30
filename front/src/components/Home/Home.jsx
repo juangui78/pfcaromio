@@ -14,7 +14,7 @@ const Home = () => {
       rating: 4.5
     },
   ];
-
+  
   return (
     <div className="home-container">
       <Navbar />

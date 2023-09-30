@@ -1,7 +1,10 @@
 import React from 'react';
 import './Navbar.css';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Navbar = () => {
+
+  const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
   return (
     <nav className="navbar">
     <div className='navbar-container'>
@@ -32,7 +35,9 @@ const Navbar = () => {
         </button>
       </div>
       <div className="user-actions">
-        <button>Iniciar Sesión</button>
+        {!isAuthenticated ? <button onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
+        : <button onClick={() => logout({returnTo: 'http://google.com'})}>Cerrar Sesión</button> }
+        
         <div className="cart-icon">
             <button>
                 <img src='Carrito.png' alt='Carro' className='carrito'/>

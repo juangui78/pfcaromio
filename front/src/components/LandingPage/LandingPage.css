@@ -63,12 +63,16 @@
     margin-left: 80px;
     margin-top: -160px;
     cursor: pointer;
+    
   }
   
   .cta-button:hover {
     background-color: #983c15e1;
     border: 3px solid #000000;
+    color: white;
   }
+
+
   body {
     font-family: 'ahronbd.tff', sans-serif;
   }
