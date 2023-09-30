@@ -61,6 +61,33 @@ const getStoreByIdOrName = async (identifier) => {
     }
 };
 
+//Obtener tiendas filtradas por calificación y precio
+const getStoresByFilter = async (minRating, priceLevel) => {
+    try {
+        let filter = {};
+
+        if (minRating) {
+            filter.rating = { $gte: parseFloat(minRating) };
+        }
+
+        if (priceLevel) {
+            if (priceLevel === 'high') {
+                filter.averagePrice = { $gt: 50 }; // Ejemplo: Precio alto si es mayor que 50 (ajustar)
+            } else if (priceLevel === 'mid') {
+                filter.averagePrice = { $gte: 20, $lte: 50 }; // Ejemplo: Precio medio entre 20 y 50 (ajustar)
+            } else if (priceLevel === 'low') {
+                filter.averagePrice = { $lt: 20 }; // Ejemplo: Precio bajo si es menor que 20 (ajustar)
+            }
+        }
+
+        const stores = await Store.find(filter);
+
+        return stores;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 // Crear una nueva tienda
 const createStore = async (name, products, solds, revenue, rating) => {
     try {
@@ -85,5 +112,6 @@ module.exports = {
     getStoresSortedByName, 
     getStoresSortedByRating,
     getStoreByIdOrName,
+    getStoresByFilter,
     createStore
 };
