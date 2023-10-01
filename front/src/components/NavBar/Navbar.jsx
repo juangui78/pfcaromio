@@ -1,6 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -42,8 +43,14 @@ const Navbar = () => {
             <button>
                 <img src='Carrito.png' alt='Carro' className='carrito'/>
             </button>
-        </div>    
         </div>
+
+          
+        </div>
+
+        <div className='buttonCreate'>
+            <Link to='/createProduct' className='link'>Agregar Producto</Link>
+        </div>    
       </div>
     </nav>
   );

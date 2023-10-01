@@ -171,5 +171,23 @@
   height: auto;
 }
 
+.buttonCreate .link {
+  font-family: 'Secular One', sans-serif;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 auto; 
+  margin-left: 65px;
+  font-size: 15px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  border: 2px solid black; 
+  padding: 6px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+}
 
-
+.buttonCreate .link:hover {
+  background-color: #adadad;
+  color: #000000;
+}
