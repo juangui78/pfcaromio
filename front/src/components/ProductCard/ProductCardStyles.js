@@ -94,7 +94,7 @@ export const RowBottom = styled.div`
     margin-left: 1rem;
 `; 
 
-export const LinkCard = styled(NavLink)`
+export const LinkCard = styled.button`
     width: 80%;
     color: white;
     text-decoration: none;

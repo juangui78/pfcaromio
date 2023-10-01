@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 
 import {
     CardContainer,
@@ -6,26 +7,29 @@ import {
     Name,
     Details,
     Price,
-    RowBottom,
     ProductItem,
     ImgContainer,
     LinkCard,
 
 } from "./ProductCardStyles";
 
+import { openProductDetails } from '../../redux/actions';
 
 function ProductCard({ name, price, rating, image, id }) {
+
+    const dispatch = useDispatch();
+
     return (
 
         <CardContainer >
             <ProductItem>
-                <Price>{price}</Price>
+                <Price>${price}</Price>
                 <ImgContainer>
                     <Img src={image} alt="" />
                 </ImgContainer>
                 <Details>
                     <Name>{name}</Name>
-                    <LinkCard>Ver mas</LinkCard>
+                    <LinkCard onClick={() => dispatch(openProductDetails(id))}>Ver mas</LinkCard>
                     <Score>⭐{rating}</Score>
                 </Details>
             </ProductItem>
