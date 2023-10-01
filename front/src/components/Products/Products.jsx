@@ -1,8 +1,10 @@
 //import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../ProductCard/ProductCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../redux/actions';
 
-import {ProductsData} from './data';
+import { ProductsData } from './data';
 
 import {
     Container,
@@ -11,7 +13,12 @@ import {
 } from './ProductsStyles'
 
 export default function Products() {
-    const [products, setProducts] = useState(ProductsData);
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.products);
+
+    useEffect(() => {
+        dispatch(getProducts());
+    }, [dispatch])
 
     return (
         <>
