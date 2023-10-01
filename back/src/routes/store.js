@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { getStores, getStoresSortedByName, getStoresSortedByRating, getStoreByIdOrName, createStore } = require('../controllers/store');
+const { 
+    getStores, 
+    getStoresSortedByName, 
+    getStoresSortedByRating, 
+    getStoreByIdOrName,
+    getStoresByFilter,
+    createStore 
+    } = require('../controllers/store');
 
 // Ruta para obtener todas las tiendas
 router.get('/', async (req, res) => {
@@ -49,6 +56,18 @@ router.get('/:storeIdOrName', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Error fetching store' });
+    }
+});
+
+// Ruta para obtener tiendas filtradas por calificación y precio
+router.get('/', async (req, res) => {
+    try {
+        const minRating = req.query.minRating;
+        const priceLevel = req.query.priceLevel;
+        const filteredStores = await getStoresByFilter(minRating, priceLevel);
+        res.json(filteredStores);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching filtered stores' });
     }
 });
 

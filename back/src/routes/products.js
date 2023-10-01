@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { getAllProducts, getProductsSortedByPrice, getProductsSortedByRating, getProductsByIdOrName, createProduct } = require('../controllers/products');
+const { 
+    getAllProducts, 
+    getProductsSortedByPrice, 
+    getProductsSortedByRating, 
+    getProductsByIdOrName, 
+    getProductsByFilter, 
+    createProduct 
+} = require('../controllers/products');
 
 // Ruta para obtener todos los productos
 router.get('/', async (req, res) => {
@@ -48,6 +55,18 @@ router.get('/:productIdOrName', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products' });
+    }
+});
+
+// Ruta para obtener productos filtrados
+router.get('/', async (req, res) => {
+    try {
+        const minRating = req.query.minRating;
+        const priceLevel = req.query.priceLevel;
+        const filteredProducts = await getProductsByFilter(minRating, priceLevel);
+        res.json(filteredProducts);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching filtered products' });
     }
 });
 

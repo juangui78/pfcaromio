@@ -63,6 +63,33 @@ const getProductsByIdOrName = async (identifier) => {
     }
 };
 
+//Obtener productos filtrados por calificación y precio
+const getProductsByFilter = async (minRating, priceLevel) => {
+    try {
+        let filter = {};
+
+        if (minRating) {
+            filter.rating = { $gte: parseFloat(minRating) };
+        }
+
+        if (priceLevel) {
+            if (priceLevel === 'high') {
+                filter.price = { $gt: 50 }; // Ejemplo: Precio alto si es mayor que 50 (ajustar)
+            } else if (priceLevel === 'mid') {
+                filter.price = { $gte: 20, $lte: 50 }; // Ejemplo: Precio medio entre 20 y 50 (ajustar)
+            } else if (priceLevel === 'low') {
+                filter.price = { $lt: 20 }; // Ejemplo: Precio bajo si es menor que 20 (ajustar)
+            }
+        }
+
+        const products = await Products.find(filter);
+
+        return products;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 // Crear un nuevo producto
 const createProduct = async (name, storeId, price, stock, rating) => {
     try {
@@ -87,5 +114,6 @@ module.exports = {
     getProductsSortedByPrice,
     getProductsSortedByRating,
     getProductsByIdOrName,
+    getProductsByFilter,
     createProduct
 };
