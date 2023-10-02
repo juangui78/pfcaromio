@@ -244,3 +244,26 @@
   top: 0;
   margin-left: 270px;
 }
+
+.back-to-home-button {
+  font-family: 'Secular One', sans-serif;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  background-color: #FFC000;
+  border: 2px solid black; 
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+.back-to-home-button::after{
+  margin-top: -60px;
+  content: '';
+  border-right: 3px solid black;
+  height: 155px; 
+  position: absolute;
+  top: 0;
+  margin-left: 697px;
+}
