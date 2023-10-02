@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../redux/actions';
+import { getProducts, getProductsByStore } from '../../redux/actions';
+import { useParams } from "react-router-dom";
+
 
 import {
     Container,
@@ -12,10 +14,12 @@ import {
 
 export default function Products() {
     const dispatch = useDispatch();
+    const { id } = useParams();
     const products = useSelector((state) => state.products);
 
     useEffect(() => {
-        dispatch(getProducts());
+        if(id) dispatch(getProductsByStore(id));
+        else dispatch(getProducts());
     }, [dispatch])
 
     return (

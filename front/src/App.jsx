@@ -24,12 +24,13 @@ const App = () => {
   return (
     <div id="app" className='home-container'>
       {
-        pathname !== "/" && pathname !== "/createProduct" && (<NavBar />)
+        (pathname !== "/" && pathname !== "/createProduct") && (<NavBar />)
       }
        <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route path='/home' element={<Restaurants />}></Route>
-        <Route path="/products" element={<Products />} />
+        <Route path="/products" element={<Products />} /> 
+        <Route path="/products/:id" element={<Products />} />
       </Routes>
       
       <ProductDetails show={showProductDetails} />

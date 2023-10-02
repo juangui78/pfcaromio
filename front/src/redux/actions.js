@@ -27,12 +27,29 @@ export const getProducts = () => {
         }
     }
 }
+export const getProductsByStore = (id) => {
+    return async function (dispatch) {
+        try {
+            //const data = await ...;
+            const data = ProductsData.filter((product) => product.storeId === id);
+            console.log(data)
+            return dispatch(
+                { type: GET_PRODUCTS, payload: data },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
 
 export const getRestaurants = () => {
     return async function (dispatch) {
         try {
             //const data = await ...;
-            const data =RestaurantsData;
+            const data = RestaurantsData;
             return dispatch(
                 { type: GET_RESTAURANTS, payload: data },
             )
@@ -49,7 +66,7 @@ export const openProductDetails = (id) => {
     return async function (dispatch) {
         try {
             return dispatch(
-                { type: OPEN_PRODUCT_DETAILS, payload:id },
+                { type: OPEN_PRODUCT_DETAILS, payload: id },
             )
         }
         catch (error) {
