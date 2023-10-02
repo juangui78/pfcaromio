@@ -4,8 +4,6 @@ import { ProductCard } from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../redux/actions';
 
-import { ProductsData } from './data';
-
 import {
     Container,
     Title,

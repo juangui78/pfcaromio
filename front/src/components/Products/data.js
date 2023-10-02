@@ -44,3 +44,30 @@ export const ProductsData = [
 
 ];
 
+export const RestaurantsData = [
+    {
+        imageSrc: 'https://images.rappi.com/restaurants_logo/urban-pizza-logo1-1567190280858-1605190879805.png?e=webp&d=10x10&q=10',
+        name: 'Urban Pizzería',
+        address: 'Carrera 43E #11A - 34 - Barrio Manila, Medellin',
+        rating: 4.5
+    },
+    {
+        imageSrc: 'https://images.rappi.com/restaurants_logo/harrys-pizza-logo1-1612903715560.png?e=webp&d=10x10&q=10',
+        name: 'Harrys Pizza',
+        address: 'Cq. 1 #70-33, Medellín',
+        rating: 3.8
+    }
+    ,
+    {
+        imageSrc: 'https://images.rappi.com/restaurants_logo/1-1566949585753-1609853900928.png?e=webp&d=10x10&q=10',
+        name: "Domino's - Pizza",
+        address: 'Calle 52 #43-26',
+        rating: 4.1
+    },
+    {
+        imageSrc: 'https://images.rappi.com/restaurants_logo/81ebdcc7-2af9-4ead-bf70-7c6cee039569-1571272784589.png?e=webp&d=10x10&q=10',
+        name: "Angelo pizzería",
+        address: 'Calle 12 #31-165',
+        rating: 4.3
+    }
+];

@@ -13,6 +13,7 @@ import Home from '../src/components/Home/Home'
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import CreateProduct from './components/CreateProduct/CreateProduct';
+import Restaurants from '../src/components/Restaurants/Restaurants'
 
 
 const App = () => {
@@ -25,9 +26,9 @@ const App = () => {
       {
         pathname !== "/" && pathname !== "/createProduct" && (<NavBar />)
       }
-      <Routes>
+       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
-        <Route path='/home' element={<Home />}></Route>
+        <Route path='/home' element={<Restaurants />}></Route>
         <Route path="/products" element={<Products />} />
       </Routes>
       

@@ -1,11 +1,12 @@
 import {
     GET_PRODUCTS,
+    GET_RESTAURANTS,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     ERROR
 } from "./actionsTypes";
 
-import { ProductsData } from '../components/Products/data' // ! Data de prueba 
+import { ProductsData, RestaurantsData } from '../components/Products/data' // ! Data de prueba 
 
 import axios from 'axios';
 
@@ -26,6 +27,24 @@ export const getProducts = () => {
         }
     }
 }
+
+export const getRestaurants = () => {
+    return async function (dispatch) {
+        try {
+            //const data = await ...;
+            const data =RestaurantsData;
+            return dispatch(
+                { type: GET_RESTAURANTS, payload: data },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
 export const openProductDetails = (id) => {
     return async function (dispatch) {
         try {
