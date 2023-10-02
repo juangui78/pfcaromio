@@ -1,6 +1,7 @@
 export const ProductsData = [
     {
     "id": 1034567892,
+    "storeId": '1',
     "name": "Pizza napolitana",
     "price": "24.990",
     "rating": "60",
@@ -9,6 +10,7 @@ export const ProductsData = [
 },
 {
     "id": 1034567893,
+    "storeId": '1',
     "name": "Pizza vegetariana",
     "price": "43.750",
     "rating": "80",
@@ -18,6 +20,7 @@ export const ProductsData = [
 },
 {
     "id": 1034567894,
+    "storeId": '2',
     "name": "Pizza Siciliana",
     "price": "39.900",
     "rating": "95",
@@ -27,6 +30,7 @@ export const ProductsData = [
 },
 {
     "id": 1034567895,
+    "storeId": '3',
     "name": "Pizza New York",
     "price": "39.900",
     "rating": "75",
@@ -35,6 +39,7 @@ export const ProductsData = [
 },
 {
     "id": 1034567896,
+    "storeId": '4',
     "name": "Pizza Chicago",
     "price": "39.900",
     "rating": "45",
@@ -46,12 +51,14 @@ export const ProductsData = [
 
 export const RestaurantsData = [
     {
+        id:'1',
         imageSrc: 'https://images.rappi.com/restaurants_logo/urban-pizza-logo1-1567190280858-1605190879805.png?e=webp&d=10x10&q=10',
         name: 'Urban Pizzería',
         address: 'Carrera 43E #11A - 34 - Barrio Manila, Medellin',
         rating: 4.5
     },
     {
+        id:'2',
         imageSrc: 'https://images.rappi.com/restaurants_logo/harrys-pizza-logo1-1612903715560.png?e=webp&d=10x10&q=10',
         name: 'Harrys Pizza',
         address: 'Cq. 1 #70-33, Medellín',
@@ -59,12 +66,14 @@ export const RestaurantsData = [
     }
     ,
     {
+        id:'3',
         imageSrc: 'https://images.rappi.com/restaurants_logo/1-1566949585753-1609853900928.png?e=webp&d=10x10&q=10',
         name: "Domino's - Pizza",
         address: 'Calle 52 #43-26',
         rating: 4.1
     },
     {
+        id:'5',
         imageSrc: 'https://images.rappi.com/restaurants_logo/81ebdcc7-2af9-4ead-bf70-7c6cee039569-1571272784589.png?e=webp&d=10x10&q=10',
         name: "Angelo pizzería",
         address: 'Calle 12 #31-165',
