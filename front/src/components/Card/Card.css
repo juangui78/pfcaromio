@@ -1,0 +1,57 @@
+.card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 10px;
+    padding: 40px 330px;
+    margin-bottom: 10px;
+    border: 2px solid #000000;
+    border-radius: 30px;
+    display: inline-block; 
+  }
+  
+  .card-image img {
+    width: 35%;
+    height: 160%;
+    margin-left: -270px;
+    margin-top: 10px;
+    margin-bottom: -50px;
+    object-fit: contain; 
+    border-radius: 30px;
+    border: 2px solid black; 
+  }
+  
+  .card-name {
+    font-family: 'Secular One', sans-serif;
+    font-size: 2em;
+    margin-left: 200px;
+    margin-bottom: 5px;
+    margin-top: -50px;
+    color: #000000;
+  }
+  
+  .card-details {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .card-address {
+    font-family: 'Secular One', sans-serif;
+    color: #000000;
+    font-size: 1.2em;
+    margin-top: -37px;
+    margin-left: 200px;
+    margin-bottom: 20px;
+  }
+  
+  .card-rating {
+    font-family: 'Secular One', sans-serif;
+    color: #000000;
+    font-size: 1.2em;
+    margin-top: -37px;
+    margin-bottom: 20px;
+    margin-left: 210px;
+  }

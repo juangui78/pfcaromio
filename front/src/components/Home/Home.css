@@ -1,0 +1,11 @@
+.card-container{
+  margin-top: 35px;
+  margin-left: 20px;
+}
+.card-descuento-container {
+  margin-top: 190px;
+}
+
+body {
+    background-color: rgb(236, 236, 236);
+  }
