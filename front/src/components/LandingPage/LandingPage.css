@@ -39,16 +39,18 @@
   .right-half h2 {
     font-family: 'Secular One', sans-serif;
     font-size: 3.1em;
+    color: #000000;
     font-weight: bold;
     margin-top: -20px;
-    margin-left: 80px;
+    margin-left: 20px;
     text-align: center;
   }
   
   .right-half h3 {
+    color: #000;
     font-family: 'Secular One', sans-serif;
     margin-bottom: 220px;
-    margin-left: 80px;
+    margin-left: 20px;
     text-align: center;
   }
   
@@ -56,24 +58,22 @@
   .cta-button {
     padding: 10px 180px;
     font-size: 1.3em;
+    font-family: 'Secular One', sans-serif;
+
     background-color: #fa8d35;
     color: white;
     border: 3px solid #000000;
     border-radius: 20px;
-    margin-left: 80px;
+    margin-left: 20px;
     margin-top: -160px;
     cursor: pointer;
     
   }
   
   .cta-button:hover {
-    background-color: #983c15e1;
+    background-color: #ff4d00e1;
     border: 3px solid #000000;
     color: white;
   }
-
-
-  body {
-    font-family: 'ahronbd.tff', sans-serif;
-  }
+ 
   

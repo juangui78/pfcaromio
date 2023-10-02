@@ -14,7 +14,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
     width: 100%;
-    text-align: center;
+    margin-left: 20px;
     font-size: 24pt;
     color:var(--red);
     font-family: 'Secular One', 'sans-serif';
