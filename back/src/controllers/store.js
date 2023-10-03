@@ -1,4 +1,4 @@
-const { Store } = require('../db');
+const { Store } = require('../models/store');
 
 // Obtener todas las tiendas de la base de datos
 const getStores = async () => {
@@ -89,14 +89,16 @@ const getStoresByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear una nueva tienda
-const createStore = async (name, products, solds, revenue, rating) => {
+const createStore = async (userID, name, address, rating, revenue, image, products) => {
     try {
         const newStore = new Store({
+            userID: userID,
             name: name,
-            products: products,
-            solds: solds,
-            revenue: revenue,
+            address: address,
             rating: rating,
+            revenue: revenue,
+            image: image,
+            products: products,
         });
         
         await newStore.save();
