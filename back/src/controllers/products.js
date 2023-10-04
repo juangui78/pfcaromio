@@ -1,5 +1,5 @@
 //importamos el modelo directamente 
-const  {Products}  = require('../modules/product');
+const  {Products}  = require('../models/product');
 const mongoose = require('mongoose');
 // Obtener todos los productos
 const getAllProducts = async () => {
@@ -53,11 +53,11 @@ const getProductsByIdOrName = async (identifier) => {
     try {
         let products;
         if (mongoose.Types.ObjectId.isValid(identifier)) {
-            products = await Product.findById(identifier)
+            products = await Products.findById(identifier)
                 .populate('store')
                 .populate('reviews');
         } else {
-            products = await Product.find({ name: identifier })
+            products = await Products.find({ name: identifier })
                 .populate('store')
                 .populate('reviews');
         }
@@ -86,7 +86,7 @@ const getProductsByFilter = async (minRating, priceLevel) => {
             }
         }
 
-        const products = await Product.find(filter);
+        const products = await Products.find(filter);
 
         return products;
     } catch (err) {
@@ -95,18 +95,18 @@ const getProductsByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear un nuevo producto
-const createProduct = async (name, price, rating, description,image, stock, storeId) => {
+const createProduct = async (name, price, rating, description,image, stock) => {
     try {
-        const newProduct = new Product({
+        const newProduct = new Products({
             name: name,
             price: price,
             rating: rating,
             description: description,
             image: image,
             stock: stock,
-            store: storeId,
+            // store: storeId,
         });
-
+        console.log(newProduct);
         await newProduct.save();
         return newProduct;
         
