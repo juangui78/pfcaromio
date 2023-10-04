@@ -18,12 +18,12 @@ const getProductsSortedByPrice = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Product.find()
+            const ProductsList = await Products.find()
                 .sort({ price: sortOrder });
 
             return ProductsList;
         } else {
-            return await Product.find();
+            return await Products.find();
         }
     } catch (err) {
         console.log(err);
@@ -32,10 +32,11 @@ const getProductsSortedByPrice = async (order) => {
 
 // Obtener todos los productos ordenados por su calificación
 const getProductsSortedByRating = async (order) => {
+    //revisar
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Product.find()
+            const ProductsList = await Products.find()
                 .sort({ rating: sortOrder });
 
             return ProductsList;
@@ -51,15 +52,16 @@ const getProductsSortedByRating = async (order) => {
 // Obtener productos por su ID o nombre
 const getProductsByIdOrName = async (identifier) => {
     try {
+        
         let products;
         if (mongoose.Types.ObjectId.isValid(identifier)) {
             products = await Products.findById(identifier)
-                .populate('store')
-                .populate('reviews');
+                //.populate('store')
+                //.populate('reviews');
         } else {
             products = await Products.find({ name: identifier })
-                .populate('store')
-                .populate('reviews');
+                //.populate('store')
+                //.populate('reviews');
         }
         return products;
     } catch (err) {

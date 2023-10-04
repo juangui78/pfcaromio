@@ -45,7 +45,7 @@ router.get('/by-rating', async (req, res) => {
 });
 
 // Ruta para obtener productos por su ID o por su nombre
-router.get(':productIdOrName', async (req, res) => {
+router.get('/:productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
     try {
         const products = await getProductsByIdOrName(productIdOrName);
