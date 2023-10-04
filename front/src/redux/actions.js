@@ -48,7 +48,6 @@ export const getRestaurants = () => {
         try {
 //            const data = RestaurantsData;
             const {data} = await axios.get("http://localhost:3004/stores/");
-            console.log(data);
 
             return dispatch(
                 { type: GET_RESTAURANTS, payload: data },
