@@ -1,0 +1,41 @@
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 500px; 
+  }
+  
+  .search-bar input {
+    font-family: 'Secular One', sans-serif;
+    font-size: 15px;
+    flex: 1;
+    padding: 8px;
+    background-color: #ededed;
+    color:#000000;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+  }
+  
+  .search-bar button {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    background-color: #ededed;
+    cursor: pointer;
+  }
+  .search-bar button:hover {
+    border-color: #000000; 
+    border: 1.5px solid;
+  }
+  .search-bar button img {
+    width: 15px;
+    height: auto;
+  }
+  
+  .search-bar::after {
+    content: '';
+    border-right: 3px solid black; 
+    height: 100%;
+    position: absolute; 
+    top: 0; 
+    margin-left: 530px; 
+  }
