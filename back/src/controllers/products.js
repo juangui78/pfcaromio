@@ -18,12 +18,12 @@ const getProductsSortedByPrice = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Products.find()
+            const ProductsList = await Product.find()
                 .sort({ price: sortOrder });
 
             return ProductsList;
         } else {
-            return await Products.find();
+            return await Product.find();
         }
     } catch (err) {
         console.log(err);
@@ -35,7 +35,7 @@ const getProductsSortedByRating = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Products.find()
+            const ProductsList = await Product.find()
                 .sort({ rating: sortOrder });
 
             return ProductsList;
@@ -53,11 +53,11 @@ const getProductsByIdOrName = async (identifier) => {
     try {
         let products;
         if (mongoose.Types.ObjectId.isValid(identifier)) {
-            products = await Products.findById(identifier)
+            products = await Product.findById(identifier)
                 .populate('store')
                 .populate('reviews');
         } else {
-            products = await Products.find({ name: identifier })
+            products = await Product.find({ name: identifier })
                 .populate('store')
                 .populate('reviews');
         }
@@ -86,7 +86,7 @@ const getProductsByFilter = async (minRating, priceLevel) => {
             }
         }
 
-        const products = await Products.find(filter);
+        const products = await Product.find(filter);
 
         return products;
     } catch (err) {
@@ -95,14 +95,16 @@ const getProductsByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear un nuevo producto
-const createProduct = async (name, storeId, price, stock, rating, storeID) => {
+const createProduct = async (name, price, rating, description,image, stock, storeId) => {
     try {
-        const newProduct = new Products({
+        const newProduct = new Product({
             name: name,
-            store: storeId,
             price: price,
-            stock: stock,
             rating: rating,
+            description: description,
+            image: image,
+            stock: stock,
+            store: storeId,
         });
 
         await newProduct.save();

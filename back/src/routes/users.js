@@ -30,10 +30,10 @@ router.get('/:userId', async (req, res) => {
 
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
-    const { name, phone, address, city, dob, role } = req.body;
+    const { username ,email ,age, role } = req.body;
 
     try {
-        const newUser = await createUser(name, phone, address, city, dob, role);
+        const newUser = await createUser(username ,email ,age, role);
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the user' });

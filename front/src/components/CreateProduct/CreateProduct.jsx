@@ -79,8 +79,7 @@ export default function CreateProduct () {
             
         
     }
-    
-    // Prueba
+
 
 
     return(<div className='createSection'>

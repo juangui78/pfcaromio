@@ -1,9 +1,9 @@
-const { Users } = require('../db');
+const { User } = require('../models/user');
 
 // Obtener todos los usuarios
 const getAllUsers = async () => {
     try {
-        return await Users.find();
+        return await User.find();
     } catch (err) {
         console.log(err);
     }
@@ -12,21 +12,19 @@ const getAllUsers = async () => {
 // Obtener un usuario por su ID
 const getUserById = async (userId) => {
     try {
-        return await Users.findById(userId).populate('reviews');
+        return await User.findById(userId);
     } catch (err) {
         console.log(err);
     }
 };
 
 // Crear un nuevo usuario
-const createUser = async (name, phone, address, city, dob, role) => {
+const createUser = async (username ,email ,age, role) => {
     try {
-        const newUser = new Users({
-            name: name,
-            phone: phone,
-            address: address,
-            city: city,
-            dob: dob,
+        const newUser = new User({
+            username: username,
+            email:email,
+            age: age,
             role: role,
         });
 
