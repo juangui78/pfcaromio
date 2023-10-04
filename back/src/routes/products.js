@@ -72,10 +72,10 @@ router.get('/', async (req, res) => {
 
 // Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
-    const { name, storeId, price, stock, rating } = req.body;
+    const { name, storeId, price, stock, rating, description } = req.body;
 
     try {
-        const newProduct = await createProduct(name, storeId, price, stock, rating);
+        const newProduct = await createProduct(name, storeId, price, stock, rating, description);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the product' });

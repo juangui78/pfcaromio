@@ -110,7 +110,7 @@ const CloseBtn = styled.button`
     width: 20px;
     height: 30px;
     padding-left: 8px;
-    padding-top: 6px;
+    padding-top: 3px;
     border: 1px solid;
     cursor: pointer;
     transition: .3s ease all;

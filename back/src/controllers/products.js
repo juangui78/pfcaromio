@@ -93,7 +93,7 @@ const getProductsByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear un nuevo producto
-const createProduct = async (name, storeId, price, stock, rating, storeID) => {
+const createProduct = async (name, storeId, price, stock, rating, description) => {
     try {
         const newProduct = new Product({
             name: name,
@@ -101,6 +101,7 @@ const createProduct = async (name, storeId, price, stock, rating, storeID) => {
             price: price,
             stock: stock,
             rating: rating,
+            description: description,
         });
 
         await newProduct.save();
