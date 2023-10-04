@@ -1,9 +1,13 @@
-const { Products } = require('../db');
-
+//importamos el modelo directamente 
+const  {Products}  = require('../modules/product');
+const mongoose = require('mongoose');
 // Obtener todos los productos
 const getAllProducts = async () => {
     try {
-        return await Products.find();
+        console.log("Ejecuta el controlador")
+        console.log(Products);
+        const products = await Products.find();
+        return products;
     } catch (err) {
         console.log(err);
     }
