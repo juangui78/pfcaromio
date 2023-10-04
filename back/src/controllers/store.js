@@ -1,4 +1,5 @@
-const { Store } = require('../models/store');
+//importamos el modelo directamente 
+const  {Store}  = require('../modules/store');
 
 // Obtener todas las tiendas de la base de datos
 const getStores = async () => {

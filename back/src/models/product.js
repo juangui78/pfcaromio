@@ -15,7 +15,7 @@ const productSchema = new Schema({
     stock: {type: Number, min: 0}
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Products = mongoose.model('Product', productSchema);
 
 
-module.exports = Product;
+module.exports = {Products};
