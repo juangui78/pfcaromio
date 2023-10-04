@@ -1,4 +1,7 @@
-const { Store } = require('../db');
+//const { Store } = require('../db');
+const Store = require('../models/store');
+
+const { stores } = require('../data');  // ! Data provisional para pruebas
 
 // Obtener todas las tiendas de la base de datos
 const getStores = async () => {
@@ -89,16 +92,17 @@ const getStoresByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear una nueva tienda
-const createStore = async (name, products, solds, revenue, rating) => {
+const createStore = async (name, address, products, solds, revenue, rating) => {
     try {
         const newStore = new Store({
             name: name,
             products: products,
+            address: address,
             solds: solds,
             revenue: revenue,
             rating: rating,
         });
-        
+
         await newStore.save();
         return newStore;
 
@@ -108,8 +112,8 @@ const createStore = async (name, products, solds, revenue, rating) => {
 };
 
 module.exports = {
-    getStores, 
-    getStoresSortedByName, 
+    getStores,
+    getStoresSortedByName,
     getStoresSortedByRating,
     getStoreByIdOrName,
     getStoresByFilter,

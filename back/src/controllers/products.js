@@ -1,9 +1,11 @@
-const { Products } = require('../db');
+//const { Products } = require('../db');
+const Product = require('../models/product');
+const { products } = require('../data'); // ! Data provisional para pruebas
 
 // Obtener todos los productos
 const getAllProducts = async () => {
     try {
-        return await Products.find();
+        return await Product.find();
     } catch (err) {
         console.log(err);
     }
@@ -93,7 +95,7 @@ const getProductsByFilter = async (minRating, priceLevel) => {
 // Crear un nuevo producto
 const createProduct = async (name, storeId, price, stock, rating, storeID) => {
     try {
-        const newProduct = new Products({
+        const newProduct = new Product({
             name: name,
             store: storeId,
             price: price,

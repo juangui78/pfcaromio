@@ -13,9 +13,7 @@ import axios from 'axios';
 export const getProducts = () => {
     return async function (dispatch) {
         try {
-            //const data = await ...;
-            const data = ProductsData;
-
+            const {data} = await axios.get("http://localhost:3004/products/");
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },
             )
@@ -48,8 +46,10 @@ export const getProductsByStore = (id) => {
 export const getRestaurants = () => {
     return async function (dispatch) {
         try {
-            //const data = await ...;
-            const data = RestaurantsData;
+//            const data = RestaurantsData;
+            const {data} = await axios.get("http://localhost:3004/stores/");
+            console.log(data);
+
             return dispatch(
                 { type: GET_RESTAURANTS, payload: data },
             )
@@ -76,6 +76,7 @@ export const openProductDetails = (id) => {
         }
     }
 }
+
 export const closeProductDetails = () => {
     return async function (dispatch) {
         try {
