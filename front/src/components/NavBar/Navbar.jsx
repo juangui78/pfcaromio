@@ -82,18 +82,21 @@ const Navbar = () => {
                   <button>Filtrar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
                     <div className="inputContainer">
-                      <a href="#">Mayor que: </a>
-                      <input
-                        type="number"
-                        min="0"
-                        max="5"
-                        step="1"
-                        className="inputRating"
-                        id="ratingFilterInput"
-                        value={ratingFilter}
-                        onChange={handleRatingInputChange}
-                        onKeyPress={handleKeyPress}
-                      />
+                      <div className="slider-container">
+                        <div className="slider-label">Mayor que:</div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="5"
+                          step="1"
+                          className="inputRating"
+                          id="ratingFilterInput"
+                          value={ratingFilter}
+                          onChange={handleRatingInputChange}
+                          onKeyPress={handleKeyPress}
+                        />
+                        <div className="slider-value">{ratingFilter}</div>
+                      </div>
                     </div>
                   </div>
                 </div>

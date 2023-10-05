@@ -78,22 +78,25 @@ const NavbarProducts = () => {
                         <a href="#">Mayor Precio</a>
                       </div>
                     </div>
-                <div className="filter-button">
+                    <div className="filter-button">
                   <button>Filtrar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
                     <div className="inputContainer">
-                      <a href="#">Mayor que: </a>
-                      <input
-                        type="number"
-                        min="0"
-                        max="5"
-                        step="1"
-                        className="inputRating"
-                        id="ratingFilterInput"
-                        value={ratingFilter}
-                        onChange={handleRatingInputChange}
-                        onKeyPress={handleKeyPress}
-                      />
+                      <div className="slider-container">
+                        <div className="slider-label">Mayor que:</div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="5"
+                          step="1"
+                          className="inputRating"
+                          id="ratingFilterInput"
+                          value={ratingFilter}
+                          onChange={handleRatingInputChange}
+                          onKeyPress={handleKeyPress}
+                        />
+                        <div className="slider-value">{ratingFilter}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -101,18 +104,21 @@ const NavbarProducts = () => {
                   <button>Filtrar por Precio</button>
                   <div className="dropdown-content-inner show-scroll">
                     <div className="inputContainer">
-                      <a href="#">Menor que: </a>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="10"
-                        className="inputRating"
-                        id="ratingFilterInput"
-                        value={ratingFilter}
-                        onChange={handleRatingInputChange}
-                        onKeyPress={handleKeyPress}
-                      />
+                      <div className="slider-container">
+                        <div className="slider-label">Menor que:</div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          step="10"
+                          className="inputRating"
+                          id="priceFilterInput"
+                          value={priceFilter}
+                          onChange={handlePriceInputChange} // Cambié el manejador a handlePriceInputChange
+                          onKeyPress={handlePriceKeyPress} // Cambié el manejador a handlePriceKeyPress
+                          />
+                        <div className="slider-value">{priceFilter}</div>
+                      </div>
                     </div>
                   </div>
                 </div>

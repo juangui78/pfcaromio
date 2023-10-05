@@ -283,37 +283,23 @@
   border-radius: 3px;
   margin-left: 5px;
 }
-
-.filters .filter-button.filter-button-price {
-  font-family: 'Secular One', sans-serif;
-  padding: 6px 12px;
-  background-color: #FFC000;
-  border: 2px solid #000000;
-  color: #000000;
-  cursor: pointer;
-  font-weight: bold;
-  display: inline-block;
-  margin-right: 10px;
-  position: relative;
-  text-align: left;
+.filter-button .slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente */
+  margin-top: 10px; /* Ajusta el margen superior según sea necesario */
 }
 
-.filters .filter-button.filter-button-price::after {
-  content: "▼";
-  margin-left: 5px;
-  transition: transform 0.3s ease;
+.filter-button .slider-container input {
+  width: 100%; /* Ajusta el ancho del slider */
 }
 
-.filters .filter-button.filter-button-price.open::after {
-  content: "▲";
+.filter-button .slider-container .slider-label {
+  text-align: center; /* Centra el texto */
+  margin-bottom: 5px; /* Ajusta el espacio entre el texto y el slider */
 }
 
-.filters .filter-button.filter-button-price.open .dropdown-content-inner {
-  display: block;
-}
-
-.filters .filter-button.filter-button-price .dropdown-content-inner a {
-  margin-top: 2px;
-  padding: 10px 16px;
-  border-bottom: 1px solid #000000;
+.filter-button .slider-container .slider-value {
+  text-align: center; /* Centra el valor */
+  margin-top: -7px; /* Ajusta el espacio entre el slider y el valor */
 }
