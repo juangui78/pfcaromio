@@ -18,12 +18,12 @@ const getProductsSortedByPrice = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Product.find()
+            const ProductsList = await Products.find()
                 .sort({ price: sortOrder });
 
             return ProductsList;
         } else {
-            return await Product.find();
+            return await Products.find();
         }
     } catch (err) {
         console.log(err);
@@ -35,7 +35,7 @@ const getProductsSortedByRating = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Product.find()
+            const ProductsList = await Products.find()
                 .sort({ rating: sortOrder });
 
             return ProductsList;
@@ -68,7 +68,7 @@ const getProductsByIdOrName = async (identifier) => {
 };
 
 //Obtener productos filtrados por calificación y precio
-const getProductsByFilter = async (minRating, priceLevel) => {
+const getProductsByFilter = async (minRating, maxPrice) => {
     try {
         let filter = {};
 
@@ -76,14 +76,8 @@ const getProductsByFilter = async (minRating, priceLevel) => {
             filter.rating = { $gte: parseFloat(minRating) };
         }
 
-        if (priceLevel) {
-            if (priceLevel === 'high') {
-                filter.price = { $gt: 50 }; // Ejemplo: Precio alto si es mayor que 50 (ajustar)
-            } else if (priceLevel === 'mid') {
-                filter.price = { $gte: 20, $lte: 50 }; // Ejemplo: Precio medio entre 20 y 50 (ajustar)
-            } else if (priceLevel === 'low') {
-                filter.price = { $lt: 20 }; // Ejemplo: Precio bajo si es menor que 20 (ajustar)
-            }
+        if (maxPrice) {
+            filter.price = { $lte: parseFloat(maxPrice) };
         }
 
         const products = await Products.find(filter);
