@@ -63,8 +63,8 @@ router.get(':productIdOrName', async (req, res) => {
 router.get('/filtered', async (req, res) => {
     try {
         const minRating = req.query.minRating;
-        const priceLevel = req.query.priceLevel;
-        const filteredProducts = await getProductsByFilter(minRating, priceLevel);
+        const maxPrice = req.query.maxPrice;
+        const filteredProducts = await getProductsByFilter(minRating, maxPrice);
         res.json(filteredProducts);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching filtered products' });
@@ -76,7 +76,7 @@ router.post('/', async (req, res) => {
     const { name, price, rating, description,image, stock, storeId} = req.body;
 
     try {
-        const newProduct = await createProduct(name, price, rating, description,image, stock, storeId);
+        const newProduct = await createProduct(name, price, rating, description, image, stock, storeId);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the product' });
