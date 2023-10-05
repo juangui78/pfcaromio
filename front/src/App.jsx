@@ -14,12 +14,14 @@ import Home from '../src/components/Home/Home'
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
+import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 
 
 const App = () => {
   const { pathname } = useLocation();
   
   const showProductDetails = useSelector((state) => state.modalProductDetails);
+  const showCart = useSelector((state) => state.modalCart);
 
   return (
     <div id="app" className='home-container'>
@@ -37,6 +39,7 @@ const App = () => {
       </Routes>
       
       <ProductDetails show={showProductDetails} />
+      <ShoppingCard show={showCart} />
 
     </div>
   );

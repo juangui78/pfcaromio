@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Navbar.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useLocation } from 'react-router-dom';
+import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
 
 const Navbar = () => {
@@ -18,15 +19,16 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
+
         <div className="logo">
           <Link to='/home'>
-                    <img src="LogoPizzeria.png" alt="Logo" />
+            <img src="LogoPizzeria.png" alt="Logo" />
           </Link>
         </div>
 
         {!showFiltersAndSearch && (
           <div className="back-to-home-button" style={{ marginRight: '545px', borderBottom: '1px solid black', position: 'relative' }}>
-          <Link to="/home" style={{ textDecoration: 'none', color: 'black', fontSize: '16px' }}>
+            <Link to="/home" style={{ textDecoration: 'none', color: 'black', fontSize: '16px' }}>
               Volver a Inicio
             </Link>
           </div>
@@ -84,11 +86,14 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="cart-icon">
+        <CartBtn />
+
+        {/*   <div className="cart-icon">
           <button>
             <img src="Carrito.png" alt="Carro" className="carrito" />
           </button>
-        </div>
+        </div> */}
+
       </div>
     </nav>
   );

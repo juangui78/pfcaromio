@@ -10,7 +10,7 @@ import {
 
 } from './ProductDetailsStyles'
 
-export default function ProductDetails({ show, toggleState }) {
+export default function ProductDetails({ show }) {
 
     const dispatch = useDispatch();
 
@@ -20,6 +20,7 @@ export default function ProductDetails({ show, toggleState }) {
                 dispatch(closeProductDetails())
           }
         };
+
         window.addEventListener('keydown', handleEsc);
 
         return () => {
@@ -27,15 +28,8 @@ export default function ProductDetails({ show, toggleState }) {
         };
     }, []);
 
-    /* const [product, setProduct] = useState({
-        "id": 1034567896,
-        "name": "Pizza Chicago",
-        "price": "$39.900",
-        "rating": "45",
-        "description": "Conocida en muchos lugares como pizza de sartén o deep dish, la verdadera Chicago se asemeja mucho a un pay, ya que su preparación en una cacerola metálica le brinda su peculiar forma.",
-        "image": "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=300",
-    }); */
     const product = useSelector((state) => state.product);
+
     return (
         <>
             {show &&
@@ -110,7 +104,7 @@ const CloseBtn = styled.button`
     width: 20px;
     height: 30px;
     padding-left: 8px;
-    padding-top: 6px;
+    padding-top: 3px;
     border: 1px solid;
     cursor: pointer;
     transition: .3s ease all;

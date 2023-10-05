@@ -18,6 +18,8 @@
 .navbar-container {
   display: flex;
   align-items: center;
+  margin-right: 4rem;
+  width: 100%;
 }
 
 .logo img {
@@ -236,14 +238,14 @@
   background-color:#ededed;
   color: #000000;
 }
-.buttonCreate::after {
+/* .buttonCreate::after {
   content: '';
   border-right: 3px solid black;
   height: 100%; 
   position: absolute;
   top: 0;
   margin-left: 270px;
-}
+} */
 
 .back-to-home-button {
   font-family: 'Secular One', sans-serif;
