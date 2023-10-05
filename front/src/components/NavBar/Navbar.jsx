@@ -108,11 +108,9 @@ const Navbar = () => {
             </Link>
           </div>
         )}
-        {showFiltersAndSearch && (
-          <>
+
             <SearchBar />
-          </>
-        )}
+
         <div className="user-actions">
           {!isAuthenticated ? (
             <button className="login-button" onClick={() => loginWithRedirect()}>Iniciar Sesión</button>

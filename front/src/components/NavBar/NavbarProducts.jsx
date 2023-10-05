@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './Navbar.css';
+import './Products.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useLocation } from 'react-router-dom';
+import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
 
 const NavbarProducts = () => {
@@ -120,15 +121,16 @@ const NavbarProducts = () => {
           </div>
         </div>
         {!showFiltersAndSearch && (
-          <div className="back-to-home-button" style={{ marginRight: '545px', borderBottom: '1px solid black', position: 'relative' }}>
+          <div className="back-to-home-button" style={{marginLeft: '10px',marginRight: '359px',marginLeft: '-10px',borderBottom: '1px solid black' }}>
             <Link to="/home" style={{ textDecoration: 'none', color: 'black', fontSize: '16px' }}>
               Volver a Inicio
             </Link>
           </div>
         )}
+        
         <div className="user-actions">
           {!isAuthenticated ? (
-            <button className="login-button" onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
+            <button className="login-button" style= {{marginRigth: '10px', borderBottom: '1px solid black', position: 'relative' }}onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
           ) : null}
         </div>
         <div className="buttonCreate">
@@ -136,11 +138,7 @@ const NavbarProducts = () => {
             Agregar Producto
           </Link>
         </div>
-        <div className="cart-icon">
-          <button>
-            <img src="../../public/Carrito.png" alt="Carro" className="carrito" />
-          </button>
-        </div>
+            <CartBtn/>
       </div>
     </nav>
   );
