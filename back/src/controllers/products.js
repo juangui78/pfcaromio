@@ -1,11 +1,13 @@
-//const { Products } = require('../db');
-const Product = require('../models/product');
-const { products } = require('../data'); // ! Data provisional para pruebas
-
+//importamos el modelo directamente 
+const  {Products}  = require('../models/product');
+const mongoose = require('mongoose');
 // Obtener todos los productos
 const getAllProducts = async () => {
     try {
-        return await Product.find();
+        console.log("Ejecuta el controlador")
+        console.log(Products);
+        const products = await Products.find();
+        return products;
     } catch (err) {
         console.log(err);
     }
@@ -16,12 +18,12 @@ const getProductsSortedByPrice = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Products.find()
+            const ProductsList = await Product.find()
                 .sort({ price: sortOrder });
 
             return ProductsList;
         } else {
-            return await Products.find();
+            return await Product.find();
         }
     } catch (err) {
         console.log(err);
@@ -33,7 +35,7 @@ const getProductsSortedByRating = async (order) => {
     try {
         if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
             let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Products.find()
+            const ProductsList = await Product.find()
                 .sort({ rating: sortOrder });
 
             return ProductsList;
@@ -93,17 +95,18 @@ const getProductsByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear un nuevo producto
-const createProduct = async (name, storeId, price, stock, rating, description) => {
+const createProduct = async (name, price, rating, description,image, stock) => {
     try {
         const newProduct = new Product({
             name: name,
-            store: storeId,
             price: price,
-            stock: stock,
             rating: rating,
             description: description,
+            image: image,
+            stock: stock,
+            // store: storeId,
         });
-
+        console.log(newProduct);
         await newProduct.save();
         return newProduct;
         

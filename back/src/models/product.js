@@ -1,17 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//Agregar validaciones al product
+
 const productSchema = new Schema({
+
     name: {type: String, required: true},
-    storeId: {type: String, default: '_1'},
     price: {type: Number, required: true},
     rating: {type: Number, default: 0},
-    description: {type: String},
-    image: {type: String, default: "https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=300"},
+    description: {type: String, minlength: 10, maxlength: 2000 },
+    image: {type: String, default: "https://cocina-casera.com/wp-content/uploads/2023/06/pizza-napolitana-770x485.jpeg"},
     created: {type: Date, default: Date.now},
-    stock: {type: Number, min: 0, default:0}
+    //aqui deberian ir las categorias
+    stock: {type: Number, min: 0}
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Products = mongoose.model('Product', productSchema);
 
-module.exports = Product;
+
+module.exports = {Products};

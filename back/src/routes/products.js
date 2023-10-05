@@ -13,6 +13,7 @@ const {
 router.get('/', async (req, res) => {
     try {
         const products = await getAllProducts();
+        console.log("Intenta traerlos")
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products' });
@@ -44,7 +45,7 @@ router.get('/by-rating', async (req, res) => {
 });
 
 // Ruta para obtener productos por su ID o por su nombre
-router.get('/:productIdOrName', async (req, res) => {
+router.get(':productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
     try {
         const products = await getProductsByIdOrName(productIdOrName);
@@ -59,7 +60,7 @@ router.get('/:productIdOrName', async (req, res) => {
 });
 
 // Ruta para obtener productos filtrados
-router.get('/', async (req, res) => {
+router.get('/filtered', async (req, res) => {
     try {
         const minRating = req.query.minRating;
         const priceLevel = req.query.priceLevel;
@@ -72,10 +73,10 @@ router.get('/', async (req, res) => {
 
 // Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
-    const { name, storeId, price, stock, rating, description } = req.body;
+    const { name, price, rating, description,image, stock, storeId} = req.body;
 
     try {
-        const newProduct = await createProduct(name, storeId, price, stock, rating, description);
+        const newProduct = await createProduct(name, price, rating, description,image, stock, storeId);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the product' });

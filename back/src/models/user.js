@@ -9,6 +9,7 @@ const userSchema = new Schema({
       minlength: 3,   // Minimum length
       maxlength: 30,  // Maximum length
     },
+    //password not required 
     email: {
       type: String,
       required: true,
@@ -28,10 +29,6 @@ const userSchema = new Schema({
       type: String,
       enum: ['Admin', 'Seller', 'Buyer'],
       default: "Buyer"
-    },
-    stores:{
-      type: Schema.Types.ObjectId,
-      ref: 'Store', // This refers to the 'Product' model
     }
   });
 

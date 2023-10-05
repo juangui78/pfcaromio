@@ -3,6 +3,7 @@ import './Navbar.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useLocation } from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Navbar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -69,13 +70,7 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-
-            <div className="search-bar">
-              <input type="text" placeholder="Buscar comidas, restaurantes..." />
-              <button>
-                <img src="Lupa.png" alt="Buscar" className="lupa" />
-              </button>
-            </div>
+            <SearchBar/>
           </>
         )}
 
