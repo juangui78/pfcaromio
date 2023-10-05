@@ -4,7 +4,8 @@ import { RestaurantCard } from '../RestaurantCard/RestaurantCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRestaurants } from '../../redux/actions';
 import CardDescuento from '../CardDescuento/CardDescuento';
-
+import LoginForm from '../Login/Login';
+import Logout from '../Logout/Logout';
 import {
     Container,
     Title,
@@ -25,6 +26,8 @@ export default function Restaurants() {
             <Container>
                 <Descuentos>
                     <CardDescuento />
+                    <LoginForm />
+                    <Logout></Logout>
                 </Descuentos>
 
                 <Title>

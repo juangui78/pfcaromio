@@ -14,6 +14,7 @@ import Home from '../src/components/Home/Home'
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
+import FormRegister from './components/Form Register/FormRegister';
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/products" element={<Products />} /> 
         <Route path="/products/:id" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
+        <Route path='/creatingAccount' element={<FormRegister />}></Route>
 
       </Routes>
       

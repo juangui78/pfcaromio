@@ -11,7 +11,8 @@ const CardDescuento = () => {
       <div className="card-descuento">
       <h2>¿Todavía no te has registrado?</h2>
       <p>Regístrate y disfruta un 15% de descuento en tu primera compra.</p>
-      <button onClick={loginWithRedirect}>¡Registrarme!</button>
+      {/* <button onClick={loginWithRedirect}>¡Registrarme!</button> */}
+      <LoginForm></LoginForm>
     </div>
     )
    
