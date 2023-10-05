@@ -3,6 +3,7 @@ import './Home.css';
 //import Navbar from '../NavBar/Navbar';
 import CardDescuento from '../CardDescuento/CardDescuento';
 import Card from '../Card/Card';
+import ShoppingCard from '../ShoppingCard/ShoppingCard';
 
 const Home = () => {
   // Datos de ejemplo para las tarjetas
@@ -17,10 +18,11 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* <Navbar /> */}
+   
       <div className='card-descuento-container'>
         <CardDescuento />
       </div>
+
       <div className="card-container">
         {cardData.map((data, index) => (
           <Card

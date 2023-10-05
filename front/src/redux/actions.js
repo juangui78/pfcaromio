@@ -3,10 +3,12 @@ import {
     GET_RESTAURANTS,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
+    OPEN_CART,
+    CLOSE_CART,
     ERROR
 } from "./actionsTypes";
 
-import { ProductsData, RestaurantsData } from '../components/Products/data' // ! Data de prueba 
+import { ProductsData } from '../components/Products/data' // ! Data de prueba 
 
 import axios from 'axios';
 
@@ -81,6 +83,36 @@ export const closeProductDetails = () => {
         try {
             return dispatch(
                 { type: CLOSE_PRODUCT_DETAILS },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const openCart = () => {
+    return async function (dispatch) {
+        try {
+            return dispatch(
+                { type: OPEN_CART },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const closeCart = () => {
+    return async function (dispatch) {
+        try {
+            return dispatch(
+                { type: CLOSE_CART },
             )
         }
         catch (error) {

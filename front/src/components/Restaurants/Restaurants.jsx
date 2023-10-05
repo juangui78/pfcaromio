@@ -4,6 +4,7 @@ import { RestaurantCard } from '../RestaurantCard/RestaurantCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRestaurants } from '../../redux/actions';
 import CardDescuento from '../CardDescuento/CardDescuento';
+import ShoppingCard from '../ShoppingCard/ShoppingCard';
 
 import {
     Container,
@@ -23,6 +24,8 @@ export default function Restaurants() {
     return (
         <>
             <Container>
+                <ShoppingCard />
+                
                 <Descuentos>
                     <CardDescuento />
                 </Descuentos>

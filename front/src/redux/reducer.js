@@ -3,6 +3,8 @@ import {
     GET_RESTAURANTS,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
+    OPEN_CART,
+    CLOSE_CART,
 
 } from './actionsTypes';
 
@@ -10,6 +12,7 @@ const initialState = {
     products: [],
     product: {},
     modalProductDetails: false,
+    modalCart: false,
 
     restaurants: [],
 };
@@ -36,10 +39,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 modalProductDetails: true,
                 product: product,
             }
+
         case CLOSE_PRODUCT_DETAILS:
             return {
                 ...state,
                 modalProductDetails: false,
+            }
+            
+        case OPEN_CART:
+            return {
+                ...state,
+                modalCart: true,
+            }
+
+        case CLOSE_CART:
+            return {
+                ...state,
+                modalCart: false,
             }
 
         default:

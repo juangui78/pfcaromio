@@ -26,7 +26,6 @@ export const ProductsData = [
     "rating": "95",
     "description": "A diferencia de la pizza napolitana, la masa de este tipo de pizza es más gruesa y se asemeja un poco al pan, por lo que en muchos lugares simplemente le llaman pizza de masa gorda, aunque originalmente llevaba el nombre de Sfincione.",
     "image": "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=300",
-
 },
 {
     "id": 1034567895,

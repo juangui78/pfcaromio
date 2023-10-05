@@ -7,10 +7,11 @@ export const BtnContainer = styled.div`
     padding-right: 1rem;
 `;
 
-export const Button = styled.div`
+export const Button = styled.button`
     color:black;
-    padding-left:1rem;
-    padding-right: 1rem;
+    padding:0.2rem;
+    background-color: transparent;
+    border: none;
 `;
 export const CartIcon = styled.img`
    width: 48px;
