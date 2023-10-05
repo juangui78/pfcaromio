@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { closeProductDetails } from '../../redux/actions';
+import { closeProductDetails, addItemCart } from '../../redux/actions';
 
 import {
 
@@ -13,6 +13,13 @@ import {
 export default function ProductDetails({ show }) {
 
     const dispatch = useDispatch();
+
+    const product = useSelector((state) => state.product);
+
+    const handleAddItem = (event) => {
+        dispatch(addItemCart(product))
+        dispatch(closeProductDetails())
+    } 
 
     useEffect(() => {
         const handleEsc = (event) => {
@@ -26,9 +33,8 @@ export default function ProductDetails({ show }) {
         return () => {
             window.removeEventListener('keydown', handleEsc);
         };
+    
     }, []);
-
-    const product = useSelector((state) => state.product);
 
     return (
         <>
@@ -46,7 +52,7 @@ export default function ProductDetails({ show }) {
                                 <Summary>{product.description}</Summary>
                                 <Price>{product.price}</Price>
                                 <Footer>
-                                    <button onClick={() => dispatch(closeProductDetails())}>Agregar al carrito</button>
+                                    <button onClick={handleAddItem}>Agregar al carrito</button>
                                 </Footer>
                             </Description>
                         </Details>

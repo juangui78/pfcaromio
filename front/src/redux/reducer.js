@@ -16,7 +16,16 @@ const initialState = {
     modalCart: false,
     restaurants: [], //stores
 
-    cartReducer:{
+/*     products:[{
+        id:'',
+        name:'',
+        quantyti:0,
+        price: 0,
+    }],
+     */
+    cartDetails:{
+        store: {},
+        items:[{}],
         itemsCount:0,
         subtotal:0,
         total:0,
@@ -66,6 +75,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case ADD_CART_ITEM:
             return {
                 ...state,
+                cartDetails:[...state.cartDetails,{items:payload}], 
             }
 
         default:

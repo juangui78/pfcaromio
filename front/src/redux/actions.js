@@ -123,3 +123,20 @@ export const closeCart = () => {
         }
     }
 }
+export const addItemCart = (item) => {
+    
+    return async function (dispatch) {
+    
+        try {
+            return console.log(item);
+            return dispatch(
+                { type: ADD_CART_ITEM, payload:item },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
