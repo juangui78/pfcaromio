@@ -1,5 +1,5 @@
-import { FaTimesCircle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
+import { FaTimesCircle } from 'react-icons/fa';
 
 import { useDispatch, useSelector } from "react-redux";
 

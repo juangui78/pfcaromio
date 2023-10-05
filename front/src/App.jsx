@@ -16,7 +16,6 @@ import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 
-
 const App = () => {
   const { pathname } = useLocation();
   
@@ -40,7 +39,7 @@ const App = () => {
       
       <ProductDetails show={showProductDetails} />
       <ShoppingCard show={showCart} />
-
+        
     </div>
   );
 };

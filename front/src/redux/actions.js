@@ -5,6 +5,7 @@ import {
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
     CLOSE_CART,
+    ADD_CART_ITEM,
     ERROR
 } from "./actionsTypes";
 
