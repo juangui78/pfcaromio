@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.css';
-//import Navbar from '../NavBar/Navbar';
+import Navbar from '../NavBar/Navbar';
 import CardDescuento from '../CardDescuento/CardDescuento';
 import Card from '../Card/Card';
 import ShoppingCard from '../ShoppingCard/ShoppingCard';
@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-   
+      <Navbar/>
       <div className='card-descuento-container'>
         <CardDescuento />
       </div>

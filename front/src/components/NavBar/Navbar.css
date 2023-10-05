@@ -48,7 +48,6 @@
 .filters .dropdown {
   position: relative;
   margin-right: 10px;
-  
 }
 .filters .filter-button {
   font-family: 'Secular One', sans-serif;
@@ -59,7 +58,7 @@
   cursor: pointer;
   font-weight: bold;
   display: inline-block; /* Cambiado a inline-block */
-  margin-right: 10px; /* Espacio entre los botones */
+  margin-right: 30px; /* Espacio entre los botones */
   position: relative; /* Agregado */
   text-align: left; /* Alinea el texto a la izquierda */
 }
@@ -86,7 +85,7 @@
   background-color: #f9f9f9;
   box-shadow: 0px 12px 14px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  
+  margin-top: 2px;
 }
 
 .filters .dropdown:hover .dropdown-content {
@@ -268,4 +267,53 @@
   position: absolute;
   top: 0;
   margin-left: 697px;
+}
+.inputContainer {
+  display: flex;
+  align-items: center;
+}
+
+.inputRating {
+  width: 30px;
+  font-size: 13px;
+  background-color: white;
+  color: #000000;
+  border: 1px solid #000000;
+  padding: 7px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.filters .filter-button.filter-button-price {
+  font-family: 'Secular One', sans-serif;
+  padding: 6px 12px;
+  background-color: #FFC000;
+  border: 2px solid #000000;
+  color: #000000;
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  text-align: left;
+}
+
+.filters .filter-button.filter-button-price::after {
+  content: "▼";
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.filters .filter-button.filter-button-price.open::after {
+  content: "▲";
+}
+
+.filters .filter-button.filter-button-price.open .dropdown-content-inner {
+  display: block;
+}
+
+.filters .filter-button.filter-button-price .dropdown-content-inner a {
+  margin-top: 2px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #000000;
 }

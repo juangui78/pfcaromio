@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import './Navbar.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useLocation } from 'react-router-dom';
-import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
 
-const Navbar = () => {
+const NavbarProducts = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
@@ -13,6 +12,7 @@ const Navbar = () => {
   const [priceFilter, setPriceFilter] = useState('');
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
+  const isProductsPage = location.pathname === '/products';
 
   const handleRatingInputChange = (event) => {
     setRatingFilter(event.target.value);
@@ -51,10 +51,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-
         <div className="logo">
           <Link to='/home'>
-            <img src="LogoPizzeria.png" alt="Logo" />
+            <img src="../../public/LogoPizzeria.png" alt="Logo" />
           </Link>
         </div>
         <div className="filters">
@@ -72,12 +71,12 @@ const Navbar = () => {
                   </div>
                 </div>
                 <div className="filter-button">
-                  <button>Ordenar por Nombre</button>
-                  <div className="dropdown-content-inner show-scroll">
-                    <a href="#">Z-A</a>
-                    <a href="#">A-Z</a>
-                  </div>
-                </div>
+                      <button>Ordenar por Precio</button>
+                      <div className="dropdown-content-inner show-scroll">
+                        <a href="#">Menor Precio</a>
+                        <a href="#">Mayor Precio</a>
+                      </div>
+                    </div>
                 <div className="filter-button">
                   <button>Filtrar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
@@ -88,6 +87,25 @@ const Navbar = () => {
                         min="0"
                         max="5"
                         step="1"
+                        className="inputRating"
+                        id="ratingFilterInput"
+                        value={ratingFilter}
+                        onChange={handleRatingInputChange}
+                        onKeyPress={handleKeyPress}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="filter-button">
+                  <button>Filtrar por Precio</button>
+                  <div className="dropdown-content-inner show-scroll">
+                    <div className="inputContainer">
+                      <a href="#">Menor que: </a>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="10"
                         className="inputRating"
                         id="ratingFilterInput"
                         value={ratingFilter}
@@ -108,11 +126,6 @@ const Navbar = () => {
             </Link>
           </div>
         )}
-        {showFiltersAndSearch && (
-          <>
-            <SearchBar />
-          </>
-        )}
         <div className="user-actions">
           {!isAuthenticated ? (
             <button className="login-button" onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
@@ -123,11 +136,15 @@ const Navbar = () => {
             Agregar Producto
           </Link>
         </div>
-            <CartBtn/>
+        <div className="cart-icon">
+          <button>
+            <img src="../../public/Carrito.png" alt="Carro" className="carrito" />
+          </button>
+        </div>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default NavbarProducts;
 
