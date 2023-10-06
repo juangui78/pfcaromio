@@ -1,3 +1,5 @@
+import { setRestaurant } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 import {
     CardContainer,
     Img,
@@ -11,20 +13,23 @@ import {
 
 } from "./RestaurantCardStyles";
 
-function RestaurantCard({ name, address, rating, image, id }) {
+
+function RestaurantCard(props) {
+    const restaurant = props;
+    const dispatch = useDispatch();
 
     return (
 
         <CardContainer >
             <RestaurantItem>
                 <ImgContainer>
-                    <Img src={image} alt="" />
+                    <Img src={restaurant.image} alt="" />
                 </ImgContainer>
                 <Details>
-                    <Name>{name}</Name>
-                    <Address>{address}</Address>
-                    <LinkCard to= {`/products` }> Productos</LinkCard>
-                    <Score>⭐{rating}</Score>
+                    <Name>{restaurant.name}</Name>
+                    <Address>{restaurant.address}</Address>
+                    <LinkCard to= {`/products` } onClick={() => dispatch(setRestaurant(restaurant))}> Productos</LinkCard>
+                    <Score>⭐{restaurant.rating}</Score>
                 </Details>
             </RestaurantItem>
         </CardContainer>

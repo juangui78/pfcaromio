@@ -1,6 +1,6 @@
 //importamos el modelo directamente 
-const  {Store}  = require('../models/store');
-
+const { Store } = require('../models/store');
+const mongoose = require('mongoose');
 // Obtener todas las tiendas de la base de datos
 const getStores = async () => {
     try {
@@ -47,16 +47,17 @@ const getStoresSortedByRating = async (order) => {
 const getStoreByIdOrName = async (identifier) => {
     try {
         let store;
-        if (mongoose.Types.ObjectId.isValid(identifier)) {
+        if (mongoose.isValidObjectId(identifier)) {
             store = await Store.findById(identifier)
-                .populate('reviews')
-                .populate('products');
+               // .populate('reviews')
+               // .populate('products');
         } else {
             store = await Store.findOne({ name: identifier })
-                .populate('reviews')
-                .populate('products');
+               // .populate('reviews')
+               // .populate('products');
         }
         return store;
+       
     } catch (err) {
         console.log(err);
     }
@@ -101,7 +102,7 @@ const createStore = async (userID, name, address, rating, revenue, image, produc
             image: image,
             products: products,
         });
-        
+
         await newStore.save();
         return newStore;
 
@@ -111,8 +112,8 @@ const createStore = async (userID, name, address, rating, revenue, image, produc
 };
 
 module.exports = {
-    getStores, 
-    getStoresSortedByName, 
+    getStores,
+    getStoresSortedByName,
     getStoresSortedByRating,
     getStoreByIdOrName,
     getStoresByFilter,

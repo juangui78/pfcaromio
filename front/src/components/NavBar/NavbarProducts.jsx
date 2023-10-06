@@ -47,7 +47,7 @@ const NavbarProducts = () => {
   const toggleFiltersDropdown = () => {
     setFiltersDropdownOpen(!filtersDropdownOpen);
   };
-
+  const isAuthenticated = true;
   return (
     <nav className="navbar">
       <div className="navbar-container">
