@@ -17,8 +17,6 @@ import Restaurants from '../src/components/Restaurants/Restaurants'
 import Register from './components/Register/Register';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 
-
-
 const App = () => {
   const validarSesión = () => {
 
@@ -48,7 +46,7 @@ const App = () => {
       
       <ProductDetails show={showProductDetails} />
       <ShoppingCard show={showCart} />
-
+        
     </div>
   );
 };
