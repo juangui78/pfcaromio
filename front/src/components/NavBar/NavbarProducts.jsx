@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import './Navbar.css';
-
-import { useAuth, UserButton } from '@clerk/clerk-react'; 
-import { Link, useLocation} from 'react-router-dom';
+import './Products.css';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link, useLocation } from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
-import { SignedOut } from '@clerk/clerk-react';
 
-const Navbar = () => {
-  const { isSignedIn } = useAuth()
+const NavbarProducts = () => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
+  const isProductsPage = location.pathname === '/products';
 
   const handleRatingInputChange = (event) => {
     setRatingFilter(event.target.value);
@@ -50,21 +49,12 @@ const Navbar = () => {
     setFiltersDropdownOpen(!filtersDropdownOpen);
   };
 
-  const handleLoginButton = () => {
-    navigate('/login')
-  }
-
-  const handleSignOutButton = () => {
-    SignedOut()
-  }
-
   return (
     <nav className="navbar">
       <div className="navbar-container">
-
         <div className="logo">
           <Link to='/home'>
-            <img src="LogoPizzeria.png" alt="Logo" />
+            <img src="../../public/LogoPizzeria.png" alt="Logo" />
           </Link>
         </div>
         <div className="filters">
@@ -82,13 +72,13 @@ const Navbar = () => {
                   </div>
                 </div>
                 <div className="filter-button">
-                  <button>Ordenar por Nombre</button>
-                  <div className="dropdown-content-inner show-scroll">
-                    <a href="#">Z-A</a>
-                    <a href="#">A-Z</a>
-                  </div>
-                </div>
-                <div className="filter-button">
+                      <button>Ordenar por Precio</button>
+                      <div className="dropdown-content-inner show-scroll">
+                        <a href="#">Menor Precio</a>
+                        <a href="#">Mayor Precio</a>
+                      </div>
+                    </div>
+                    <div className="filter-button">
                   <button>Filtrar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
                     <div className="inputContainer">
@@ -110,24 +100,44 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
+                <div className="filter-button">
+                  <button>Filtrar por Precio</button>
+                  <div className="dropdown-content-inner show-scroll">
+                    <div className="inputContainer">
+                      <div className="slider-container">
+                        <div className="slider-label">Menor que:</div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          step="10"
+                          className="inputRating"
+                          id="priceFilterInput"
+                          value={priceFilter}
+                          onChange={handlePriceInputChange} // Cambié el manejador a handlePriceInputChange
+                          onKeyPress={handlePriceKeyPress} // Cambié el manejador a handlePriceKeyPress
+                          />
+                        <div className="slider-value">{priceFilter}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </div>
         {!showFiltersAndSearch && (
-          <div className="back-to-home-button" style={{ marginRight: '545px', borderBottom: '1px solid black', position: 'relative' }}>
+          <div className="back-to-home-button" style={{marginLeft: '10px',marginRight: '359px',marginLeft: '-10px',borderBottom: '1px solid black' }}>
             <Link to="/home" style={{ textDecoration: 'none', color: 'black', fontSize: '16px' }}>
               Volver a Inicio
             </Link>
           </div>
         )}
-
-            <SearchBar />
-
+        
         <div className="user-actions">
-          {!isSignedIn ? (
-            <button className="login-button" onClick={() => handleLoginButton()}>Iniciar Sesión</button>
-          ) : <UserButton/>}
+          {!isAuthenticated ? (
+            <button className="login-button" style= {{marginRigth: '10px', borderBottom: '1px solid black', position: 'relative' }}onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
+          ) : null}
         </div>
         <div className="buttonCreate">
           <Link to="/createProduct" className="link">
@@ -140,5 +150,5 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarProducts;
 

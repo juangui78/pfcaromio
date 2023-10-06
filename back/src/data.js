@@ -1,4 +1,4 @@
-export const ProductsData = [
+const products = [
     {
     "id": 1034567892,
     "storeId": '1',
@@ -26,6 +26,7 @@ export const ProductsData = [
     "rating": "95",
     "description": "A diferencia de la pizza napolitana, la masa de este tipo de pizza es más gruesa y se asemeja un poco al pan, por lo que en muchos lugares simplemente le llaman pizza de masa gorda, aunque originalmente llevaba el nombre de Sfincione.",
     "image": "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=300",
+
 },
 {
     "id": 1034567895,
@@ -48,7 +49,7 @@ export const ProductsData = [
 
 ];
 
-export const RestaurantsData = [
+ const stores = [
     {
         id:'1',
         imageSrc: 'https://images.rappi.com/restaurants_logo/urban-pizza-logo1-1567190280858-1605190879805.png?e=webp&d=10x10&q=10',
@@ -79,3 +80,5 @@ export const RestaurantsData = [
         rating: 4.3
     }
 ];
+
+module.exports = {products, stores}

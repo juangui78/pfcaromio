@@ -23,7 +23,7 @@ function RestaurantCard({ name, address, rating, image, id }) {
                 <Details>
                     <Name>{name}</Name>
                     <Address>{address}</Address>
-                    <LinkCard to= {`/products/${id}` }> Productos</LinkCard>
+                    <LinkCard to= {`/products` }> Productos</LinkCard>
                     <Score>⭐{rating}</Score>
                 </Details>
             </RestaurantItem>

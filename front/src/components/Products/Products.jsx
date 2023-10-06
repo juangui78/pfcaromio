@@ -4,8 +4,7 @@ import { ProductCard } from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts, getProductsByStore } from '../../redux/actions';
 import { useParams } from "react-router-dom";
-
-
+import NavbarProducts from '../NavBar/NavbarProducts';
 import {
     Container,
     Title,
@@ -23,8 +22,9 @@ export default function Products() {
     }, [dispatch])
 
     return (
-        <>
-            <Container>
+        <div>                
+            <Container>      
+              <NavbarProducts/>
                 <Title>
                     Lista de productos
                 </Title>
@@ -36,14 +36,14 @@ export default function Products() {
                                 price={product.price}
                                 rating={product.rating}
                                 image={product.image}
-                                key={product.id}
+                                key={product._id}
                                 id={product.id}>
                             </ProductCard>
                         ))
                     }
                 </Cards>
             </Container>
-        </>
+        </div>
     )
 }
 

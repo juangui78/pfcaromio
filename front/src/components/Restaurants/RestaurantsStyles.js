@@ -5,8 +5,7 @@ export const Container = styled.div`
     gap: 4rem;
     flex-wrap: nowrap;
     flex-direction: column;
-    
-    width: 100%;
+
     @media (max-width: 800px) {
         padding: 4rem 0rem 0rem 0rem;
     } 
