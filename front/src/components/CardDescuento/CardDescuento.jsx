@@ -1,20 +1,25 @@
 import React from 'react';
 import './CardDescuento.css'
 import LoginForm from '../Login/Login';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '@clerk/clerk-react';
 const CardDescuento = () => {
+  const navigate = useNavigate()
+  const { isSignedIn } = useAuth()
 
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const toSignIn = () => {
+    navigate('/register')
+  }
 
   return (
-    !isAuthenticated && (
+      isSignedIn ? null :
       <div className="card-descuento">
       <h2>¿Todavía no te has registrado?</h2>
       <p>Regístrate y disfruta un 15% de descuento en tu primera compra.</p>
-      {/* <button onClick={loginWithRedirect}>¡Registrarme!</button> */}
-      <LoginForm></LoginForm>
+      <button onClick={() => toSignIn()}>¡Registrarme!</button>
+      {/* <LoginForm></LoginForm> */}
     </div>
-    )
+
    
   );
 };

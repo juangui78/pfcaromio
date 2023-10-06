@@ -1,20 +1,19 @@
-import { useAuth0 } from "@auth0/auth0-react"
 import { useNavigate } from "react-router-dom"
+import { SignIn, useAuth } from "@clerk/clerk-react"
+import './Login.css'
 export default function LoginForm () {
 
-    const {loginWithRedirect} = useAuth0()
+    
     const navigate  = useNavigate()
-   
 
-    const handleLogin = (e) => {
-        loginWithRedirect()
-            .then(() => navigate('/creatingAccount'))
-            .catch(err => console.log(err))
+    const handleLogin = () => {
+        navigate('/login')
     }
 
     return(
-        <button onClick={() => handleLogin()}>
-            Iniciar Sesion
-        </button>
+        <section className="login-section">
+            <SignIn />
+        </section>
+        
     )
 }

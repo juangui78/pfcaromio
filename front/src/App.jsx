@@ -14,10 +14,14 @@ import Home from '../src/components/Home/Home'
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
-import FormRegister from './components/Form Register/FormRegister';
+import Register from './components/Register/Register';
 
 
 const App = () => {
+  const validarSesión = () => {
+
+  }
+
   const { pathname } = useLocation();
   
   const showProductDetails = useSelector((state) => state.modalProductDetails);
@@ -26,7 +30,7 @@ const App = () => {
     <div id="app" className='home-container'>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct") && (<NavBar />)
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login") && (<NavBar />)
       }
        <Routes>
         <Route path='/' element={<LandingPage />}></Route>
@@ -34,7 +38,8 @@ const App = () => {
         <Route path="/products" element={<Products />} /> 
         <Route path="/products/:id" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
-        <Route path='/creatingAccount' element={<FormRegister />}></Route>
+        <Route path='/register' element={<Register />}></Route>
+        <Route path='/login' element={<LoginForm />}></Route>
 
       </Routes>
       
