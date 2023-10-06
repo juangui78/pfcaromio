@@ -134,9 +134,7 @@ const NavbarProducts = () => {
         )}
         
         <div className="user-actions">
-          {!isAuthenticated ? (
             <button className="login-button" style= {{marginRigth: '10px', borderBottom: '1px solid black', position: 'relative' }}onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
-          ) : null}
         </div>
         <div className="buttonCreate">
           <Link to="/createProduct" className="link">
