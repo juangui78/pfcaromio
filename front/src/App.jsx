@@ -32,7 +32,7 @@ const App = () => {
     <div id="app" className='home-container'>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login") && (<NavBar />)
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar />)
       }
        <Routes>
         <Route path='/' element={<LandingPage />}></Route>
