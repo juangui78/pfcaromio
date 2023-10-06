@@ -1,6 +1,7 @@
 import './RegisterForm.css'
 import Select from 'react-select';
 import { useState } from 'react';
+import axios from 'axios';
 export default function RegisterForm() {
 
   const options = [
@@ -32,7 +33,19 @@ export default function RegisterForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(registerFormUser);
+    createStore(registerFormRestaurant)
+  }
+
+  const createStore = async(registerFormRestaurant) => {
+    try {
+      // Aqui debo adjuntar la id del usuario de Clerk
+      const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
+      console.log(registerFormRestaurant);
+      console.log('store creada')
+    } catch (error) {
+        console.log(error);
+    }
+    
   }
 
     return (

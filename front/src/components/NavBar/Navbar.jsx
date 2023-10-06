@@ -129,7 +129,7 @@ const Navbar = () => {
         <div className="user-actions">
           {!isSignedIn ? (
             <button className="login-button" onClick={() => handleLoginButton()}>Iniciar Sesión</button>
-          ) : <UserButton appearance=''/>}
+          ) : <UserButton />}
         </div>
         <div className="buttonCreate">
           {isSignedIn ? <Link to="/createProduct" className="link">
