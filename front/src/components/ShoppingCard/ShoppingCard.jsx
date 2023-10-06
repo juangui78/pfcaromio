@@ -19,35 +19,13 @@ const ShoppingCard = () => {
     const dispatch = useDispatch();
 
     const showCart = useSelector((state) => state.modalCart);
+    const cartDetails = useSelector((state) => state.cartDetails);
+    const itemsCount = useSelector(state => state.cartDetails.itemsCount);
 
-    const totales = {
-        total: 0.0,
-    }
-
-    const productos = [
-        {
-            "id": 1034567894,
-            "storeId": '2',
-            "name": "Pizza Siciliana",
-            "price": "39.900",
-            "rating": "95",
-            "description": "A diferencia de la pizza napolitana, la masa de este tipo de pizza es más gruesa y se asemeja un poco al pan, por lo que en muchos lugares simplemente le llaman pizza de masa gorda, aunque originalmente llevaba el nombre de Sfincione.",
-            "image": "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=300",
-        },
-        {
-            "id": 1034567895,
-            "storeId": '3',
-            "name": "Pizza New York",
-            "price": "39.900",
-            "rating": "75",
-            "description": "La pizza New York es famosa por tener una masa delgada pero no crujiente que puede llevarse en la mano y doblar para comerse, además es la reina en cuanto al tipo de ingredientes que introdujo",
-            "image": "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=300",
-        }
-    ]
 
     return (
         <>
-            <Container right={showCart ? "0%" : "-30%"}>
+            <Container right={showCart ? "0%" : "-35%"}>
                 <Header>
                     <Title>Tu carrito</Title>
                     <CloseButton onClick={() => dispatch(closeCart())}>
@@ -57,21 +35,26 @@ const ShoppingCard = () => {
                     </CloseButton>
                 </Header>
 
-                <Empty>
+                <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
                     <span>Aún no tienes productos en tu carrito</span>
-                    <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar a comprar</ButtonStart>
+                    <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
                 </Empty>
-               
+                <Body>
+                    {
+                        cartDetails.items.map((item, index) => (
+                            <ItemCart key={'item' + item._id} item={item} />
+                        ))
+                    }
+                </Body>
+
                 <Totales>
-                    <strong>TSubtotal:</strong>
-                    $ {totales.total}
+                    <strong>Subtotal: </strong>
+                    {` $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`}
                 </Totales>
                 <Footer>
                     <ButtonClear> Vaciar carrito</ButtonClear>
                     <ButtonPay> Ir a pagar</ButtonPay>
                 </Footer>
-
-
             </Container>
 
         </>
@@ -79,6 +62,13 @@ const ShoppingCard = () => {
 }
 
 export default ShoppingCard
+
+const Body = styled.div`
+    background-color: white;
+    border-top: 1px solid var(--gray);
+    padding: 1rem;
+    justify-content: space-between;
+`;
 
 const Item = styled.div`
 
@@ -98,14 +88,18 @@ const Empty = styled.div`
     display: flex;
     flex-direction: column;
     background-color: white;
-     border-top: 6px solid var(--gray);
-     height: 20%;
-     gap :2rem;
+    border-top: 6px solid var(--gray);
+    height: 20%;
+    gap :2rem;
     
 `;
 
 const ButtonStart = styled.button`
-   background-color: green;
+    background-color: orange;
+        &:hover{
+        background-color: var(--orange);
+        color:var(--red);
+    }  
 `;
 
 const ButtonPay = styled.button`
@@ -126,16 +120,15 @@ const Footer = styled.div`
     row-gap: 2rem;
     column-gap: 2rem;
 `;
-const Body = styled.div`
-    padding: 1rem;
-    text-align: center;
-`;
+
 const Totales = styled.div`
     padding: 1rem;
     text-align: right;
     padding-right: 3rem;
     border-top: 3px solid var(--gray);
     background-color: white;
+    font-weight: 700;
+    font-size: large;
 `;
 
 const Title = styled.span`

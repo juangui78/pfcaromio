@@ -6,10 +6,11 @@ import {
     OPEN_CART,
     CLOSE_CART,
     ADD_CART_ITEM,
+    REMOVE_CART_ITEM,
     ERROR
 } from "./actionsTypes";
 
-import { ProductsData } from '../components/Products/data' // ! Data de prueba 
+//import { ProductsData } from '../components/Products/data' // ! Data de prueba 
 
 import axios from 'axios';
 
@@ -123,14 +124,31 @@ export const closeCart = () => {
         }
     }
 }
+
 export const addItemCart = (item) => {
     
     return async function (dispatch) {
-    
+
         try {
-            return console.log(item);
             return dispatch(
                 { type: ADD_CART_ITEM, payload:item },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const removeItemCart = (item) => {
+    
+    return async function (dispatch) {
+
+        try {
+            return dispatch(
+                { type: REMOVE_CART_ITEM, payload:item },
             )
         }
         catch (error) {

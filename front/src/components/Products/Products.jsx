@@ -17,8 +17,9 @@ export default function Products() {
     const products = useSelector((state) => state.products);
 
     useEffect(() => {
-        if(id) dispatch(getProductsByStore(id));
-        else dispatch(getProducts());
+        //if(id) dispatch(getProductsByStore(id));
+       // else dispatch(getProducts());
+        dispatch(getProducts());
     }, [dispatch])
 
     return (
@@ -37,7 +38,7 @@ export default function Products() {
                                 rating={product.rating}
                                 image={product.image}
                                 key={product._id}
-                                id={product.id}>
+                                id={product._id}>
                             </ProductCard>
                         ))
                     }
