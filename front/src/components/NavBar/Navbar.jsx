@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import './Navbar.css';
 
@@ -11,6 +12,7 @@ const Navbar = () => {
   const { isSignedIn } = useAuth()
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
 

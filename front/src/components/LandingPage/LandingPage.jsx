@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LandingPage.css';
-import { useAuth0 } from '@auth0/auth0-react';
 
 
 const LandingPage = () => {
-  const {isAuthenticated, isLoading, user} = useAuth0()
   
   const navigate = useNavigate()
   
