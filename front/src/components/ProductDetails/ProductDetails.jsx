@@ -1,10 +1,9 @@
 //import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { closeProductDetails, addItemCart } from '../../redux/actions';
+import { closeProductDetails, addItemCart, getStore } from '../../redux/actions';
 
 import {
 
@@ -13,15 +12,25 @@ import {
 export default function ProductDetails({ show }) {
 
     const dispatch = useDispatch();
-
+    
     const product = useSelector((state) => state.product);
-
+    const restaurantSelected = useSelector((state) => state.restaurantSelected);
+    
     const handleAddItem = (event) => {
         dispatch(addItemCart(product))
         dispatch(closeProductDetails())
     } 
+ 
+    const handleClick = (event) => {
+        if(event.target.id ==="overlay") dispatch(closeProductDetails())
+    };
 
     useEffect(() => {
+       
+        if(Object.keys(restaurantSelected).length === 0 && Object.keys(product).length > 0){
+            dispatch(getStore(product.storeId))
+        }  
+
         const handleEsc = (event) => {
             if (event.key === 'Escape') {
                 dispatch(closeProductDetails())
@@ -29,18 +38,18 @@ export default function ProductDetails({ show }) {
         };
 
         window.addEventListener('keydown', handleEsc);
-
+    
         return () => {
             window.removeEventListener('keydown', handleEsc);
         };
     
-    }, []);
+    }, [product]);
 
     return (
         <>
             {show &&
-                <Overlay>
-                    <ModalContainer>
+                <Overlay onClick={handleClick} id="overlay">
+                    <ModalContainer id="modalContainer">
                         <Header> ⭐{product.rating} </Header>
                         <CloseBtn onClick={() => dispatch(closeProductDetails())}> X </CloseBtn>
                         <Details>

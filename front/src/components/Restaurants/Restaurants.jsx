@@ -38,7 +38,7 @@ export default function Restaurants() {
                         restaurants?.map((restaurant) => (
                             <RestaurantCard
                                 key={restaurant._id}
-                                id={restaurant.id}
+                                id={restaurant._id}
                                 image={restaurant.imageSrc}
                                 name={restaurant.name}
                                 address={restaurant.address}

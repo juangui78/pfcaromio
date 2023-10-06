@@ -1,6 +1,7 @@
 import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
+    GET_RESTAURANT,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -8,6 +9,7 @@ import {
     ADD_CART_ITEM,
     REMOVE_CART_ITEM,
     DELETE_CART_ITEM,
+    SET_RESTAURANT,
     CLEAR_CART,
 
 } from './actionsTypes';
@@ -18,6 +20,7 @@ const initialState = {
     modalProductDetails: false,
     modalCart: false,
     restaurants: [], // * stores
+    restaurantSelected: {},
 
     cartDetails: {
         store: {},
@@ -46,6 +49,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 restaurants: payload,
+            }
+            
+        case GET_RESTAURANT:
+            return {
+                ...state,
+                restaurantSelected: payload,
             }
 
         case OPEN_PRODUCT_DETAILS:
@@ -77,7 +86,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case ADD_CART_ITEM:
             cartDetails = { ...state.cartDetails };
             itemsCount = cartDetails.itemsCount + 1;
-
+           
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
 
             if (foundItem) {
@@ -163,7 +172,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
             return {
                 ...state,
-                cartDetails: cartDetails
+                cartDetails: cartDetails,
+                restaurantSelected: {}
+            }
+
+        case SET_RESTAURANT:
+            return {
+                ...state,
+                restaurantSelected: payload
             }
 
         default:
