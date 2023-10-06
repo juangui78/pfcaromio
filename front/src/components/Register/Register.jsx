@@ -2,7 +2,7 @@ import {SignUp} from '@clerk/clerk-react'
 export default function Register() {
     return(
         <main>
-            <SignUp afterSignUpUrl='/createProduct'/>
+            <SignUp afterSignUpUrl='/registerForm'/>
         </main>
         
     )

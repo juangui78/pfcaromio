@@ -15,6 +15,7 @@ import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
 import Register from './components/Register/Register';
+import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/products/:id" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
         <Route path='/register' element={<Register />}></Route>
+        <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
 
       </Routes>

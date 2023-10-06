@@ -129,12 +129,13 @@ const Navbar = () => {
         <div className="user-actions">
           {!isSignedIn ? (
             <button className="login-button" onClick={() => handleLoginButton()}>Iniciar Sesión</button>
-          ) : <UserButton/>}
+          ) : <UserButton appearance=''/>}
         </div>
         <div className="buttonCreate">
-          <Link to="/createProduct" className="link">
+          {isSignedIn ? <Link to="/createProduct" className="link">
             Agregar Producto
-          </Link>
+          </Link> : null  }
+          
         </div>
             <CartBtn/>
       </div>
