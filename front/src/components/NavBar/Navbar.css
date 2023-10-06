@@ -43,8 +43,6 @@
   flex-direction: column; /* Acomoda los elementos en columna (de arriba hacia abajo) */
   align-items: flex-start; /* Alinea los elementos a la izquierda */
 }
-
-
 .filters .dropdown {
   position: relative;
   margin-right: 10px;
@@ -61,18 +59,6 @@
   margin-right: 30px; /* Espacio entre los botones */
   position: relative; /* Agregado */
   text-align: left; /* Alinea el texto a la izquierda */
-}
-
-/* Estilo específico para el botón "Agregar filtros" */
-.filters .filter-button.filter-buttonns::after {
-  content: "▼"; /* Flecha hacia abajo por defecto */
-  margin-left: 5px; /* Ajuste de margen izquierdo entre el texto y la flecha */
-  transition: transform 0.3s ease; /* Transición suave para la rotación */
-}
-
-/* Estilo para la flecha hacia arriba cuando el dropdown está abierto */
-.filters .filter-button.filter-buttonns.open::after {
-  content: "▲"; /* Flecha hacia arriba cuando está abierto */
 }
 
 .filters .dropdown:hover .filter-button::after {
@@ -126,6 +112,8 @@
 }
 
 .search-bar {
+  margin-left: -30px;
+  margin-right: 217px;
   display: flex;
   align-items: center;
   width: 500px; 
@@ -139,6 +127,7 @@
   background-color: #ededed;
   border: 1px solid #ccc;
   border-radius: 1px;
+  margin-left: 20px;
 }
 
 .search-bar button {
@@ -161,9 +150,9 @@
   content: '';
   border-right: 3px solid black; 
   height: 100%;
-  position: absolute; 
-  top: 0; 
-  margin-left: 530px; 
+  position: relative; 
+  top: 0;
+  margin-left: -100px; 
 }
 
 
@@ -256,6 +245,7 @@
   color: rgb(0, 0, 0);
   background-color: #FFC000;
   border: 2px solid black; 
+  margin-left: 10px;
   padding: 6px 12px;
   border-radius: 5px;
 }
@@ -291,6 +281,7 @@
 }
 
 .filter-button .slider-container input {
+  background-color: #ffffff;
   width: 100%; /* Ajusta el ancho del slider */
 }
 
