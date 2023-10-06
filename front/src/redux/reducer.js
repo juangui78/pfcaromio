@@ -7,6 +7,7 @@ import {
     CLOSE_CART,
     ADD_CART_ITEM,
     REMOVE_CART_ITEM,
+    DELETE_CART_ITEM,
 
 } from './actionsTypes';
 
@@ -113,6 +114,30 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 quantity = foundItem.quantity - 1;
                 foundItem.quantity = quantity;
                 cartDetails.subtotal = cartDetails.subtotal - foundItem.price;
+            }
+
+            return {
+                ...state,
+                cartDetails: { 
+                    ...state.cartDetails, 
+                    itemsCount: itemsCount, 
+                    items: cartDetails.items,
+                    subtotal:cartDetails.subtotal 
+                }
+            }
+
+        case DELETE_CART_ITEM:
+            cartDetails = { ...state.cartDetails };
+            
+            foundItem = cartDetails.items.find((product) => product._id === payload._id);
+            const index = cartDetails.items.findIndex((product) => product._id ===  payload._id);
+            if (foundItem) {
+                itemsCount = cartDetails.itemsCount - 1;
+                /* quantity = foundItem.quantity - 1;
+                foundItem.quantity = quantity; */
+                cartDetails.subtotal = cartDetails.subtotal - foundItem.price;
+                cartDetails.items.splice(index, 1); 
+                
             }
 
             return {

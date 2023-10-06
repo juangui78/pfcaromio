@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {FaPlusCircle, FaMinusCircle, FaTrash} from 'react-icons/fa';
-import { addItemCart, removeItemCart } from '../../redux/actions';
+import { addItemCart, removeItemCart, deleteItemCart } from '../../redux/actions';
 import { useDispatch, useSelector } from "react-redux";
 
 const ItemCart = ({ item }) => {
@@ -22,15 +22,18 @@ const ItemCart = ({ item }) => {
           {item.quantity}
         </Value>
         <Buttons>
-          
-          <Button style={{ display: item.quantity === 1 ? 'flex' : 'none' }}>
+
+          {/* Botón para eliminar item  */}
+          <Button onClick={ () => dispatch(deleteItemCart(item))} style={{ display: item.quantity === 1 ? 'flex' : 'none' }}>
             <FaTrash />
           </Button>
 
-          <Button  onClick={ () => dispatch(removeItemCart(item))} style={{ display: item.quantity > 1 ? 'flex' : 'none' }}>
+          {/* Botón para restar cantidad  */}
+          <Button onClick={ () => dispatch(removeItemCart(item))} style={{ display: item.quantity > 1 ? 'flex' : 'none' }}>
             <FaMinusCircle />
           </Button>
-          
+
+          {/* Botón para sumar cantidad  */}
           <Button onClick={ () => dispatch(addItemCart(item))} >
             <FaPlusCircle />
           </Button>

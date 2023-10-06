@@ -7,6 +7,7 @@ import {
     CLOSE_CART,
     ADD_CART_ITEM,
     REMOVE_CART_ITEM,
+    DELETE_CART_ITEM,
     ERROR
 } from "./actionsTypes";
 
@@ -143,12 +144,25 @@ export const addItemCart = (item) => {
 }
 
 export const removeItemCart = (item) => {
-    
     return async function (dispatch) {
-
         try {
             return dispatch(
                 { type: REMOVE_CART_ITEM, payload:item },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const deleteItemCart = (item) => {
+    return async function (dispatch) {
+        try {
+            return dispatch(
+                { type: DELETE_CART_ITEM, payload:item },
             )
         }
         catch (error) {
