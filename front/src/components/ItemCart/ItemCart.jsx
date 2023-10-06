@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {FaPlusCircle, FaMinusCircle, FaTrash} from 'react-icons/fa';
 import { addItemCart, removeItemCart, deleteItemCart } from '../../redux/actions';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const ItemCart = ({ item }) => {
 

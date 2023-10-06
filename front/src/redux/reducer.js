@@ -8,6 +8,7 @@ import {
     ADD_CART_ITEM,
     REMOVE_CART_ITEM,
     DELETE_CART_ITEM,
+    CLEAR_CART,
 
 } from './actionsTypes';
 
@@ -31,6 +32,7 @@ let cartDetails = {};
 let itemsCount = 0;
 let foundItem = '';
 let quantity = 0;
+let index = null;
 
 const rootReducer = (state = initialState, { type, payload }) => {
     switch (type) {
@@ -77,7 +79,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
             itemsCount = cartDetails.itemsCount + 1;
 
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
-            
+
             if (foundItem) {
                 quantity = foundItem.quantity + 1;
                 foundItem.quantity = quantity;
@@ -96,11 +98,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
             return {
                 ...state,
-                cartDetails: { 
-                    ...state.cartDetails, 
-                    itemsCount: itemsCount, 
-                    items: cartDetails.items, 
-                    subtotal:cartDetails.subtotal 
+                cartDetails: {
+                    ...state.cartDetails,
+                    itemsCount: itemsCount,
+                    items: cartDetails.items,
+                    subtotal: cartDetails.subtotal
                 }
             }
 
@@ -109,7 +111,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
             itemsCount = cartDetails.itemsCount - 1;
 
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
-            
+
             if (foundItem) {
                 quantity = foundItem.quantity - 1;
                 foundItem.quantity = quantity;
@@ -118,36 +120,50 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
             return {
                 ...state,
-                cartDetails: { 
-                    ...state.cartDetails, 
-                    itemsCount: itemsCount, 
+                cartDetails: {
+                    ...state.cartDetails,
+                    itemsCount: itemsCount,
                     items: cartDetails.items,
-                    subtotal:cartDetails.subtotal 
+                    subtotal: cartDetails.subtotal
                 }
             }
 
         case DELETE_CART_ITEM:
             cartDetails = { ...state.cartDetails };
-            
+
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
-            const index = cartDetails.items.findIndex((product) => product._id ===  payload._id);
+            index = cartDetails.items.findIndex((product) => product._id === payload._id);
             if (foundItem) {
                 itemsCount = cartDetails.itemsCount - 1;
                 /* quantity = foundItem.quantity - 1;
                 foundItem.quantity = quantity; */
                 cartDetails.subtotal = cartDetails.subtotal - foundItem.price;
-                cartDetails.items.splice(index, 1); 
-                
+                cartDetails.items.splice(index, 1);
+
             }
 
             return {
                 ...state,
-                cartDetails: { 
-                    ...state.cartDetails, 
-                    itemsCount: itemsCount, 
+                cartDetails: {
+                    ...state.cartDetails,
+                    itemsCount: itemsCount,
                     items: cartDetails.items,
-                    subtotal:cartDetails.subtotal 
+                    subtotal: cartDetails.subtotal
                 }
+            }
+
+        case CLEAR_CART:
+            cartDetails = {
+                store: {},
+                items: [],
+                itemsCount: 0,
+                subtotal: 0,
+                total: 0,
+            }
+
+            return {
+                ...state,
+                cartDetails: cartDetails
             }
 
         default:

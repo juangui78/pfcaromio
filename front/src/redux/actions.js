@@ -8,6 +8,7 @@ import {
     ADD_CART_ITEM,
     REMOVE_CART_ITEM,
     DELETE_CART_ITEM,
+    CLEAR_CART,
     ERROR
 } from "./actionsTypes";
 
@@ -163,6 +164,21 @@ export const deleteItemCart = (item) => {
         try {
             return dispatch(
                 { type: DELETE_CART_ITEM, payload:item },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const clearCart = () => {
+    return async function (dispatch) {
+        try {
+            return dispatch(
+                { type: CLEAR_CART},
             )
         }
         catch (error) {

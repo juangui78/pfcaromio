@@ -7,4 +7,5 @@ export const CLOSE_CART = 'CLOSE_CART';
 export const ADD_CART_ITEM = 'ADD_CART_ITEM';
 export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
 export const DELETE_CART_ITEM = 'DELETE_CART_ITEM';
+export const CLEAR_CART = 'CLEAR_CART';
 export const ERROR = 'ERROR';

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../../redux/actions";
 
 import ItemCart from '../ItemCart/ItemCart';
+import { clearCart } from '../../redux/actions';
 
 import {
     Container,
@@ -21,7 +22,6 @@ const ShoppingCard = () => {
     const showCart = useSelector((state) => state.modalCart);
     const cartDetails = useSelector((state) => state.cartDetails);
     const itemsCount = useSelector(state => state.cartDetails.itemsCount);
-
 
     return (
         <>
@@ -51,9 +51,9 @@ const ShoppingCard = () => {
                     <strong>Subtotal: </strong>
                     {` $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`}
                 </Totales>
-                <Footer>
-                    <ButtonClear> Vaciar carrito</ButtonClear>
-                    <ButtonPay> Ir a pagar</ButtonPay>
+                <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
+                    <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
+                    <ButtonPay > Ir a pagar</ButtonPay>
                 </Footer>
             </Container>
 
