@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../../redux/actions";
 
 import ItemCart from '../ItemCart/ItemCart';
+import { clearCart } from '../../redux/actions';
 
 import {
     Container,
@@ -21,10 +22,16 @@ const ShoppingCard = () => {
     const showCart = useSelector((state) => state.modalCart);
     const cartDetails = useSelector((state) => state.cartDetails);
     const itemsCount = useSelector(state => state.cartDetails.itemsCount);
+    const restaurantSelected = useSelector(state => state.restaurantSelected);
 
+    const handleClick = (event) => {
+        if(event.target.id ==="overlay") dispatch(closeCart())
+        console.log(event.target.id);
+    };
 
     return (
         <>
+            <Overlay id="overlay" onClick={handleClick} style={{ display: showCart ? "" : "none" }} />
             <Container right={showCart ? "0%" : "-35%"}>
                 <Header>
                     <Title>Tu carrito</Title>
@@ -35,10 +42,18 @@ const ShoppingCard = () => {
                     </CloseButton>
                 </Header>
 
+
+                <StoreDetails>
+                    <StoreName> {restaurantSelected.name}</StoreName>
+                    <StoreAddress> {restaurantSelected.address}</StoreAddress>
+                </StoreDetails>
+
+
                 <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
                     <span>Aún no tienes productos en tu carrito</span>
                     <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
                 </Empty>
+
                 <Body>
                     {
                         cartDetails.items.map((item, index) => (
@@ -51,9 +66,9 @@ const ShoppingCard = () => {
                     <strong>Subtotal: </strong>
                     {` $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`}
                 </Totales>
-                <Footer>
-                    <ButtonClear> Vaciar carrito</ButtonClear>
-                    <ButtonPay> Ir a pagar</ButtonPay>
+                <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
+                    <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
+                    <ButtonPay > Ir a pagar</ButtonPay>
                 </Footer>
             </Container>
 
@@ -70,8 +85,27 @@ const Body = styled.div`
     justify-content: space-between;
 `;
 
-const Item = styled.div`
 
+const StoreDetails = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: .5rem;
+    background-color: white;
+    border-top: 1px solid var(--gray);
+`;
+
+const StoreName = styled.span`
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: small;
+`;
+
+const StoreAddress = styled.span`
+    font-weight: 200;
+    text-transform: capitalize;
+    font-size: small;
 `;
 
 const Header = styled.div`
@@ -80,6 +114,7 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     background-color: white;
+    border-bottom: 2px solid #DDD;
 `;
 
 const Empty = styled.div`
@@ -143,6 +178,7 @@ const Overlay = styled.div`
     top: 0;
     left: 0;
     background: rgba(0,0,0, 0.5) ;
-    transition:0.5s all;
     display: flex;
+
 `;
+

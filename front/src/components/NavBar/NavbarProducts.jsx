@@ -46,7 +46,7 @@ const NavbarProducts = () => {
   const toggleFiltersDropdown = () => {
     setFiltersDropdownOpen(!filtersDropdownOpen);
   };
-
+ 
   return (
     <nav className="navbar">
       <div className="navbar-container">
