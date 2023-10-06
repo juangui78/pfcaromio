@@ -1,14 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import './Navbar.css';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Link, useLocation } from 'react-router-dom';
+
+import { useAuth, UserButton } from '@clerk/clerk-react'; 
+import { Link, useLocation} from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
+import { SignedOut } from '@clerk/clerk-react';
 
 const Navbar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isSignedIn } = useAuth()
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
 
@@ -47,6 +51,14 @@ const Navbar = () => {
   const toggleFiltersDropdown = () => {
     setFiltersDropdownOpen(!filtersDropdownOpen);
   };
+
+  const handleLoginButton = () => {
+    navigate('/login')
+  }
+
+  const handleSignOutButton = () => {
+    SignedOut()
+  }
 
   return (
     <nav className="navbar">
@@ -115,9 +127,9 @@ const Navbar = () => {
             <SearchBar />
 
         <div className="user-actions">
-          {!isAuthenticated ? (
-            <button className="login-button" onClick={() => loginWithRedirect()}>Iniciar Sesión</button>
-          ) : null}
+          {!isSignedIn ? (
+            <button className="login-button" onClick={() => handleLoginButton()}>Iniciar Sesión</button>
+          ) : <UserButton/>}
         </div>
         <div className="buttonCreate">
           <Link to="/createProduct" className="link">

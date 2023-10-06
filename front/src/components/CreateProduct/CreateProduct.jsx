@@ -1,23 +1,14 @@
 import './CreateProduct.css'
 import axios from 'axios'
-import { useAuth0 } from '@auth0/auth0-react'
 import { useState } from 'react'
 import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
+import { Link } from 'react-router-dom'
 export default function CreateProduct () {
 
-    const {isAuthenticated, getIdTokenClaims} = useAuth0()
+  
    
 
-    // Con este handler obtengo el id del usuario 
-    const handleIDUser = async() => {
-        if (isAuthenticated) {
-            const userToken = await getIdTokenClaims()
-            const userID = userToken.sub
-            return userID;
-        }
-    }
-    
     // Obtengo valores del select y los seteo en ProductData
     const handleSelect = (newValue) => {
         setSelectOptions(newValue)
@@ -52,7 +43,7 @@ export default function CreateProduct () {
         price: '',
         description: '',
         storeID: '',
-        stock: 0,
+        stock: '',
         rating: '',
         tags: []
     })
@@ -62,16 +53,16 @@ export default function CreateProduct () {
         price: '',
         description: '',
         storeID: '',
-        stock: 0,
+        stock: '',
         rating: '',
         tags: []
     })
 
     const createProduct = async(productData) => {
             try {
-                const id = await handleIDUser()
-                productData = {...productData, storeID: id}
-                // const create = await axios.post('localhost:3001/products/', productData)
+                
+                const create = await axios.post('http://localhost:3004/products', productData)
+                console.log('Producto creado')
                 console.log(productData);
             } catch (error) {
                 alert('Error. Por favor intenta de nuevo')
@@ -86,6 +77,8 @@ export default function CreateProduct () {
         <div>
             <h1>Agregar tu Producto</h1>
             <h2>Vamos a crear tu Pizza!</h2>
+
+            <Link to='/home' className='cancelar-button'>Cancelar</Link>
         </div>
         <form className='container-form'>
             <label>Nombre de tu Pizza: </label>

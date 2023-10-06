@@ -91,7 +91,7 @@ const getProductsByFilter = async (minRating, maxPrice) => {
 // Crear un nuevo producto
 const createProduct = async (name, price, rating, description,image, stock) => {
     try {
-        const newProduct = new Product({
+        const newProduct = new Products({
             name: name,
             price: price,
             rating: rating,

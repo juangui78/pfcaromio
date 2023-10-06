@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './Products.css';
-import { useAuth0 } from '@auth0/auth0-react';
+
 import { Link, useLocation } from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
 
 const NavbarProducts = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
   const [ratingFilter, setRatingFilter] = useState('');

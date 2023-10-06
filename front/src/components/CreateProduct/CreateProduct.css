@@ -32,3 +32,24 @@ h2 {
     align-items: center;
     padding: 80px;
 }
+
+.cancelar-button {
+    padding: 10px 80px;
+    font-size: 1.3em;
+    font-family: 'Secular One', sans-serif;
+
+    background-color: #fa3535;
+    color: white;
+    border: 3px solid #000000;
+    border-radius: 20px;
+    margin-left: 20px;
+    margin-top: -160px;
+    cursor: pointer;
+    
+  }
+  
+  .cancelar-button:hover {
+    background-color: #ae1818e1;
+    border: 3px solid #000000;
+    color: white;
+  }
