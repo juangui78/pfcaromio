@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 //Agregar validaciones al product
 
 const productSchema = new Schema({
+    store: { type: Schema.Types.ObjectId, ref: 'Store', required: true},
     name: {type: String, required: true},
     price: {type: Number, required: true},
     rating: {type: Number, default: 0},
@@ -12,11 +13,6 @@ const productSchema = new Schema({
     created: {type: Date, default: Date.now},
     //aqui deberian ir las categorias
     stock: {type: Number, min: 0},
-    store: {
-        type: Schema.Types.ObjectId,
-        ref: 'Store',
-        required: true
-    }
 });
 
 const Products = mongoose.model('Product', productSchema);

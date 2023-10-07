@@ -1,47 +1,39 @@
-//importamos el modelo directamente 
 const  {Products}  = require('../models/product');
+const { Store } = require('../models/store');
 const mongoose = require('mongoose');
+
 // Obtener todos los productos
-const getAllProducts = async () => {
+const getAllProducts = async (storeid) => {
     try {
-        console.log("Ejecuta el controlador")
-        console.log(Products);
-        const products = await Products.find();
-        return products;
+        return storeid ? await Products.find({ store: storeid }) : await Products.find();
     } catch (err) {
         console.log(err);
     }
 };
 
 // Obtener todos los productos ordenados por su precio
-const getProductsSortedByPrice = async (order) => {
+const getProductsSortedByPrice = async (order, storeid) => {
     try {
-        if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
-            let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Products.find()
-                .sort({ price: sortOrder });
+        const sortOrder = order && order.toLowerCase() === 'asc' ? 1 : -1;
+        const productsQuery = storeid ? { store: storeid } : {};
 
-            return ProductsList;
-        } else {
-            return await Products.find();
-        }
+        return await Products.find(productsQuery).sort({ price: sortOrder });
+
     } catch (err) {
         console.log(err);
     }
 };
 
 // Obtener todos los productos ordenados por su calificación
-const getProductsSortedByRating = async (order) => {
+const getProductsSortedByRating = async (order, storeid) => {
     try {
-        if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
-            let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const ProductsList = await Products.find()
-                .sort({ rating: sortOrder });
+        const sortOrder = order && order.toLowerCase() === 'asc' ? 1 : -1;
+        const productsQuery = storeid ? { store: storeid } : {};
 
-            return ProductsList;
-        } else {
-            return await Products.find();
-        }
+        return Products.find(productsQuery).sort({ rating: sortOrder });
+
+        
+        
     } catch (err) {
         console.log(err);
     }
@@ -49,61 +41,60 @@ const getProductsSortedByRating = async (order) => {
 
 
 // Obtener productos por su ID o nombre
-const getProductsByIdOrName = async (identifier) => {
+const getProductsByIdOrName = async (identifier, storeid) => {
     try {
-        let products;
-        if (mongoose.Types.ObjectId.isValid(identifier)) {
-            products = await Products.findById(identifier)
-                .populate('store')
-                .populate('reviews');
-        } else {
-            products = await Products.find({ name: identifier })
-                .populate('store')
-                .populate('reviews');
-        }
+        const productsQuery = storeid ? { store: storeid } : {};
+        const nameRegex = new RegExp(identifier, 'i');
+        const products = mongoose.Types.ObjectId.isValid(identifier)
+            ? await Products.findById(identifier)
+            : await Products.find({ name: {$regex: nameRegex}, ...productsQuery });
+        
         return products;
     } catch (err) {
         console.log(err);
     }
 };
 
+
 //Obtener productos filtrados por calificación y precio
-const getProductsByFilter = async (minRating, maxPrice) => {
+const getProductsByFilter = async (minRating, maxPrice, storeid) => {
     try {
-        let filter = {};
 
-        if (minRating) {
-            filter.rating = { $gte: parseFloat(minRating) };
-        }
+        const filter = {
+            ...(minRating ? { rating: { $gte: parseFloat(minRating) } } : {}),
+            ...(storeid ? { store: storeid } : {}),
+            ...(maxPrice ? { price: { $lte: parseFloat(maxPrice) } } : {}),
+        };
 
-        if (maxPrice) {
-            filter.price = { $lte: parseFloat(maxPrice) };
-        }
+        return await Products.find(filter);
 
-        const products = await Products.find(filter);
-
-        return products;
     } catch (err) {
         console.log(err);
     }
 };
 
 // Crear un nuevo producto
-const createProduct = async (name, price, rating, description,image, stock) => {
+const createProduct = async (storeId, name, price, rating, description,image, stock) => {
+    console.log(storeId, name, price, rating, description, image)
     try {
         const newProduct = new Products({
+            store: storeId,
             name: name,
             price: price,
             rating: rating,
             description: description,
             image: image,
             stock: stock,
-            // store: storeId,
         });
         console.log(newProduct);
         await newProduct.save();
-        return newProduct;
+
+        const store = await Store.findById(storeId);
+        store.products.push(newProduct);
+        await store.save();
         
+        return newProduct;
+
     } catch (err) {
         console.log(err);
     }
