@@ -75,10 +75,12 @@ const ShoppingCard = () => {
                     }
                 </Body>
 
-                <Totales>
-                    <strong>Subtotal: </strong>
-                    {` $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`}
+                <Totales style={{ display: itemsCount ? '' : 'none' }}>
+                    <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
+                    <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li>
+                    <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
                 </Totales>
+
                 <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
                     <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
                     <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
@@ -169,11 +171,20 @@ const Footer = styled.div`
     column-gap: 2rem;
 `;
 
-const Totales = styled.div`
+const Totales = styled.ul`
     padding: 1rem;
     text-align: right;
     padding-right: 3rem;
     border-top: 3px solid var(--gray);
+    background-color: white;
+    font-weight: 500;
+    font-size: medium;
+    list-style-type: none;
+    margin: 0;
+`;
+
+const Total = styled.li`
+    border-top: 1px solid #CCC;
     background-color: white;
     font-weight: 700;
     font-size: large;
