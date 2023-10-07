@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
@@ -11,6 +13,7 @@ import {
     DELETE_CART_ITEM,
     SET_RESTAURANT,
     CLEAR_CART,
+    CREATE_CHECKOUT,
 
 } from './actionsTypes';
 
@@ -21,6 +24,7 @@ const initialState = {
     modalCart: false,
     restaurants: [], // * stores
     restaurantSelected: {},
+    paymentUrl: null,
 
     cartDetails: {
         store: {},
@@ -180,6 +184,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 restaurantSelected: payload
+            }
+
+        case CREATE_CHECKOUT:            
+            return {
+                ...state,
+                paymentUrl: payload
+
             }
 
         default:

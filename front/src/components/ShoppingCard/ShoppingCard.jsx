@@ -1,12 +1,11 @@
 import { IconContext } from "react-icons";
 import { FaTimesCircle } from 'react-icons/fa';
-
 import { useDispatch, useSelector } from "react-redux";
-
-import { closeCart } from "../../redux/actions";
+import { React, useState, useEffect } from 'react';
 
 import ItemCart from '../ItemCart/ItemCart';
-import { clearCart } from '../../redux/actions';
+
+import { closeCart, clearCart, createCheckout } from '../../redux/actions';
 
 import {
     Container,
@@ -23,16 +22,30 @@ const ShoppingCard = () => {
     const cartDetails = useSelector((state) => state.cartDetails);
     const itemsCount = useSelector(state => state.cartDetails.itemsCount);
     const restaurantSelected = useSelector(state => state.restaurantSelected);
+    const paymentUrl = useSelector(state => state.paymentUrl);
 
-    const handleClick = (event) => {
-        if(event.target.id ==="overlay") dispatch(closeCart())
-        console.log(event.target.id);
+    const handleClick = (e) => {
+        if (e.target.id === "overlay") dispatch(closeCart())
     };
+
+    const handlePayment = (e) => {
+        dispatch(createCheckout(cartDetails))
+    };
+
+    useEffect(() => {
+        if (paymentUrl) {
+            window.location.replace(paymentUrl);
+            //dispatch(clearCart())
+        }
+    }, [paymentUrl])
 
     return (
         <>
+
             <Overlay id="overlay" onClick={handleClick} style={{ display: showCart ? "" : "none" }} />
+
             <Container right={showCart ? "0%" : "-35%"}>
+
                 <Header>
                     <Title>Tu carrito</Title>
                     <CloseButton onClick={() => dispatch(closeCart())}>
@@ -68,7 +81,7 @@ const ShoppingCard = () => {
                 </Totales>
                 <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
                     <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
-                    <ButtonPay > Ir a pagar</ButtonPay>
+                    <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
                 </Footer>
             </Container>
 
