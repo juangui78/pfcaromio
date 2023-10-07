@@ -51,11 +51,11 @@ const getStoreByIdOrName = async (identifier) => {
         if (mongoose.isValidObjectId(identifier)) {
             store = await Store.findById(identifier)
                // .populate('reviews')
-               // .populate('products');
+               .populate('products');
         } else {
             store = await Store.findOne({ name: identifier.toLowerCase().replace(/\s/g, '') })
                // .populate('reviews')
-               // .populate('products');
+               .populate('products');
         }
         return store;
        
