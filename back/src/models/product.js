@@ -11,6 +11,11 @@ const productSchema = new Schema({
     description: {type: String, minlength: 10, maxlength: 2000 },
     image: {type: String, default: "https://cocina-casera.com/wp-content/uploads/2023/06/pizza-napolitana-770x485.jpeg"},
     created: {type: Date, default: Date.now},
+    store: { 
+        type: String, // Usamos el tipo ObjectId para la relación
+        ref: 'Store', // Referencia al modelo de la tienda
+        
+    },
     //aqui deberian ir las categorias
     stock: {type: Number, min: 0}
 });

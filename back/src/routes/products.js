@@ -6,7 +6,8 @@ const {
     getProductsSortedByRating, 
     getProductsByIdOrName, 
     getProductsByFilter, 
-    createProduct 
+    createProduct,
+    getProductsByStore
 } = require('../controllers/products');
 
 // Ruta para obtener todos los productos
@@ -82,5 +83,19 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Error creating the product' });
     }
 });
+
+// Ruta para obtener productos por restaurante
+router.get('/:storeId', async (req, res) => {
+    const storeId = req.params.storeId;
+    console.log(storeId);
+
+    try {
+        const products = await getProductsByStore(storeId);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching products by store' });
+    }
+    
+})
 
 module.exports = router;

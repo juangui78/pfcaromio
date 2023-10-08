@@ -11,7 +11,7 @@ import {
 
 } from "./RestaurantCardStyles";
 
-function RestaurantCard({ name, address, rating, image, id }) {
+function RestaurantCard({ name, address, rating, image, storeId }) {
 
     return (
 
@@ -23,7 +23,7 @@ function RestaurantCard({ name, address, rating, image, id }) {
                 <Details>
                     <Name>{name}</Name>
                     <Address>{address}</Address>
-                    <LinkCard to= {`/products` }> Productos</LinkCard>
+                    <LinkCard to= {`/products/${storeId}`}> Productos</LinkCard>
                     <Score>⭐{rating}</Score>
                 </Details>
             </RestaurantItem>

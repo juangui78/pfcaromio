@@ -15,12 +15,12 @@ import {
 
 import { openProductDetails } from '../../redux/actions';
 
-function ProductCard({ name, price, rating, image, id }) {
+function ProductCard({ name, price, rating, image, id, storeId }) {
 
     const dispatch = useDispatch();
-
+    
     return (
-
+        
         <CardContainer >
             <ProductItem>
                 <Price>${price}</Price>

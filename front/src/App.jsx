@@ -19,9 +19,7 @@ import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 
 const App = () => {
-  const validarSesión = () => {
-
-  }
+ 
 
   const { pathname } = useLocation();
   
@@ -38,7 +36,7 @@ const App = () => {
         <Route path='/' element={<LandingPage />}></Route>
         <Route path='/home' element={<Restaurants />}></Route>
         <Route path="/products" element={<Products />} /> 
-        <Route path="/products/:id" element={<Products />} />
+        <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>

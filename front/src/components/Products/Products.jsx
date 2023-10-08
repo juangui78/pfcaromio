@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { getProducts, getProductsByStore } from '../../redux/actions';
 import { useParams } from "react-router-dom";
 import NavbarProducts from '../NavBar/NavbarProducts';
@@ -13,14 +14,26 @@ import {
 
 export default function Products() {
     const dispatch = useDispatch();
-    const { id } = useParams();
-    const products = useSelector((state) => state.products);
+    const { storeId } = useParams();
+    
+    // const products = useSelector((state) => state.products);
+
+    // useEffect(() => {
+    //     //if(id) dispatch(getProductsByStore(id));
+    //    // else dispatch(getProducts());
+    //     dispatch(getProducts());
+    // }, [dispatch])
 
     useEffect(() => {
-        //if(id) dispatch(getProductsByStore(id));
-       // else dispatch(getProducts());
+        axios.get(`http://localhost:3004/products/${storeId}`)
+            .then((products) => {
+                setProducts(products.data)
+            })
+
         dispatch(getProducts());
-    }, [dispatch])
+    }, [])  
+
+    const [products, setProducts] = useState([])
 
     return (
         <div>                
@@ -35,7 +48,7 @@ export default function Products() {
                             <ProductCard
                                 name={product.name}
                                 price={product.price}
-                                rating={product.rating}
+                                rating={product.rating }
                                 image={product.image}
                                 key={product._id}
                                 id={product._id}>

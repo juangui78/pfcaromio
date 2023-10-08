@@ -89,7 +89,7 @@ const getProductsByFilter = async (minRating, maxPrice) => {
 };
 
 // Crear un nuevo producto
-const createProduct = async (name, price, rating, description,image, stock) => {
+const createProduct = async (name, price, rating, description,image, stock, storeId) => {
     try {
         const newProduct = new Products({
             name: name,
@@ -98,7 +98,7 @@ const createProduct = async (name, price, rating, description,image, stock) => {
             description: description,
             image: image,
             stock: stock,
-            // store: storeId,
+            store: storeId,
         });
         console.log(newProduct);
         await newProduct.save();
@@ -109,11 +109,34 @@ const createProduct = async (name, price, rating, description,image, stock) => {
     }
 };
 
+//Obtener productos por restaurante
+// const getProductsByStore = async (storeId) => {
+//     try {
+//         const products = await Products.find()
+//     } catch (error) {
+        
+//     }
+// }
+    
+const getProductsByStore = async (storeId) => {
+    try {
+      const productos = await Products.find({ store: storeId }).exec();
+      console.log('Productos relacionados con la tienda:', productos);
+      return productos;
+    } catch (err) {
+      console.error('Error al buscar productos:', err);
+      throw err; // 
+    }
+  };
+    
+
+
 module.exports = { 
     getAllProducts,
     getProductsSortedByPrice,
     getProductsSortedByRating,
     getProductsByIdOrName,
     getProductsByFilter,
-    createProduct
+    createProduct,
+    getProductsByStore
 };

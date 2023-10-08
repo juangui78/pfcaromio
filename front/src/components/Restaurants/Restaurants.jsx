@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRestaurants } from '../../redux/actions';
 import CardDescuento from '../CardDescuento/CardDescuento';
 import ShoppingCard from '../ShoppingCard/ShoppingCard';
+import { useAuth } from '@clerk/clerk-react';
 
 import {
     Container,
@@ -42,7 +43,8 @@ export default function Restaurants() {
                                 image={restaurant.imageSrc}
                                 name={restaurant.name}
                                 address={restaurant.address}
-                                rating={restaurant.rating}>
+                                rating={restaurant.rating}
+                                storeId={restaurant.userIdentifier}>
                             </RestaurantCard>
                         ))
                     }

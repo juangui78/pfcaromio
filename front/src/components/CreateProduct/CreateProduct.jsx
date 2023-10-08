@@ -3,11 +3,12 @@ import axios from 'axios'
 import { useState } from 'react'
 import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '@clerk/clerk-react'
 export default function CreateProduct () {
 
-  
-   
+    const navigate = useNavigate()
+    const {userId} = useAuth()
 
     // Obtengo valores del select y los seteo en ProductData
     const handleSelect = (newValue) => {
@@ -42,7 +43,7 @@ export default function CreateProduct () {
         name: '',
         price: '',
         description: '',
-        storeID: '',
+        storeId: '',
         stock: '',
         rating: '',
         tags: []
@@ -52,7 +53,7 @@ export default function CreateProduct () {
         name: '',
         price: '',
         description: '',
-        storeID: '',
+        storeId: '',
         stock: '',
         rating: '',
         tags: []
@@ -60,8 +61,10 @@ export default function CreateProduct () {
 
     const createProduct = async(productData) => {
             try {
-                
+                productData.storeId = userId
                 const create = await axios.post('http://localhost:3004/products', productData)
+                alert('Producto Creado con Exito')
+                navigate('/home')
                 console.log('Producto creado')
                 console.log(productData);
             } catch (error) {
