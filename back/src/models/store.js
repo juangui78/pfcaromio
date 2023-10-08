@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 
 const storeSchema = new Schema({
-    // user: {type: Schema.Types.ObjectId, ref: 'User', required: true,},
     name: {type: String, required: true},
     address: {type: String, required: true},
     rating: {type: Number, default: 0},
@@ -12,10 +11,7 @@ const storeSchema = new Schema({
     userIdentifier: {type: String, required: true},
     description: {type: String, required: true},
     //aqui se relacionan los productos
-    products: [{    
-        type: Schema.Types.ObjectId,
-        ref: 'Product', // This refers to the 'Product' model
-    }]
+    products: {type: Array}    
 });
 
 const Store = mongoose.model('Store', storeSchema);

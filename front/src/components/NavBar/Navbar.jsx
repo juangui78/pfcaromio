@@ -50,7 +50,10 @@ const Navbar = () => {
   const toggleFiltersDropdown = () => {
     setFiltersDropdownOpen(!filtersDropdownOpen);
   };
-
+  
+  const openFiltersDropdown = () => {
+    setFiltersDropdownOpen(true);
+  };
   const handleLoginButton = () => {
     navigate('/login')
   }

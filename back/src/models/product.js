@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 //Agregar validaciones al product
 
 const productSchema = new Schema({
-
     name: {type: String, required: true},
     price: {type: Number, required: true},
     rating: {type: Number, default: 0},
@@ -12,12 +11,10 @@ const productSchema = new Schema({
     image: {type: String, default: "https://cocina-casera.com/wp-content/uploads/2023/06/pizza-napolitana-770x485.jpeg"},
     created: {type: Date, default: Date.now},
     store: { 
-        type: String, // Usamos el tipo ObjectId para la relación
+        type: String, // 
         ref: 'Store', // Referencia al modelo de la tienda
-        
     },
-    //aqui deberian ir las categorias
-    stock: {type: Number, min: 0}
+    
 });
 
 const Products = mongoose.model('Product', productSchema);

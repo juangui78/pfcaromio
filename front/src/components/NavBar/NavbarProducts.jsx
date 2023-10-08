@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Products.css';
-
 import { Link, useLocation } from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
@@ -132,7 +131,7 @@ const NavbarProducts = () => {
           </div>
         </div>
         {!showFiltersAndSearch && (
-          <div className="back-to-home-button" style={{marginLeft: '10px',marginRight: '359px',marginLeft: '-10px',borderBottom: '1px solid black' }}>
+          <div className="back-to-home-button" style={{marginLeft: '-10px',marginRight: '359px',borderBottom: '1px solid black' }}>
             <Link to="/home" style={{ textDecoration: 'none', color: 'black', fontSize: '16px' }}>
               Volver a Inicio
             </Link>

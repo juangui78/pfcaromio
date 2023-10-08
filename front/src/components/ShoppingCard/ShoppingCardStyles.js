@@ -10,6 +10,7 @@ export const Container = styled.div`
     right: ${(props) => props.right} ;
     transition:0.8s;
     box-shadow: 5px 0px 20px 5px gray;
+    z-index: 2;
 `;
 
 export const CloseButton = styled.button`

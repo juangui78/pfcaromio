@@ -25,6 +25,7 @@ export default function Products() {
     // }, [dispatch])
 
     useEffect(() => {
+        
         axios.get(`http://localhost:3004/products/${storeId}`)
             .then((products) => {
                 setProducts(products.data)

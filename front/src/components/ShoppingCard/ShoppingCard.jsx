@@ -1,11 +1,11 @@
 import { IconContext } from "react-icons";
 import { FaTimesCircle } from 'react-icons/fa';
-
 import { useDispatch, useSelector } from "react-redux";
-
-import { closeCart } from "../../redux/actions";
+import { React, useState, useEffect } from 'react';
 
 import ItemCart from '../ItemCart/ItemCart';
+
+import { closeCart, clearCart, createCheckout } from '../../redux/actions';
 
 import {
     Container,
@@ -14,47 +14,86 @@ import {
 
 import styled from 'styled-components';
 
+const Message = ({ message }) => (
+    <section>
+        <p>{message}</p>
+    </section>
+);
+
 const ShoppingCard = () => {
 
     const dispatch = useDispatch();
-
+    const [message, setMessage] = useState("");
     const showCart = useSelector((state) => state.modalCart);
     const cartDetails = useSelector((state) => state.cartDetails);
     const itemsCount = useSelector(state => state.cartDetails.itemsCount);
+    const restaurantSelected = useSelector(state => state.restaurantSelected);
+    const paymentUrl = useSelector(state => state.paymentUrl);
+
+    const handleClickOverlay = (e) => {
+        if (e.target.id === "overlay") dispatch(closeCart())
+        setMessage("");
+    };
+
+    const handlePayment = (e) => {
+        dispatch(createCheckout(cartDetails))
+    };
+
+    useEffect(() => {
+       
+   
+
+        if (paymentUrl) {
+            window.location.replace(paymentUrl);
+        }
+    }, [paymentUrl])
 
 
     return (
         <>
+
+            <Overlay id="overlay" onClick={handleClickOverlay} style={{ display: showCart ? "" : "none" }} />
             <Container right={showCart ? "0%" : "-35%"}>
-                <Header>
-                    <Title>Tu carrito</Title>
-                    <CloseButton onClick={() => dispatch(closeCart())}>
-                        <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
-                            <FaTimesCircle />
-                        </IconContext.Provider>
-                    </CloseButton>
-                </Header>
+              
+                        <Header>
+                            <Title>Tu carrito</Title>
+                            <CloseButton onClick={() => dispatch(closeCart())}>
+                                <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
+                                    <FaTimesCircle />
+                                </IconContext.Provider>
+                            </CloseButton>
+                        </Header>
 
-                <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
-                    <span>Aún no tienes productos en tu carrito</span>
-                    <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
-                </Empty>
-                <Body>
-                    {
-                        cartDetails.items.map((item, index) => (
-                            <ItemCart key={'item' + item._id} item={item} />
-                        ))
-                    }
-                </Body>
+                        <StoreDetails>
+                            <StoreName> {restaurantSelected.name}</StoreName>
+                            <StoreAddress> {restaurantSelected.address}</StoreAddress>
+                        </StoreDetails>
 
-                <Totales>
-                    <strong>Subtotal: </strong>
-                    {` $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`}
-                </Totales>
-                <Footer>
-                    <ButtonClear> Vaciar carrito</ButtonClear>
-                    <ButtonPay> Ir a pagar</ButtonPay>
-                </Footer>
+
+                        <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
+                            <span>Aún no tienes productos en tu carrito</span>
+                            <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
+                        </Empty>
+
+                        <Body>
+                            {
+                                cartDetails.items.map((item, index) => (
+                                    <ItemCart key={'item' + item._id} item={item} />
+                                ))
+                            }
+                        </Body>
+
+                        <Totales style={{ display: itemsCount ? '' : 'none' }}>
+                            <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
+                            <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li>
+                            <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
+                        </Totales>
+
+                        <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
+                            <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
+                            <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
+                        </Footer>
+          
             </Container>
 
         </>
@@ -70,8 +109,27 @@ const Body = styled.div`
     justify-content: space-between;
 `;
 
-const Item = styled.div`
 
+const StoreDetails = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: .5rem;
+    background-color: white;
+    border-top: 1px solid var(--gray);
+`;
+
+const StoreName = styled.span`
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: small;
+`;
+
+const StoreAddress = styled.span`
+    font-weight: 200;
+    text-transform: capitalize;
+    font-size: small;
 `;
 
 const Header = styled.div`
@@ -80,6 +138,7 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     background-color: white;
+    border-bottom: 2px solid #DDD;
 `;
 
 const Empty = styled.div`
@@ -121,11 +180,20 @@ const Footer = styled.div`
     column-gap: 2rem;
 `;
 
-const Totales = styled.div`
+const Totales = styled.ul`
     padding: 1rem;
     text-align: right;
     padding-right: 3rem;
     border-top: 3px solid var(--gray);
+    background-color: white;
+    font-weight: 500;
+    font-size: medium;
+    list-style-type: none;
+    margin: 0;
+`;
+
+const Total = styled.li`
+    border-top: 1px solid #CCC;
     background-color: white;
     font-weight: 700;
     font-size: large;
@@ -143,6 +211,7 @@ const Overlay = styled.div`
     top: 0;
     left: 0;
     background: rgba(0,0,0, 0.5) ;
-    transition:0.5s all;
     display: flex;
+
 `;
+

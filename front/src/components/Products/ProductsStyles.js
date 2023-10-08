@@ -17,7 +17,7 @@ export const Title = styled.h1`
     text-align: center;
     font-size: 24pt;
     color:var(--red);
-    margin-top: 200px;
+    margin-top: -100px;
 `;
 
 export const Cards = styled.div`
