@@ -40,20 +40,20 @@ export default function CreateProduct () {
 
     const [selectOptions, setSelectOptions] = useState([options])
     const [productData, setProductData] = useState({
+        UserStoreId: '',
         name: '',
         price: '',
         description: '',
-        storeId: '',
         stock: '',
         rating: '',
         tags: []
     })
 
     const [errors, setErrors] = useState({
+        UserStoreId: '',
         name: '',
         price: '',
         description: '',
-        storeId: '',
         stock: '',
         rating: '',
         tags: []
@@ -61,7 +61,7 @@ export default function CreateProduct () {
 
     const createProduct = async(productData) => {
             try {
-                productData.storeId = userId
+                productData.UserStoreId = userId
                 const create = await axios.post('http://localhost:3004/products', productData)
                 alert('Producto Creado con Exito')
                 navigate('/home')

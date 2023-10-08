@@ -75,45 +75,30 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
 
 // Crear un nuevo producto
 
-const createProduct = async (name, price, rating, description,image, stock, storeId) => {
+const createProduct = async (UserStoreId, name, price, rating, description,image, stock) => {
     try {
-        console.log('error aqui');
+        const store = await Store.findOne({userIdentifier: UserStoreId})
         const newProduct = new Products({
+            store: store._id,
             name: name,
             price: price,
             rating: rating,
             description: description,
             image: image,
             stock: stock,
-            store: storeId,
         });
         console.log(newProduct);
         await newProduct.save();
 
-        
+        store.products.push(newProduct);
+        await store.save();
         
         return newProduct;
 
     } catch (err) {
-        console.log('error aqui', err);
+        console.log(err);
     }
 };
-
-
-    
-const getProductsByStore = async (storeId) => {
-    try {
-    
-      const productos = await Products.find({ store: storeId }).exec();
-      console.log('Productos relacionados con la tienda:', productos);
-      return productos;
-    } catch (err) {
-      console.error('Error al buscar productos:', err);
-      throw 'error aqui', err; // 
-    }
-  };
-    
-
 
 module.exports = { 
     getAllProducts,

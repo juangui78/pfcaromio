@@ -63,48 +63,32 @@ router.get('/filtered', async (req, res) => {
     }
 });
 
-// // Ruta para obtener productos por su ID o por su nombre
-// router.get('/:productIdOrName', async (req, res) => {
-//     const productIdOrName = req.params.productIdOrName;
-//     const storeid = req.query.storeid;
-
-//     try {
-//         const products = await getProductsByIdOrName(productIdOrName, storeid);
-//         if (!products || products.length === 0) {
-//             res.status(404).json({ error: 'Products not found' });
-//         } else {
-//             res.status(200).json(products);
-//         }
-//     } catch (error) {
-//         res.status(500).json({ error: 'Error fetching products' });
-//     }
-// });
-
-// Ruta para crear un nuevo producto
-router.post('/', async (req, res) => {
-    const { name, price, rating, description,image, stock, storeId } = req.body;
+//Ruta para obtener productos por su ID o por su nombre
+router.get('/:productIdOrName', async (req, res) => {
+    const productIdOrName = req.params.productIdOrName;
+    const storeid = req.query.storeid;
 
     try {
-        const newProduct = await createProduct( name, price, rating, description,image, stock, storeId);
+        const products = await getProductsByIdOrName(productIdOrName, storeid);
+        if (!products || products.length === 0) {
+            res.status(404).json({ error: 'Products not found' });
+        } else {
+            res.status(200).json(products);
+        }
+    } catch (error) {
+         res.status(500).json({ error: 'Error fetching products' });
+     }
+});
+
+router.post('/', async (req, res) => {
+    const { UserStoreId, name, price, rating, description,image, stock} = req.body;
+
+    try {
+        const newProduct = await createProduct(UserStoreId, name, price, rating, description,image, stock);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the product' });
     }
 });
-
-// Ruta para obtener productos por restaurante
-router.get('/:storeId', async (req, res) => {
-    
-    const storeId = req.params.storeId;
-    console.log('entro +', storeId);
-
-    try {
-        const products = await getProductsByStore(storeId);
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ error: 'Error fetching products by store' });
-    }
-    
-})
 
 module.exports = router;

@@ -26,7 +26,7 @@ export default function Products() {
 
     useEffect(() => {
         
-        axios.get(`http://localhost:3004/products/${storeId}`)
+        axios.get(`http://localhost:3004/products/?storeid=${storeId}`)
             .then((products) => {
                 setProducts(products.data)
             })

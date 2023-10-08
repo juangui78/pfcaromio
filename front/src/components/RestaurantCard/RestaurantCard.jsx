@@ -26,7 +26,7 @@ function RestaurantCard(props) {
                 <Details>
                     <Name>{restaurant.name}</Name>
                     <Address>{restaurant.address}</Address>
-                    <LinkCard to= {`/products/${restaurant.storeId}`}> Productos</LinkCard>
+                    <LinkCard to= {`/products/${restaurant.id}`}> Productos</LinkCard>
                     <Score>⭐{restaurant.rating}</Score>
                 </Details>
             </RestaurantItem>
