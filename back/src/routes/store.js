@@ -73,10 +73,10 @@ router.get('/', async (req, res) => {
 
 // Ruta para crear una nueva tienda
 router.post('/', async (req, res) => {
-    const { userID, name, address, rating, revenue, image, products, description } = req.body;
+    const { userIdentifier, name, address, rating, revenue, image, products, description } = req.body;
 
     try {
-        const newStore = await createStore(userID, name, address, rating, revenue, image, products, description);
+        const newStore = await createStore(userIdentifier, name, address, rating, revenue, image, products, description);
         res.status(201).json(newStore);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the store' });

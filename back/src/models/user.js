@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const userSchema = new Schema({
+    
     username: {
       type: String,
       required: true, // Field is required
@@ -29,10 +30,16 @@ const userSchema = new Schema({
       type: String,
       enum: ['Admin', 'Seller', 'Buyer'],
       default: "Buyer"
-    }
+    },
+
+    userIdentifier: {
+      type: String,
+      required: true,
+    },
+    
   });
 
   const User = mongoose.model('User', userSchema);
 
 
-  module.exports = User;
+  module.exports = {User};

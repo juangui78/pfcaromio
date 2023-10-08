@@ -90,10 +90,10 @@ const getStoresByFilter = async (minRating, priceLevel) => {
 };
 
 // Crear una nueva tienda
-const createStore = async (userID, name, address, rating, revenue, image, products, description) => {
+const createStore = async (userIdentifier, name, address, rating, revenue, image, products, description) => {
     try {
         const newStore = new Store({
-            userID: userID,
+            userIdentifier: userIdentifier,
             name: name,
             address: address,
             rating: rating,

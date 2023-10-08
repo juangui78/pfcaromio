@@ -1,8 +1,15 @@
 import './RegisterForm.css'
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { useAuth, useUser } from '@clerk/clerk-react'
+import validate from './validation';
 export default function RegisterForm() {
+
+  const {userId} = useAuth()
+  const {user} = useUser()
+  const navigate = useNavigate()
 
   const options = [
     {value: 'store', label: 'Restaurante'},
@@ -10,38 +17,78 @@ export default function RegisterForm() {
   ]
 
   const [selectOption, setSelectOption] = useState(null)
-
-  const [registerFormUser, setRegisterFormUser] = useState({
-    // Por ahora no se necesita mas info del user
-    // Quizas direccion y telefono
-  })
-
   const [registerFormRestaurant, setRegisterFormRestaurant] = useState({
+    userIdentifier: '',
     name: '',
     address: '',
     description: '',
     rating: '',
     revenue: '',
-    image: '',
+    // image: '',
+  })
 
+  const [errors, setErrors] = useState({
+    name: '',
+    address: '',
+    description: '',
+    rating: '',
+    revenue: '',
   })
 
   const handleChange = (event) => {
     setRegisterFormRestaurant({...registerFormRestaurant, [event.target.name]: event.target.value})
+    setErrors(
+        validate({...registerFormRestaurant, [event.target.name]: event.target.value})
+    )
   }
 
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    createStore(registerFormRestaurant)
+    // Se itera por todos los posibles errores
+    const hasErrors = Object.values(errors).some((error) => error !== "")
+
+    // Se valida que no haya ningun error en el form
+    if (!hasErrors) {
+        createStore(registerFormRestaurant)
+        navigate('/home')
+        
+    } else {
+        alert('Error. Por favor rellena bien los campos de tu Restaurante')
+    }
+    
   }
+
 
   const createStore = async(registerFormRestaurant) => {
     try {
-      // Aqui debo adjuntar la id del usuario de Clerk
-      const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
-      console.log(registerFormRestaurant);
-      console.log('store creada')
+      
+      
+      const userInfo = {
+        userIdentifier: userId,
+        username: user.username ? user.username : user.firstName,
+        email: user.primaryEmailAddress.emailAddress,
+        role: 'Buyer'
+      }
+
+      if (selectOption.value === 'store') {
+        registerFormRestaurant.userIdentifier = userId
+        userInfo.role = 'Seller'
+        const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
+        const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
+        alert('Tienda Creada con Exito')
+        console.log('store creada')
+        return
+      }
+
+      console.log(userInfo);
+      const create = await axios.post('http://localhost:3004/users', userInfo)
+      alert('Usuario Creado con Exito')
+      
+      
+      console.log('usuario creado')
+     
+      
     } catch (error) {
         console.log(error);
     }
@@ -60,14 +107,15 @@ export default function RegisterForm() {
               <div className='restaurant-form'>
                 <label>Nombre de tu Restaurante: </label>
                 <input type="text" name='name'onChange={handleChange}/>
-                {/* <label className='warning-Text'>{errors.name}</label> */}
+                <label className='warning-Text'>{errors.name}</label>
 
                 <label>Descripcion de tu Restaurante: </label>
                 <input type="text" name='description'onChange={handleChange}/>
+                <label className='warning-Text'>{errors.description}</label>
 
                 <label>Direccion: </label>
                 <input type="text" name='address' onChange={handleChange}/>
-                {/* <label className='warning-Text'>{errors.address}</label> */}
+                <label className='warning-Text'>{errors.address}</label>
 
                 <label>Imagen de tu Restaurante: </label>
                 <input type="text" name='image' onChange={handleChange}/>
