@@ -13,15 +13,10 @@ const getStores = async () => {
 //Otener todas las tiendas ordenadas por nombre
 const getStoresSortedByName = async (order) => {
     try {
-        if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
-            let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const stores = await Store.find()
-                .sort({ name: sortOrder });
-
-            return stores;
-        } else {
-            return await Store.find();
-        }
+        const sortOrder = order && (order.toLowerCase() === 'asc') ? 1 : -1;
+        const stores = await Store.find().sort({ name: sortOrder });
+ 
+        return stores;
     } catch (err) {
         console.log(err);
     }
@@ -30,39 +25,32 @@ const getStoresSortedByName = async (order) => {
 // Obtener todas las tiendas ordenadas por calificación
 const getStoresSortedByRating = async (order) => {
     try {
-        if (order && (order.toLowerCase() === 'asc' || order.toLowerCase() === 'desc')) {
-            let sortOrder = order.toLowerCase() === 'desc' ? -1 : 1;
-            const stores = await Store.find()
-                .sort({ rating: sortOrder });
+        const sortOrder = order && (order.toLowerCase() === 'asc') ? 1 : -1;
+        const stores = await Store.find().sort({ rating: sortOrder });
 
-            return stores;
-        } else {
-            return await Store.find();
-        }
+        return stores;
     } catch (err) {
         console.log(err);
     }
 };
+
 // Obtener una tienda por su ID o por su nombre
 const getStoreByIdOrName = async (identifier) => {
-    console.log(identifier.toLowerCase().replace(/\s/g, ''));
     try {
-        let store;
-        if (mongoose.isValidObjectId(identifier)) {
-            store = await Store.findById(identifier)
-               // .populate('reviews')
-               .populate('products');
-        } else {
-            store = await Store.findOne({ name: identifier.toLowerCase().replace(/\s/g, '') })
-               // .populate('reviews')
-               .populate('products');
-        }
+        const storeQuery = mongoose.isValidObjectId(identifier)
+            ? { _id: identifier }
+            : { name: { $regex: new RegExp(identifier, 'i') } };
+            
+        const store = await Store.findOne(storeQuery)
+            // .populate('reviews')
+            .populate('products');
+        
         return store;
-       
     } catch (err) {
         console.log(err);
     }
 };
+
 
 //Obtener tiendas filtradas por calificación
 const getStoresByFilter = async (minRating) => {
@@ -86,7 +74,7 @@ const createStore = async (name, address, rating, revenue, image, description, p
     try {
         const newStore = new Store({
             // userID: userID,
-            name: name.toLowerCase().replace(/\s/g, ''),
+            name: name,
             address: address,
             rating: rating,
             revenue: revenue,
