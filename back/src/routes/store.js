@@ -43,6 +43,17 @@ router.get('/by-rating', async (req, res) => {
     }
 });
 
+// Ruta para obtener tiendas filtradas por calificación
+router.get('/filtered', async (req, res) => {
+    try {
+        const minRating = req.query.minRating;
+        const filteredStores = await getStoresByFilter(minRating);
+        res.json(filteredStores);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching filtered stores' });
+    }
+});
+
 // Ruta para obtener una tienda por su ID o por su nombre
 router.get('/:storeIdOrName', async (req, res) => {
     const storeIdOrName = req.params.storeIdOrName;
@@ -59,24 +70,13 @@ router.get('/:storeIdOrName', async (req, res) => {
     }
 });
 
-// Ruta para obtener tiendas filtradas por calificación y precio
-router.get('/', async (req, res) => {
-    try {
-        const minRating = req.query.minRating;
-        const priceLevel = req.query.priceLevel;
-        const filteredStores = await getStoresByFilter(minRating, priceLevel);
-        res.json(filteredStores);
-    } catch (error) {
-        res.status(500).json({ error: 'Error fetching filtered stores' });
-    }
-});
-
 // Ruta para crear una nueva tienda
 router.post('/', async (req, res) => {
     const { userIdentifier, name, address, rating, revenue, image, products, description } = req.body;
 
     try {
         const newStore = await createStore(userIdentifier, name, address, rating, revenue, image, products, description);
+
         res.status(201).json(newStore);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the store' });
