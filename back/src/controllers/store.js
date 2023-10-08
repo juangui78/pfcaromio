@@ -55,12 +55,7 @@ const getStoreByIdOrName = async (identifier) => {
 //Obtener tiendas filtradas por calificación
 const getStoresByFilter = async (minRating) => {
     try {
-        let filter = {};
-
-        if (minRating) {
-            filter.rating = { $gte: parseFloat(minRating) };
-        }
-
+        const filter = minRating ? { rating: { $gte: parseFloat(minRating) } } : {};
         const stores = await Store.find(filter);
 
         return stores;
@@ -68,6 +63,7 @@ const getStoresByFilter = async (minRating) => {
         console.log(err);
     }
 };
+
 
 // Crear una nueva tienda
 const createStore = async (name, address, rating, revenue, image, description, products) => {
