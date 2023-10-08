@@ -6,7 +6,6 @@ import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation} from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
-import { SignedOut } from '@clerk/clerk-react';
 
 const Navbar = () => {
   const { isSignedIn } = useAuth()
@@ -59,9 +58,6 @@ const Navbar = () => {
     navigate('/login')
   }
 
-  const handleSignOutButton = () => {
-    SignedOut()
-  }
 
   return (
     <nav className="navbar">

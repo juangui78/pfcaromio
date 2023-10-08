@@ -74,31 +74,46 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
 };
 
 // Crear un nuevo producto
-const createProduct = async (storeId, name, price, rating, description,image, stock) => {
-    console.log(storeId, name, price, rating, description, image)
+
+const createProduct = async (name, price, rating, description,image, stock, storeId) => {
     try {
+        console.log('error aqui');
         const newProduct = new Products({
-            store: storeId,
             name: name,
             price: price,
             rating: rating,
             description: description,
             image: image,
             stock: stock,
+            store: storeId,
         });
         console.log(newProduct);
         await newProduct.save();
 
-        const store = await Store.findById(storeId);
-        store.products.push(newProduct);
-        await store.save();
+        
         
         return newProduct;
 
     } catch (err) {
-        console.log(err);
+        console.log('error aqui', err);
     }
 };
+
+
+    
+const getProductsByStore = async (storeId) => {
+    try {
+    
+      const productos = await Products.find({ store: storeId }).exec();
+      console.log('Productos relacionados con la tienda:', productos);
+      return productos;
+    } catch (err) {
+      console.error('Error al buscar productos:', err);
+      throw 'error aqui', err; // 
+    }
+  };
+    
+
 
 module.exports = { 
     getAllProducts,
@@ -106,5 +121,6 @@ module.exports = {
     getProductsSortedByRating,
     getProductsByIdOrName,
     getProductsByFilter,
-    createProduct
+    createProduct,
+    getProductsByStore
 };

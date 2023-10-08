@@ -13,11 +13,9 @@ import {
 
 } from "./RestaurantCardStyles";
 
-
 function RestaurantCard(props) {
     const restaurant = props;
     const dispatch = useDispatch();
-
     return (
 
         <CardContainer >
@@ -28,7 +26,7 @@ function RestaurantCard(props) {
                 <Details>
                     <Name>{restaurant.name}</Name>
                     <Address>{restaurant.address}</Address>
-                    <LinkCard to= {`/products` } onClick={() => dispatch(setRestaurant(restaurant))}> Productos</LinkCard>
+                    <LinkCard to= {`/products/${restaurant.storeId}`}> Productos</LinkCard>
                     <Score>⭐{restaurant.rating}</Score>
                 </Details>
             </RestaurantItem>

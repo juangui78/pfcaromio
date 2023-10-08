@@ -21,9 +21,7 @@ import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 //import {SuccessPaymet, CancelPayment} from './components/Payment/SuccessPayment';
 
 const App = () => {
-  const validarSesión = () => {
-
-  }
+ 
 
   const { pathname } = useLocation();
   
@@ -40,7 +38,7 @@ const App = () => {
         <Route path='/' element={<LandingPage />}></Route>
         <Route path='/home' element={<Restaurants />}></Route>
         <Route path="/products" element={<Products />} /> 
-        <Route path="/products/:id" element={<Products />} />
+        <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
