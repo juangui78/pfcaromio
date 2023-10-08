@@ -14,18 +14,25 @@ import {
 
 import styled from 'styled-components';
 
+const Message = ({ message }) => (
+    <section>
+        <p>{message}</p>
+    </section>
+);
+
 const ShoppingCard = () => {
 
     const dispatch = useDispatch();
-
+    const [message, setMessage] = useState("");
     const showCart = useSelector((state) => state.modalCart);
     const cartDetails = useSelector((state) => state.cartDetails);
     const itemsCount = useSelector(state => state.cartDetails.itemsCount);
     const restaurantSelected = useSelector(state => state.restaurantSelected);
     const paymentUrl = useSelector(state => state.paymentUrl);
 
-    const handleClick = (e) => {
+    const handleClickOverlay = (e) => {
         if (e.target.id === "overlay") dispatch(closeCart())
+        setMessage("");
     };
 
     const handlePayment = (e) => {
@@ -33,58 +40,60 @@ const ShoppingCard = () => {
     };
 
     useEffect(() => {
+       
+   
+
         if (paymentUrl) {
             window.location.replace(paymentUrl);
-            //dispatch(clearCart())
         }
     }, [paymentUrl])
+
 
     return (
         <>
 
-            <Overlay id="overlay" onClick={handleClick} style={{ display: showCart ? "" : "none" }} />
-
+            <Overlay id="overlay" onClick={handleClickOverlay} style={{ display: showCart ? "" : "none" }} />
             <Container right={showCart ? "0%" : "-35%"}>
+              
+                        <Header>
+                            <Title>Tu carrito</Title>
+                            <CloseButton onClick={() => dispatch(closeCart())}>
+                                <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
+                                    <FaTimesCircle />
+                                </IconContext.Provider>
+                            </CloseButton>
+                        </Header>
 
-                <Header>
-                    <Title>Tu carrito</Title>
-                    <CloseButton onClick={() => dispatch(closeCart())}>
-                        <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
-                            <FaTimesCircle />
-                        </IconContext.Provider>
-                    </CloseButton>
-                </Header>
+                        <StoreDetails>
+                            <StoreName> {restaurantSelected.name}</StoreName>
+                            <StoreAddress> {restaurantSelected.address}</StoreAddress>
+                        </StoreDetails>
 
 
-                <StoreDetails>
-                    <StoreName> {restaurantSelected.name}</StoreName>
-                    <StoreAddress> {restaurantSelected.address}</StoreAddress>
-                </StoreDetails>
+                        <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
+                            <span>Aún no tienes productos en tu carrito</span>
+                            <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
+                        </Empty>
 
+                        <Body>
+                            {
+                                cartDetails.items.map((item, index) => (
+                                    <ItemCart key={'item' + item._id} item={item} />
+                                ))
+                            }
+                        </Body>
 
-                <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
-                    <span>Aún no tienes productos en tu carrito</span>
-                    <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
-                </Empty>
+                        <Totales style={{ display: itemsCount ? '' : 'none' }}>
+                            <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
+                            <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li>
+                            <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
+                        </Totales>
 
-                <Body>
-                    {
-                        cartDetails.items.map((item, index) => (
-                            <ItemCart key={'item' + item._id} item={item} />
-                        ))
-                    }
-                </Body>
-
-                <Totales style={{ display: itemsCount ? '' : 'none' }}>
-                    <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
-                    <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li>
-                    <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
-                </Totales>
-
-                <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
-                    <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
-                    <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
-                </Footer>
+                        <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
+                            <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
+                            <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
+                        </Footer>
+          
             </Container>
 
         </>

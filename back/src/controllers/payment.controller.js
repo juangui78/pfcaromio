@@ -26,8 +26,8 @@ const createCheckout = async (cartDetails) => {
 
         const session = await stripe.checkout.sessions.create({
             mode: 'payment',
-            success_url: 'http://localhost:5173?success=true`',
-            cancel_url: 'http://localhost:5173?cancel=true',
+            success_url: 'http://localhost:5173/home?success=true',
+            cancel_url: 'http://localhost:5173?/home?cancel=true',
             line_items: itemsCart
         })
        
