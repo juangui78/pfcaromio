@@ -11,6 +11,7 @@ import {
     DELETE_CART_ITEM,
     CLEAR_CART,
     SET_RESTAURANT,
+    CREATE_CHECKOUT,
     ERROR
 } from "./actionsTypes";
 
@@ -19,7 +20,7 @@ import axios from 'axios';
 export const getProducts = () => {
     return async function (dispatch) {
         try {
-            const {data} = await axios.get("http://localhost:3004/products/");
+            const { data } = await axios.get("http://localhost:3004/products/");
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },
             )
@@ -68,7 +69,7 @@ export const setRestaurant = (restaurant) => {
 export const getRestaurants = () => {
     return async function (dispatch) {
         try {
-            const {data} = await axios.get("http://localhost:3004/stores/");
+            const { data } = await axios.get("http://localhost:3004/stores/");
 
             return dispatch(
                 { type: GET_RESTAURANTS, payload: data },
@@ -84,9 +85,9 @@ export const getRestaurants = () => {
 
 export const getStore = (id) => {
 
-     return async function (dispatch) {
+    return async function (dispatch) {
         try {
-           const {data} = await axios.get(`http://localhost:3004/stores/${id}`);
+            const { data } = await axios.get(`http://localhost:3004/stores/${id}`);
             return dispatch(
                 { type: GET_RESTAURANT, payload: data },
             )
@@ -160,12 +161,12 @@ export const closeCart = () => {
 }
 
 export const addItemCart = (item) => {
-    
+
     return async function (dispatch) {
-       
+
         try {
             return dispatch(
-                { type: ADD_CART_ITEM, payload:item },
+                { type: ADD_CART_ITEM, payload: item },
             )
         }
         catch (error) {
@@ -180,7 +181,7 @@ export const removeItemCart = (item) => {
     return async function (dispatch) {
         try {
             return dispatch(
-                { type: REMOVE_CART_ITEM, payload:item },
+                { type: REMOVE_CART_ITEM, payload: item },
             )
         }
         catch (error) {
@@ -195,7 +196,7 @@ export const deleteItemCart = (item) => {
     return async function (dispatch) {
         try {
             return dispatch(
-                { type: DELETE_CART_ITEM, payload:item },
+                { type: DELETE_CART_ITEM, payload: item },
             )
         }
         catch (error) {
@@ -210,7 +211,25 @@ export const clearCart = () => {
     return async function (dispatch) {
         try {
             return dispatch(
-                { type: CLEAR_CART},
+                { type: CLEAR_CART },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const createCheckout = (cartDetails) => {
+    return async function (dispatch) {
+        try {
+            const {data } = await axios.post('http://localhost:3004/payment/create-checkout', cartDetails);
+            console.log(data.url);
+          
+            return dispatch(
+                { type: CREATE_CHECKOUT, payload: data.url},
             )
         }
         catch (error) {

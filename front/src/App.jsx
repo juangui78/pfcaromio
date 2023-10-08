@@ -18,6 +18,8 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 
+//import {SuccessPaymet, CancelPayment} from './components/Payment/SuccessPayment';
+
 const App = () => {
   const validarSesión = () => {
 
@@ -43,7 +45,7 @@ const App = () => {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
-
+        
       </Routes>
       
       <ProductDetails show={showProductDetails} />

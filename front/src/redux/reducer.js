@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
@@ -11,6 +13,7 @@ import {
     DELETE_CART_ITEM,
     SET_RESTAURANT,
     CLEAR_CART,
+    CREATE_CHECKOUT,
 
 } from './actionsTypes';
 
@@ -21,6 +24,8 @@ const initialState = {
     modalCart: false,
     restaurants: [], // * stores
     restaurantSelected: {},
+    paymentUrl: null,
+    shippingFee: 2,
 
     cartDetails: {
         store: {},
@@ -93,6 +98,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 quantity = foundItem.quantity + 1;
                 foundItem.quantity = quantity;
                 cartDetails.subtotal = cartDetails.subtotal + foundItem.price;
+                cartDetails.total = cartDetails.subtotal + state.shippingFee;
             }
             else {
                 cartDetails.items = [...cartDetails.items, {
@@ -103,6 +109,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     quantity: 1,
                 }]
                 cartDetails.subtotal = cartDetails.subtotal + payload.price;
+                cartDetails.total = cartDetails.subtotal + state.shippingFee;
             }
 
             return {
@@ -111,7 +118,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     ...state.cartDetails,
                     itemsCount: itemsCount,
                     items: cartDetails.items,
-                    subtotal: cartDetails.subtotal
+                    subtotal: cartDetails.subtotal,
+                    total: cartDetails.total,
                 }
             }
 
@@ -125,6 +133,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 quantity = foundItem.quantity - 1;
                 foundItem.quantity = quantity;
                 cartDetails.subtotal = cartDetails.subtotal - foundItem.price;
+                cartDetails.total = cartDetails.subtotal + state.shippingFee;
             }
 
             return {
@@ -133,7 +142,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     ...state.cartDetails,
                     itemsCount: itemsCount,
                     items: cartDetails.items,
-                    subtotal: cartDetails.subtotal
+                    subtotal: cartDetails.subtotal,
+                    total: cartDetails.total
                 }
             }
 
@@ -147,6 +157,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 /* quantity = foundItem.quantity - 1;
                 foundItem.quantity = quantity; */
                 cartDetails.subtotal = cartDetails.subtotal - foundItem.price;
+                cartDetails.total = cartDetails.subtotal + state.shippingFee;
                 cartDetails.items.splice(index, 1);
 
             }
@@ -157,7 +168,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     ...state.cartDetails,
                     itemsCount: itemsCount,
                     items: cartDetails.items,
-                    subtotal: cartDetails.subtotal
+                    subtotal: cartDetails.subtotal,
+                    total: cartDetails.total
                 }
             }
 
@@ -180,6 +192,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 restaurantSelected: payload
+            }
+
+        case CREATE_CHECKOUT:            
+            return {
+                ...state,
+                paymentUrl: payload
+
             }
 
         default:
