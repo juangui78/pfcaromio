@@ -3,6 +3,7 @@ import {
     GET_RESTAURANTS,
     GET_RESTAURANT,
     ORDER_BY_NAME,
+    ORDER_BY_RATING,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -107,6 +108,13 @@ export function orderByName(payload) {
         payload
     }
 }
+
+export function sortedByRating(order) {
+    return {
+      type: ORDER_BY_RATING,
+      payload: order,
+    };
+  }
 
 export const openProductDetails = (id) => {
     return async function (dispatch) {

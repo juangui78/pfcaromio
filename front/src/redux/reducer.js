@@ -5,6 +5,7 @@ import {
     GET_RESTAURANTS,
     GET_RESTAURANT,
     ORDER_BY_NAME,
+    ORDER_BY_RATING,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -63,22 +64,35 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 restaurantSelected: payload,
             }
         
-            case ORDER_BY_NAME:
-                let sortedRestaurants = [...state.restaurants];
+        case ORDER_BY_NAME:
+            let sortedRestaurants = [...state.restaurants];
+
+            if (payload === 'asc') {
+                sortedRestaurants.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            else if (payload === 'desc') {
+                sortedRestaurants.sort((a, b) => b.name.localeCompare(a.name));
+            }
     
-                // Ordenar por nombre de forma ascendente
-                if (payload === 'asc') {
-                    sortedRestaurants.sort((a, b) => a.name.localeCompare(b.name));
-                }
-                // Ordenar por nombre de forma descendente
-                else if (payload === 'desc') {
-                    sortedRestaurants.sort((a, b) => b.name.localeCompare(a.name));
-                }
-    
-                return {
-                    ...state,
-                    restaurants: sortedRestaurants,
-                }
+            return {
+                ...state,
+                restaurants: sortedRestaurants,
+            }
+        case ORDER_BY_RATING:
+            let sortedRestaurantsRating;
+
+            if (payload === 'low') {
+                sortedRestaurantsRating = [...state.restaurants].sort((a, b) => a.rating - b.rating);
+            } else if (payload === 'high') {
+                sortedRestaurantsRating = [...state.restaurants].sort((a, b) => b.rating - a.rating);
+            } else {
+                sortedRestaurantsRating = [...state.restaurants].sort((a, b) => b.rating - a.rating);
+            }
+
+            return {
+                ...state,
+                restaurants: sortedRestaurantsRating,
+            };
         case OPEN_PRODUCT_DETAILS:
             const product = state.products.find(product => payload === product._id);
             return {

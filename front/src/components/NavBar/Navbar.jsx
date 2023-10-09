@@ -7,7 +7,7 @@ import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation} from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
-import { orderByName } from '../../redux/actions';
+import { orderByName, sortedByRating} from '../../redux/actions';
 
 const Navbar = () => {
   const dispatch = useDispatch()
@@ -22,6 +22,10 @@ const Navbar = () => {
 
   const handleSortByNameClick = (order) => {
     dispatch(orderByName(order)); // Donde order es 'asc' o 'desc'
+  };
+
+  const handleSortByRatingClick = (order) => {
+    dispatch(sortedByRating(order)); // Donde order es 'low' o 'high'
   };  
   
   const handlePriceInputChange = (event) => {
@@ -82,8 +86,8 @@ const Navbar = () => {
                 <div className="filter-button">
                   <button>Ordenar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
-                    <a href="#">Peor Rating</a>
-                    <a href='#' >Mejor Rating</a>                  
+                    <a href="#" onClick={() => handleSortByRatingClick('low')}>Peor Rating</a>
+                    <a href='#' onClick={() => handleSortByRatingClick('high')}>Mejor Rating</a>                  
                     </div>
                 </div>
                 <div className="filter-button">
