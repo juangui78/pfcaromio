@@ -2,6 +2,7 @@ import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    ORDER_BY_NAME,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -97,6 +98,13 @@ export const getStore = (id) => {
                 { type: ERROR, payload: error.message }
             )
         }
+    }
+}
+
+export function orderByName(payload) { 
+    return {
+        type: ORDER_BY_NAME,
+        payload
     }
 }
 

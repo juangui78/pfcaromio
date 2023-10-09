@@ -107,5 +107,5 @@ module.exports = {
     getProductsByIdOrName,
     getProductsByFilter,
     createProduct,
-    getProductsByStore
+    //getProductsByStore
 };

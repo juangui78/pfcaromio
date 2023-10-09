@@ -1,13 +1,16 @@
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import './Navbar.css';
-
 import { useAuth, UserButton } from '@clerk/clerk-react'; 
 import { Link, useLocation} from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
+import { orderByName } from '../../redux/actions';
 
 const Navbar = () => {
+  const dispatch = useDispatch()
   const { isSignedIn } = useAuth()
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
@@ -17,9 +20,9 @@ const Navbar = () => {
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
 
-  const handleRatingInputChange = (event) => {
-    setRatingFilter(event.target.value);
-  };
+  const handleSortByNameClick = (order) => {
+    dispatch(orderByName(order)); // Donde order es 'asc' o 'desc'
+  };  
   
   const handlePriceInputChange = (event) => {
     setPriceFilter(event.target.value);
@@ -27,7 +30,8 @@ const Navbar = () => {
 
   const applyRatingFilter = () => {
     console.log('Aplicar filtro con valor:', ratingFilter);
-    setRatingFilter('');
+    handleSortByRatingClick(ratingFilter);
+    setRatingFilter(''); // Limpiar el filtro después de aplicarlo
   };
 
   const applyPriceFilter = () => {
@@ -79,14 +83,14 @@ const Navbar = () => {
                   <button>Ordenar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
                     <a href="#">Peor Rating</a>
-                    <a href="#">Mejor Rating</a>
-                  </div>
+                    <a href='#' >Mejor Rating</a>                  
+                    </div>
                 </div>
                 <div className="filter-button">
                   <button>Ordenar por Nombre</button>
                   <div className="dropdown-content-inner show-scroll">
-                    <a href="#">Z-A</a>
-                    <a href="#">A-Z</a>
+                  <a href='#' onClick={() => handleSortByNameClick('desc')}>Z-A</a>
+                    <a href='#' onClick={() => handleSortByNameClick('asc')}>A-Z</a>
                   </div>
                 </div>
                 <div className="filter-button">
@@ -103,7 +107,6 @@ const Navbar = () => {
                           className="inputRating"
                           id="ratingFilterInput"
                           value={ratingFilter}
-                          onChange={handleRatingInputChange}
                           onKeyPress={handleKeyPress}
                         />
                         <div className="slider-value">{ratingFilter}</div>

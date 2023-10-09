@@ -4,6 +4,7 @@ import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    ORDER_BY_NAME,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -61,7 +62,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurantSelected: payload,
             }
-
+        
+            case ORDER_BY_NAME:
+                let sortedRestaurants = [...state.restaurants];
+    
+                // Ordenar por nombre de forma ascendente
+                if (payload === 'asc') {
+                    sortedRestaurants.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                // Ordenar por nombre de forma descendente
+                else if (payload === 'desc') {
+                    sortedRestaurants.sort((a, b) => b.name.localeCompare(a.name));
+                }
+    
+                return {
+                    ...state,
+                    restaurants: sortedRestaurants,
+                }
         case OPEN_PRODUCT_DETAILS:
             const product = state.products.find(product => payload === product._id);
             return {

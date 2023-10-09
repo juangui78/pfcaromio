@@ -27,8 +27,8 @@ router.get('/by-name', async (req, res) => {
         const stores = await getStoresSortedByName(order);
         res.status(200).json(stores);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching and sorting stores by name' });
-    }
+        res.status(500).json({ error: 'Error fetching and sorting stores by name', details: error.message });
+      }
 });
 
 // Ruta para obtener todas las tiendas ordenadas por calificacion según el parámetro de consulta "order"
