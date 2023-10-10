@@ -13,11 +13,14 @@
   border: 3px solid black;
   box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.1);
   border-radius: 0px;
+  z-index: 1;
 }
 
 .navbar-container {
   display: flex;
   align-items: center;
+  margin-right: 4rem;
+  width: 100%;
 }
 
 .logo img {
@@ -41,12 +44,9 @@
   flex-direction: column; /* Acomoda los elementos en columna (de arriba hacia abajo) */
   align-items: flex-start; /* Alinea los elementos a la izquierda */
 }
-
-
 .filters .dropdown {
   position: relative;
   margin-right: 10px;
-  
 }
 .filters .filter-button {
   font-family: 'Secular One', sans-serif;
@@ -57,21 +57,9 @@
   cursor: pointer;
   font-weight: bold;
   display: inline-block; /* Cambiado a inline-block */
-  margin-right: 10px; /* Espacio entre los botones */
+  margin-right: 30px; /* Espacio entre los botones */
   position: relative; /* Agregado */
   text-align: left; /* Alinea el texto a la izquierda */
-}
-
-/* Estilo específico para el botón "Agregar filtros" */
-.filters .filter-button.filter-buttonns::after {
-  content: "▼"; /* Flecha hacia abajo por defecto */
-  margin-left: 5px; /* Ajuste de margen izquierdo entre el texto y la flecha */
-  transition: transform 0.3s ease; /* Transición suave para la rotación */
-}
-
-/* Estilo para la flecha hacia arriba cuando el dropdown está abierto */
-.filters .filter-button.filter-buttonns.open::after {
-  content: "▲"; /* Flecha hacia arriba cuando está abierto */
 }
 
 .filters .dropdown:hover .filter-button::after {
@@ -84,7 +72,7 @@
   background-color: #f9f9f9;
   box-shadow: 0px 12px 14px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  
+  margin-top: 2px;
 }
 
 .filters .dropdown:hover .dropdown-content {
@@ -125,6 +113,8 @@
 }
 
 .search-bar {
+  margin-left: -30px;
+  margin-right: 217px;
   display: flex;
   align-items: center;
   width: 500px; 
@@ -138,6 +128,7 @@
   background-color: #ededed;
   border: 1px solid #ccc;
   border-radius: 1px;
+  margin-left: 20px;
 }
 
 .search-bar button {
@@ -160,9 +151,9 @@
   content: '';
   border-right: 3px solid black; 
   height: 100%;
-  position: absolute; 
-  top: 0; 
-  margin-left: 530px; 
+  position: relative; 
+  top: 0;
+  margin-left: -100px; 
 }
 
 
@@ -236,14 +227,14 @@
   background-color:#ededed;
   color: #000000;
 }
-.buttonCreate::after {
+/* .buttonCreate::after {
   content: '';
   border-right: 3px solid black;
   height: 100%; 
   position: absolute;
   top: 0;
   margin-left: 270px;
-}
+} */
 
 .back-to-home-button {
   font-family: 'Secular One', sans-serif;
@@ -255,6 +246,7 @@
   color: rgb(0, 0, 0);
   background-color: #FFC000;
   border: 2px solid black; 
+  margin-left: 10px;
   padding: 6px 12px;
   border-radius: 5px;
 }
@@ -266,4 +258,40 @@
   position: absolute;
   top: 0;
   margin-left: 697px;
+}
+.inputContainer {
+  display: flex;
+  align-items: center;
+}
+
+.inputRating {
+  width: 30px;
+  font-size: 13px;
+  background-color: white;
+  color: #000000;
+  border: 1px solid #000000;
+  padding: 7px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+.filter-button .slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente */
+  margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+}
+
+.filter-button .slider-container input {
+  background-color: #ffffff;
+  width: 100%; /* Ajusta el ancho del slider */
+}
+
+.filter-button .slider-container .slider-label {
+  text-align: center; /* Centra el texto */
+  margin-bottom: 5px; /* Ajusta el espacio entre el texto y el slider */
+}
+
+.filter-button .slider-container .slider-value {
+  text-align: center; /* Centra el valor */
+  margin-top: -7px; /* Ajusta el espacio entre el slider y el valor */
 }

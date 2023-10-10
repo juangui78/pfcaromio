@@ -1,46 +1,55 @@
 //import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { closeProductDetails } from '../../redux/actions';
+import { closeProductDetails, addItemCart, getStore } from '../../redux/actions';
 
 import {
 
 } from './ProductDetailsStyles'
 
-export default function ProductDetails({ show, toggleState }) {
+export default function ProductDetails({ show }) {
 
     const dispatch = useDispatch();
+    
+    const product = useSelector((state) => state.product);
+    const restaurantSelected = useSelector((state) => state.restaurantSelected);
+    
+    const handleAddItem = (event) => {
+        dispatch(addItemCart(product))
+        dispatch(closeProductDetails())
+    } 
+ 
+    const handleClick = (event) => {
+        if(event.target.id ==="overlay") dispatch(closeProductDetails())
+    };
 
     useEffect(() => {
+       
+        if(Object.keys(restaurantSelected).length === 0 && Object.keys(product).length > 0){
+            dispatch(getStore(product.storeId))
+        }  
+
         const handleEsc = (event) => {
             if (event.key === 'Escape') {
                 dispatch(closeProductDetails())
           }
         };
-        window.addEventListener('keydown', handleEsc);
 
+        window.addEventListener('keydown', handleEsc);
+    
         return () => {
             window.removeEventListener('keydown', handleEsc);
         };
-    }, []);
+    
+    }, [product]);
 
-    /* const [product, setProduct] = useState({
-        "id": 1034567896,
-        "name": "Pizza Chicago",
-        "price": "$39.900",
-        "rating": "45",
-        "description": "Conocida en muchos lugares como pizza de sartén o deep dish, la verdadera Chicago se asemeja mucho a un pay, ya que su preparación en una cacerola metálica le brinda su peculiar forma.",
-        "image": "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=300",
-    }); */
-    const product = useSelector((state) => state.product);
     return (
         <>
             {show &&
-                <Overlay>
-                    <ModalContainer>
+                <Overlay onClick={handleClick} id="overlay">
+                    <ModalContainer id="modalContainer">
                         <Header> ⭐{product.rating} </Header>
                         <CloseBtn onClick={() => dispatch(closeProductDetails())}> X </CloseBtn>
                         <Details>
@@ -52,7 +61,7 @@ export default function ProductDetails({ show, toggleState }) {
                                 <Summary>{product.description}</Summary>
                                 <Price>{product.price}</Price>
                                 <Footer>
-                                    <button onClick={() => dispatch(closeProductDetails())}>Agregar al carrito</button>
+                                    <button onClick={handleAddItem}>Agregar al carrito</button>
                                 </Footer>
                             </Description>
                         </Details>
@@ -110,7 +119,7 @@ const CloseBtn = styled.button`
     width: 20px;
     height: 30px;
     padding-left: 8px;
-    padding-top: 6px;
+    padding-top: 3px;
     border: 1px solid;
     cursor: pointer;
     transition: .3s ease all;

@@ -1,12 +1,38 @@
 import styled from 'styled-components';
 
+
+export const Dialog = styled.dialog`
+    background: white;
+    border:1 solid red;
+    color: #CCC;
+    border-radius: 8px;
+    box-shadow: #CCC;
+    width: 340px;
+`;
+
+export const DialogIcon = styled.span`
+    font-size: xxx-large;
+    color:  ${(props) => props.modalType === 'success' ? 'green': 'red'};
+`;
+
+export const DialogMessage = styled.section`
+    color: #777;
+    font-size: large;
+    text-align: center;
+`;
+
+export const AceptButtonDialog = styled.button`
+    color: white;
+    background-color:  ${(props) => props.modalType === 'success' ? 'green': 'red'};
+    width: 260px;
+`;
+
 export const Container = styled.div`
     padding: 2rem;
     gap: 4rem;
     flex-wrap: nowrap;
     flex-direction: column;
-    
-    width: 100%;
+
     @media (max-width: 800px) {
         padding: 4rem 0rem 0rem 0rem;
     } 

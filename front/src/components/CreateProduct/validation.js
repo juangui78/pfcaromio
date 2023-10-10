@@ -17,17 +17,17 @@ export default function validate(productData) {
 
     if (!productData.description) {
         errors.description = 'Por favor describe tu Pizza'
-    } else if (productData.description.length > 300) {
-        errors.description = 'Se permite un maximo de 300 Caracteres'
+    } else if (productData.description.length < 10 || productData.description.length > 300  ) {
+        errors.description = 'Se permite un min de 10 Caracteres y un max de 300 Caracteres'
     }
 
     if (!productData.stock || productData.stock < 0) {
         errors.stock = 'Por favor ingresa un Stock valido'
     }
 
-    // if (typeof productData.rating !== 'number' || productData.rating < 0 || productData.rating > 10) {
-    //     errors.rating = 'El rango de rating es de 1 - 10'
-    // } 
+    if (productData.rating < 0 || productData.rating > 10) {
+        errors.rating = 'El rango de rating es de 1 - 10'
+    } 
 
     return errors;
 
