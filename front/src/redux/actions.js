@@ -2,8 +2,12 @@ import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    FILTER_PRODUCTS_BY_NAME,
+    FILTER_RESTAURANTS_BY_NAME,
+    ORDER_BY_RATING_PRODUCTS,
     ORDER_BY_NAME,
     ORDER_BY_RATING,
+    ORDER_BY_PRICE,
     FILTER_BY_RATING,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
@@ -35,6 +39,35 @@ export const getProducts = () => {
         }
     }
 }
+
+export const orderByRatingProducts = (order) => {
+    return {
+      type: ORDER_BY_RATING_PRODUCTS,
+      payload: order, // 'low' para ordenar de menor a mayor, 'high' para ordenar de mayor a menor
+    };
+  };
+
+export const orderByPrice = (order) => {
+    return {
+        type: ORDER_BY_PRICE,
+        payload: order // 'low' para ordenar de menor a mayor, 'high' para ordenar de mayor a menor
+    };
+};
+export const filterProductsByName = (query) => {
+    console.log('Filtering products by name:', query); // Log para verificar la llamada
+    return {
+      type: FILTER_PRODUCTS_BY_NAME,
+      payload: query
+    };
+  };
+  
+  export const filterRestaurantsByName = (query) => {
+    console.log('Filtering restaurants by name:', query); // Log para verificar la llamada
+    return {
+      type: FILTER_RESTAURANTS_BY_NAME,
+      payload: query
+    };
+  };
 
 export const getProductsByStore = (id) => {
     return async function (dispatch) {
