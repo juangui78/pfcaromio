@@ -21,6 +21,8 @@ const Navbar = () => {
   
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
 
+
+  
   const applyRatingFilterButton = () => {
     dispatch(filterByRating(sliderValue));
   };  
