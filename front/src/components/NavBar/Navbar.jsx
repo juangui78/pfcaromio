@@ -11,7 +11,7 @@ import { orderByName, sortedByRating, filterByRating} from '../../redux/actions'
 
 const Navbar = () => {
   const dispatch = useDispatch()
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, userId } = useAuth()
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,8 +21,21 @@ const Navbar = () => {
   
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
 
-
   
+  const [userData, setUserData] = useState((null))
+
+  useEffect(() => {
+    axios.get(`http://localhost:3004/users/${userId}`)
+      .then((data) => {
+        data && setUserData(data.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [userId])
+
+  const typeUser = userData?.[0]?.role
+
   const applyRatingFilterButton = () => {
     dispatch(filterByRating(sliderValue));
   };  
@@ -77,6 +90,8 @@ const Navbar = () => {
   const handleLoginButton = () => {
     navigate('/login')
   }
+
+  
 
 
   return (
@@ -152,7 +167,7 @@ const Navbar = () => {
           ) : <UserButton />}
         </div>
         <div className="buttonCreate">
-          {isSignedIn ? <Link to="/createProduct" className="link">
+          {isSignedIn && typeUser === 'Seller' ? <Link to="/createProduct" className="link">
             Agregar Producto
           </Link> : null  }
           

@@ -5,6 +5,7 @@ import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
+import Swal from 'sweetalert2'
 export default function CreateProduct () {
 
     const navigate = useNavigate()
@@ -32,7 +33,8 @@ export default function CreateProduct () {
         if (!hasErrors) {
             createProduct(productData)
         } else {
-            alert('Error. Por favor rellena bien los campos de tu Pizza')
+            Swal.fire({title: 'Error. Por favor rellena bien los campos de tu Pizza',
+        icon: 'error',})
         }
         
     }
@@ -63,12 +65,13 @@ export default function CreateProduct () {
             try {
                 productData.UserStoreId = userId
                 const create = await axios.post('http://localhost:3004/products', productData)
-                alert('Producto Creado con Exito')
+                Swal.fire({title: 'Producto Creado con Exito', 
+            icon: 'success'})
                 navigate('/home')
                 console.log('Producto creado')
                 console.log(productData);
             } catch (error) {
-                alert('Error. Por favor intenta de nuevo')
+                Swal.fire({title: 'Error. Por favor intenta de nuevo', icon: 'error'})
             }
             
         
