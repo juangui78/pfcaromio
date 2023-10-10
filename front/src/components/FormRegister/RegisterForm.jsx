@@ -119,6 +119,9 @@ export default function RegisterForm() {
 
                 <label>Imagen de tu Restaurante: </label>
                 <input type="text" name='image' onChange={handleChange}/>
+
+                <label>Rating: </label>
+                <input type="text" name='rating' onChange={handleChange}/>
               </div>
             ) : null}
             
