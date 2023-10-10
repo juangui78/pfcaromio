@@ -46,14 +46,20 @@ const Products = () => {
   };
 
   const applyFilters = () => {
-    let filteredProducts = productsFromState;
-    if (ratingFilter) {
-      filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
-    }
-    if (priceFilter) {
-      filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
-    }
-    setProducts(filteredProducts);
+    
+   let filteredProducts = axios
+      .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      }); ;
+      // filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
+    // }
+    // if (priceFilter) {
+    //   filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
+    // };
   };
 
   const handlePriceSort = () => {
