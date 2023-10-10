@@ -51,6 +51,7 @@ export default function Products() {
                                 price={product.price}
                                 rating={product.rating }
                                 image={product.image}
+                                storeId={storeId}
                                 key={product._id}
                                 id={product._id}>
                             </ProductCard>

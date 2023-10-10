@@ -29,7 +29,7 @@ const initialState = {
     restaurants: [], // * stores
     restaurantSelected: {},
     paymentUrl: null,
-    shippingFee: 2,
+    shippingFee: 0,
 
     cartDetails: {
         store: {},
@@ -45,6 +45,7 @@ let itemsCount = 0;
 let foundItem = '';
 let quantity = 0;
 let index = null;
+let store = {}
 
 const rootReducer = (state = initialState, { type, payload }) => {
     switch (type) {
@@ -59,13 +60,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurants: payload,
             }
-            
+
         case GET_RESTAURANT:
             return {
                 ...state,
                 restaurantSelected: payload,
             }
-        
+
         case ORDER_BY_NAME:
             let sortedRestaurants = [...state.restaurants];
 
@@ -75,7 +76,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
             else if (payload === 'desc') {
                 sortedRestaurants.sort((a, b) => b.name.localeCompare(a.name));
             }
-    
+
             return {
                 ...state,
                 restaurants: sortedRestaurants,
@@ -95,16 +96,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurants: sortedRestaurantsRating,
             };
-            case FILTER_BY_RATING:
-                const ratingFilter = payload;  // Accede al payload directamente
-                const filteredRestaurants = ratingFilter
-                  ? state.restaurants.filter(restaurant => restaurant.rating > ratingFilter)
-                  : state.restaurants;
-                return {
-                  ...state,
-                  restaurants: filteredRestaurants,
-              };
-        
+        case FILTER_BY_RATING:
+            const ratingFilter = payload;  // Accede al payload directamente
+            const filteredRestaurants = ratingFilter
+                ? state.restaurants.filter(restaurant => restaurant.rating > ratingFilter)
+                : state.restaurants;
+            return {
+                ...state,
+                restaurants: filteredRestaurants,
+            };
+
         case OPEN_PRODUCT_DETAILS:
             const product = state.products.find(product => payload === product._id);
             return {
@@ -132,43 +133,73 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case ADD_CART_ITEM:
-            cartDetails = { ...state.cartDetails };
-            itemsCount = cartDetails.itemsCount + 1;
-           
-            foundItem = cartDetails.items.find((product) => product._id === payload._id);
+            //cartDetails = { ...state.cartDetails };
 
-            if (foundItem) {
-                quantity = foundItem.quantity + 1;
-                foundItem.quantity = quantity;
-                cartDetails.subtotal = cartDetails.subtotal + foundItem.price;
-                cartDetails.total = cartDetails.subtotal + state.shippingFee;
+            cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
+
+            if (Object.keys(cartDetails).length > 0) {
+
+                itemsCount = cartDetails.itemsCount + 1;
+                cartDetails.itemsCount = itemsCount;
+
+                foundItem = cartDetails.items.find((product) => product._id === payload._id);
+
+                if (Object.keys(cartDetails.store).length === 0) cartDetails.store = state.restaurantSelected;
+
+                if (foundItem) {
+                    quantity = foundItem.quantity + 1;
+                    foundItem.quantity = quantity;
+                    cartDetails.subtotal = cartDetails.subtotal + foundItem.price;
+                    cartDetails.total = cartDetails.subtotal + state.shippingFee;
+                }
+                else {
+                    cartDetails.items = [...cartDetails.items, {
+                        _id: payload._id,
+                        name: payload.name,
+                        price: payload.price,
+                        image: payload.image,
+                        quantity: 1,
+                    }]
+                    cartDetails.subtotal = cartDetails.subtotal + payload.price;
+                    cartDetails.total = cartDetails.subtotal + state.shippingFee;
+                }
             }
             else {
-                cartDetails.items = [...cartDetails.items, {
-                    _id: payload._id,
-                    name: payload.name,
-                    price: payload.price,
-                    image: payload.image,
-                    quantity: 1,
-                }]
-                cartDetails.subtotal = cartDetails.subtotal + payload.price;
-                cartDetails.total = cartDetails.subtotal + state.shippingFee;
-            }
-
-            return {
-                ...state,
-                cartDetails: {
-                    ...state.cartDetails,
-                    itemsCount: itemsCount,
-                    items: cartDetails.items,
-                    subtotal: cartDetails.subtotal,
-                    total: cartDetails.total,
+                cartDetails = {
+                    store: state.restaurantSelected,
+                    items: [{
+                        _id: payload._id,
+                        name: payload.name,
+                        price: payload.price,
+                        image: payload.image,
+                        quantity: 1,
+                    }],
+                    itemsCount: 1,
+                    subtotal: payload.price,
+                    total: payload.price + state.shippingFee
                 }
             }
 
+            localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
+
+            return {
+                ...state,
+                /*  cartDetails: {
+                     ...state.cartDetails,
+                     itemsCount: itemsCount,
+                     items: cartDetails.items,
+                     subtotal: cartDetails.subtotal,
+                     total: cartDetails.total,
+                     store: cartDetails.store
+                 } */
+                cartDetails: cartDetails
+            }
+
         case REMOVE_CART_ITEM:
-            cartDetails = { ...state.cartDetails };
+            //cartDetails = { ...state.cartDetails };
+            cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
             itemsCount = cartDetails.itemsCount - 1;
+            cartDetails.itemsCount = itemsCount;
 
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
 
@@ -179,32 +210,28 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 cartDetails.total = cartDetails.subtotal + state.shippingFee;
             }
 
+            localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
+
             return {
                 ...state,
-                cartDetails: {
-                    ...state.cartDetails,
-                    itemsCount: itemsCount,
-                    items: cartDetails.items,
-                    subtotal: cartDetails.subtotal,
-                    total: cartDetails.total
-                }
+                cartDetails: cartDetails
             }
 
         case DELETE_CART_ITEM:
-            cartDetails = { ...state.cartDetails };
+            //cartDetails = { ...state.cartDetails };
+            cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
 
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
             index = cartDetails.items.findIndex((product) => product._id === payload._id);
             if (foundItem) {
                 itemsCount = cartDetails.itemsCount - 1;
-                /* quantity = foundItem.quantity - 1;
-                foundItem.quantity = quantity; */
+                cartDetails.itemsCount = itemsCount;
                 cartDetails.subtotal = cartDetails.subtotal - foundItem.price;
                 cartDetails.total = cartDetails.subtotal + state.shippingFee;
                 cartDetails.items.splice(index, 1);
 
             }
-
+            localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
             return {
                 ...state,
                 cartDetails: {
@@ -224,6 +251,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 subtotal: 0,
                 total: 0,
             }
+            localStorage.setItem('cartDetails', JSON.stringify({}));
 
             return {
                 ...state,
@@ -237,7 +265,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 restaurantSelected: payload
             }
 
-        case CREATE_CHECKOUT:            
+        case CREATE_CHECKOUT:
             return {
                 ...state,
                 paymentUrl: payload

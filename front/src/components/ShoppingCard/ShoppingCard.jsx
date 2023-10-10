@@ -25,10 +25,16 @@ const ShoppingCard = () => {
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const showCart = useSelector((state) => state.modalCart);
-    const cartDetails = useSelector((state) => state.cartDetails);
-    const itemsCount = useSelector(state => state.cartDetails.itemsCount);
     const restaurantSelected = useSelector(state => state.restaurantSelected);
     const paymentUrl = useSelector(state => state.paymentUrl);
+
+    let cartDetails = useSelector((state) => state.cartDetails); 
+    //let cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
+    let itemsCount = useSelector(state => state.cartDetails.itemsCount);
+    if(itemsCount === 0){
+        cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
+    }
+    itemsCount = cartDetails ? cartDetails.itemsCount : 0;      
 
     const handleClickOverlay = (e) => {
         if (e.target.id === "overlay") dispatch(closeCart())
@@ -40,18 +46,13 @@ const ShoppingCard = () => {
     };
 
     useEffect(() => {
-       
-   
-
         if (paymentUrl) {
             window.location.replace(paymentUrl);
         }
     }, [paymentUrl])
 
-
     return (
         <>
-
             <Overlay id="overlay" onClick={handleClickOverlay} style={{ display: showCart ? "" : "none" }} />
             <Container right={showCart ? "0%" : "-35%"}>
               
@@ -65,8 +66,8 @@ const ShoppingCard = () => {
                         </Header>
 
                         <StoreDetails>
-                            <StoreName> {restaurantSelected.name}</StoreName>
-                            <StoreAddress> {restaurantSelected.address}</StoreAddress>
+                            <StoreName> {cartDetails.store.name}</StoreName>
+                            <StoreAddress> {cartDetails.store.address}</StoreAddress>
                         </StoreDetails>
 
 
@@ -77,16 +78,16 @@ const ShoppingCard = () => {
 
                         <Body>
                             {
-                                cartDetails.items.map((item, index) => (
+                                cartDetails.items?.map((item, index) => (
                                     <ItemCart key={'item' + item._id} item={item} />
                                 ))
                             }
                         </Body>
 
                         <Totales style={{ display: itemsCount ? '' : 'none' }}>
-                            <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
-                            <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li>
-                            <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
+                            <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li> 
+                           {/*  <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li> */}
+                           <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
                         </Totales>
 
                         <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>

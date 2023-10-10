@@ -12,37 +12,37 @@ import {
 export default function ProductDetails({ show }) {
 
     const dispatch = useDispatch();
-    
+
     const product = useSelector((state) => state.product);
     const restaurantSelected = useSelector((state) => state.restaurantSelected);
-    
+    console.log(localStorage);
     const handleAddItem = (event) => {
         dispatch(addItemCart(product))
         dispatch(closeProductDetails())
-    } 
- 
+    }
+
     const handleClick = (event) => {
-        if(event.target.id ==="overlay") dispatch(closeProductDetails())
+        if (event.target.id === "overlay") dispatch(closeProductDetails())
     };
 
     useEffect(() => {
-       
-        if(Object.keys(restaurantSelected).length === 0 && Object.keys(product).length > 0){
-            dispatch(getStore(product.storeId))
-        }  
+
+        if (Object.keys(restaurantSelected).length === 0 && Object.keys(product).length > 0) {
+            dispatch(getStore(product.store))
+        }
 
         const handleEsc = (event) => {
             if (event.key === 'Escape') {
                 dispatch(closeProductDetails())
-          }
+            }
         };
 
         window.addEventListener('keydown', handleEsc);
-    
+
         return () => {
             window.removeEventListener('keydown', handleEsc);
         };
-    
+
     }, [product]);
 
     return (
