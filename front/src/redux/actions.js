@@ -4,6 +4,7 @@ import {
     GET_RESTAURANT,
     ORDER_BY_NAME,
     ORDER_BY_RATING,
+    FILTER_BY_RATING,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -115,7 +116,12 @@ export function sortedByRating(order) {
       payload: order,
     };
   }
-
+  export const filterByRating = (rating) => {
+    return {
+      type: FILTER_BY_RATING,
+      payload: rating, // Asegúrate de que el payload sea el valor del slider
+    };
+  };
 export const openProductDetails = (id) => {
     return async function (dispatch) {
         try {

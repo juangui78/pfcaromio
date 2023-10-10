@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import './Navbar.css';
 import { useAuth, UserButton } from '@clerk/clerk-react'; 
 import { Link, useLocation} from 'react-router-dom';
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
-import { orderByName, sortedByRating} from '../../redux/actions';
+import { orderByName, sortedByRating, filterByRating} from '../../redux/actions';
 
 const Navbar = () => {
   const dispatch = useDispatch()
@@ -17,8 +17,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
-
+  const [sliderValue, setSliderValue] = useState(0);
+  
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
+
+  const applyRatingFilterButton = () => {
+    dispatch(filterByRating(sliderValue));
+  };  
+  
+  const handleRatingInputChange = (event) => {
+    const value = parseFloat(event.target.value);
+    setSliderValue(value);
+  };
 
   const handleSortByNameClick = (order) => {
     dispatch(orderByName(order)); // Donde order es 'asc' o 'desc'
@@ -110,10 +120,12 @@ const Navbar = () => {
                           step="1"
                           className="inputRating"
                           id="ratingFilterInput"
-                          value={ratingFilter}
+                          value={sliderValue}
+                          onChange={handleRatingInputChange} // Usamos handleRatingInputChange aquí
                           onKeyPress={handleKeyPress}
                         />
-                        <div className="slider-value">{ratingFilter}</div>
+                        <div className="slider-value">{sliderValue}</div>
+                        <button onClick={applyRatingFilterButton}>Aplicar</button>
                       </div>
                     </div>
                   </div>

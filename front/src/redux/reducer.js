@@ -6,6 +6,7 @@ import {
     GET_RESTAURANT,
     ORDER_BY_NAME,
     ORDER_BY_RATING,
+    FILTER_BY_RATING,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
     OPEN_CART,
@@ -20,6 +21,7 @@ import {
 } from './actionsTypes';
 
 const initialState = {
+    filterByRating: null,
     products: [],
     product: {},
     modalProductDetails: false,
@@ -93,6 +95,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurants: sortedRestaurantsRating,
             };
+            case FILTER_BY_RATING:
+                const ratingFilter = payload;  // Accede al payload directamente
+                const filteredRestaurants = ratingFilter
+                  ? state.restaurants.filter(restaurant => restaurant.rating > ratingFilter)
+                  : state.restaurants;
+                return {
+                  ...state,
+                  restaurants: filteredRestaurants,
+              };
+        
         case OPEN_PRODUCT_DETAILS:
             const product = state.products.find(product => payload === product._id);
             return {
