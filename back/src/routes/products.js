@@ -49,7 +49,6 @@ router.get('/by-rating', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 // Ruta para obtener productos por su ID o por su nombre
 router.get('/:productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
@@ -65,8 +64,6 @@ router.get('/:productIdOrName', async (req, res) => {
     }
 });
 
-=======
->>>>>>> e493b8b3590158d8ba39a624a5d5af9b92907204
 // Ruta para obtener productos filtrados
 router.get('/filtered', async (req, res) => {
     const minRating = req.query.minRating;
@@ -100,10 +97,11 @@ router.get('/:productIdOrName', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const { UserStoreId, name, price, rating, description,image, stock} = req.body;
-
+    
     try {
         const newProduct = await createProduct(UserStoreId, name, price, rating, description,image, stock);
         res.status(201).json(newProduct);
+        console.log("Se creó exitosamente");
     } catch (error) {
         res.status(500).json({ error: 'Error creating the product' });
     }
