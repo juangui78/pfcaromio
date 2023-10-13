@@ -170,10 +170,9 @@ const Navbar = () => {
           ) : <UserButton />}
         </div>
         <div className="buttonCreate">
-          {isSignedIn && typeUser === 'Seller' ? <Link to="/createProduct" className="link">
-            Agregar Producto
-          </Link> : null  }
-          
+          {isSignedIn && typeUser === 'Seller' ? <div>
+            <Link to='/myRestaurant' className='link'>Mi Restaurante</Link>
+          </div> : null  }
         </div>
             <CartBtn/>
       </div>

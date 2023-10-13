@@ -17,6 +17,7 @@ import Restaurants from '../src/components/Restaurants/Restaurants'
 import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
+import MyRestaurant from './components/MiRestaurante/MiRestaurante';
 
 //import {SuccessPaymet, CancelPayment} from './components/Payment/SuccessPayment';
 
@@ -43,6 +44,7 @@ const App = () => {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
+        <Route path='/myRestaurant' element={<MyRestaurant />}></Route>
         
       </Routes>
       

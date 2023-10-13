@@ -98,6 +98,19 @@ const createProduct = async (UserStoreId, name, price, rating, description,image
     }
 };
 
+// Actualizar Producto
+const updateProduct = async (UserStoreId, name, price, rating, description, image, stock) => {
+    try {
+        const store = await Store.findOne({userIdentifier: UserStoreId})
+        const product = await Products.findOne({name: name});
+
+        console.log(product);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = { 
     getAllProducts,
     getProductsSortedByPrice,
@@ -105,5 +118,6 @@ module.exports = {
     getProductsByIdOrName,
     getProductsByFilter,
     createProduct,
+    updateProduct
     //getProductsByStore
 };
