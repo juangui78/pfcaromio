@@ -37,8 +37,12 @@ const getStoresSortedByRating = async (order) => {
 // Obtener una tienda por su ID o por su nombre
 const getStoreByIdOrName = async (name) => {
     try {
+
         const store = await Store.findOne({
-            name: { $regex: new RegExp(name, 'i') } // Buscar por nombre (ignorando mayúsculas/minúsculas)
+            $or: [
+                { name: { $regex: new RegExp(name, 'i') } }, // Buscar por nombre (ignorando mayúsculas/minúsculas)
+                { userIdentifier: name}
+            ]
         }).populate('products');
 
         return store;

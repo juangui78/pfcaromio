@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ProductCard } from '../ProductCard/ProductCard';
+import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { getProducts, getProductsByStore, orderByRatingProducts, orderByPrice } from '../../redux/actions';

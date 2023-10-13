@@ -3,6 +3,13 @@ import { NavLink } from "react-router-dom";
 
 import styled from 'styled-components';
 
+export const Editar = styled.button`
+    border-radius: 10px;
+    &:hover {
+        background-color: red;
+    }
+`;
+
 export const CardContainer = styled.div`
     color: var(--red);
     width: 255px;
