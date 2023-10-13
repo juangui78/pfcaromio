@@ -52,7 +52,7 @@ const ProductDetails = ({ show }) => {
                 <Summary>{product.description}</Summary>
                 <Price>{product.price}</Price>
                 <Footer>
-                  <button onClick={handleAddItem}>Agregar al carrito</button>
+                  <Button onClick={handleAddItem}>Agregar al carrito</Button>
                 </Footer>
               </Description>
             </Details>
@@ -170,4 +170,18 @@ export const Footer = styled.footer`
     display: flex;
     margin: auto 0;
     justify-content: center;
+`;
+
+export const Button = styled.button`
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #333; /* Cambio de color al pasar el ratón */
+    }
 `;

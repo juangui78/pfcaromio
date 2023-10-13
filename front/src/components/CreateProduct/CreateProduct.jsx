@@ -20,7 +20,7 @@ export default function CreateProduct () {
     const handleChange = (event) => {
         setProductData({...productData, [event.target.name]: event.target.value})
         setErrors(
-            validate({...productData, [event.target.name]: event.target.value})
+            validate({...productData, [event.target.name]: event.target.value, image: event.target.value})
         )
     }
     // Se envia el POST con el submit
@@ -48,9 +48,10 @@ export default function CreateProduct () {
         description: '',
         stock: '',
         rating: '',
-        tags: []
-    })
-
+        tags: [],
+        image: '' 
+    });
+    
     const [errors, setErrors] = useState({
         UserStoreId: '',
         name: '',
@@ -58,8 +59,9 @@ export default function CreateProduct () {
         description: '',
         stock: '',
         rating: '',
-        tags: []
-    })
+        tags: [],
+        image: ''
+    });
 
     const createProduct = async(productData) => {
             try {
@@ -106,6 +108,10 @@ export default function CreateProduct () {
             <label>Rating: </label>
             <input type="text" name='rating'onChange={handleChange}/>
             <label className='warning-Text'>{errors.rating}</label>
+
+            <label>URL de la imagen:</label>
+            <input type="text" name="image" onChange={handleChange} />
+            <label className="warning-Text">{errors.image}</label>
 
             <label>Etiquetas: </label>
             <CreatableSelect isMulti options={selectOptions} onChange={handleSelect} placeholder='Categoria...'/>

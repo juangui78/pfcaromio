@@ -5,7 +5,7 @@ export const Container = styled.div`
     flex-wrap: nowrap;
     flex-direction: column;
     
-    width: 100%;
+    width: 96.5%;
     @media (max-width: 800px) {
         padding: 4rem 0rem 0rem 0rem;
     } 
@@ -17,6 +17,7 @@ export const Title = styled.h1`
     text-align: rigth;
     font-size: 24pt;
     color:var(--red);
+    margin-left: 30px;
     margin-top: 200px;
     margin-bottom: 50px
     
@@ -33,6 +34,7 @@ export const Cards = styled.div`
     gap:2rem;
 `;
 export const FilterContainer = styled.div`
+  margin-left: 30px;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
