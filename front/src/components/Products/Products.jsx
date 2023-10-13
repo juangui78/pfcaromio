@@ -25,8 +25,8 @@ const Products = () => {
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
 
-  useEffect(async () => {
-    await axios
+  useEffect(() => {
+    axios
       .get(`http://localhost:3004/products/?storeid=${storeId}`)
       .then((response) => {
         setProducts(response.data);
@@ -45,16 +45,21 @@ const Products = () => {
     setPriceFilter(event.target.value);
   };
 
-  const applyFilters = async () => {
+  const applyFilters = () => {
     
-   let filteredProducts = await axios
+   let filteredProducts = axios
       .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
       .then((response) => {
         setProducts(response.data);
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
-      });
+      }); ;
+      // filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
+    // }
+    // if (priceFilter) {
+    //   filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
+    // };
   };
 
   const handlePriceSort = () => {
