@@ -5,6 +5,8 @@ import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
+import cloudinary from '../../cloudinary/config.js'
+
 export default function CreateProduct () {
 
     const navigate = useNavigate()
@@ -61,6 +63,7 @@ export default function CreateProduct () {
 
     const createProduct = async(productData) => {
             try {
+                subirImagen();
                 productData.UserStoreId = userId
                 const create = await axios.post('http://localhost:3004/products', productData)
                 alert('Producto Creado con Exito')
@@ -74,6 +77,23 @@ export default function CreateProduct () {
         
     }
 
+    //Parte de cloudinary
+
+    //se crea el estado que tendrá la imagen temporalmente
+
+    const[currentImage, setCurrentImage] = useState()
+    //Se crea una funcion
+
+    const subirImagen = (file) =>{
+        console.log(currentImage);
+
+        const formData = new FormData();
+        formData.append("file", currentImage);
+        formData.append("upload_preset", "vp72qx31");
+        axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response)=>{
+            console.log(response)
+        });
+    }   
 
 
     return(<div className='createSection'>
@@ -107,6 +127,8 @@ export default function CreateProduct () {
             <label>Etiquetas: </label>
             <CreatableSelect isMulti options={selectOptions} onChange={handleSelect} placeholder='Categoria...'/>
             
+            <label>Subir imagen </label>
+            <input type='file' onChange={(e) =>{setCurrentImage(e.target.files[0])}}/>
             <button type='submit' onClick={handleSubmit}>Crear</button>
         </form>
 
