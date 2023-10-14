@@ -24,8 +24,7 @@
     "mongodb": "^6.0.0",
     "mongoose": "^7.5.3",
     "morgan": "^1.10.0",
-    "stripe": "^13.9.0",
-    "sweetalert2": "^11.7.32"
+    "stripe": "^13.9.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
