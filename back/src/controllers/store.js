@@ -69,6 +69,7 @@ const getStoresByFilter = async (minRating) => {
 // Crear una nueva tienda
 
 const createStore = async (userIdentifier, name, address, rating, revenue, image, products, description) => {
+    console.log(req.files);
     try {
         const newStore = new Store({
             userIdentifier: userIdentifier,

@@ -75,6 +75,8 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
 
 const createProduct = async (UserStoreId, name, price, rating, description,image, stock) => {
     try {
+        console.log(UserStoreId);
+        console.log(name);
         const store = await Store.findOne({userIdentifier: UserStoreId})
         const newProduct = new Products({
             store: store._id,
