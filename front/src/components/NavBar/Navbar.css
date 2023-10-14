@@ -69,7 +69,7 @@
 .dropdown-content {
   display: none; /* Ocultar el contenido por defecto */
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #000000;
   box-shadow: 0px 12px 14px rgba(0, 0, 0, 0.1);
   z-index: 1;
   margin-top: 2px;
@@ -109,7 +109,7 @@
 }
 
 .filters .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: #000000;
 }
 
 .search-bar {
@@ -257,7 +257,7 @@
   height: 155px; 
   position: absolute;
   top: 0;
-  margin-left: 697px;
+  margin-left: 770px;
 }
 .inputContainer {
   display: flex;
@@ -267,7 +267,7 @@
 .inputRating {
   width: 30px;
   font-size: 13px;
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   color: #000000;
   border: 1px solid #000000;
   padding: 7px;
@@ -282,7 +282,7 @@
 }
 
 .filter-button .slider-container input {
-  background-color: #ffffff;
+  background-color: #000000;
   width: 100%; /* Ajusta el ancho del slider */
 }
 

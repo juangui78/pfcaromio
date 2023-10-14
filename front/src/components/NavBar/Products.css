@@ -257,19 +257,11 @@
     color: rgb(0, 0, 0);
     background-color: #FFC000;
     border: 2px solid black; 
-    padding: 6px 12px;
+    padding: 6px 22px;
     border-radius: 5px;
     margin-left: -10px;
   }
-  .back-to-home-button::after{
-    margin-top: -60px;
-    content: '';
-    border-right: 3px solid black;
-    height: 155px; 
-    position: absolute;
-    top: 0;
-    margin-left: 497px;
-  }
+
   .inputContainer {
     display: flex;
     align-items: center;

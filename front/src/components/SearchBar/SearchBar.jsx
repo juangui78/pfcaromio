@@ -5,7 +5,10 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
+  
+
   const handleSearch = () => {
+    
   };
 
   return (
@@ -20,11 +23,11 @@ const SearchBar = () => {
         <img src="Lupa.png" alt="Buscar" className="lupa" />
     </button>
 
-      <ul>
+      {/* <ul>
         {searchResults.map((pizza) => (
           <li key={pizza.id}>{pizza.name}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

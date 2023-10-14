@@ -77,7 +77,7 @@ export default function Restaurants() {
                             <RestaurantCard
                                 key={restaurant._id}
                                 id={restaurant._id}
-                                image={restaurant.imageSrc}
+                                image={restaurant.image}
                                 name={restaurant.name}
                                 address={restaurant.address}
                                 rating={restaurant.rating}

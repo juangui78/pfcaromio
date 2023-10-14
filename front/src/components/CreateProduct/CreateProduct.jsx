@@ -5,6 +5,7 @@ import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
+import Swal from 'sweetalert2'
 import cloudinary from '../../cloudinary/config.js'
 
 export default function CreateProduct () {
@@ -21,7 +22,7 @@ export default function CreateProduct () {
     const handleChange = (event) => {
         setProductData({...productData, [event.target.name]: event.target.value})
         setErrors(
-            validate({...productData, [event.target.name]: event.target.value})
+            validate({...productData, [event.target.name]: event.target.value, image: event.target.value})
         )
     }
     // Se envia el POST con el submit
@@ -34,7 +35,8 @@ export default function CreateProduct () {
         if (!hasErrors) {
             createProduct(productData)
         } else {
-            alert('Error. Por favor rellena bien los campos de tu Pizza')
+            Swal.fire({title: 'Error. Por favor rellena bien los campos de tu Pizza',
+        icon: 'error',})
         }
         
     }
@@ -48,10 +50,10 @@ export default function CreateProduct () {
         description: '',
         stock: '',
         rating: '',
-        image: '',
-        tags: []
-    })
-
+        tags: [],
+        image: '' 
+    });
+    
     const [errors, setErrors] = useState({
         UserStoreId: '',
         name: '',
@@ -59,21 +61,22 @@ export default function CreateProduct () {
         description: '',
         stock: '',
         rating: '',
-        image: '',
-        tags: []
-    })
+        tags: [],
+        image: ''
+    });
 
     const createProduct = async(productData) => {
             try {
                 subirImagen();
                 productData.UserStoreId = userId
                 const create = await axios.post('http://localhost:3004/products', productData)
-                alert('Producto Creado con Exito')
+                Swal.fire({title: 'Producto Creado con Exito', 
+            icon: 'success'})
                 navigate('/home')
                 console.log('Producto creado')
                 console.log(productData);
             } catch (error) {
-                alert('Error. Por favor intenta de nuevo')
+                Swal.fire({title: 'Error. Por favor intenta de nuevo', icon: 'error'})
             }
             
         
@@ -128,6 +131,10 @@ export default function CreateProduct () {
             <label>Rating: </label>
             <input type="text" name='rating'onChange={handleChange}/>
             <label className='warning-Text'>{errors.rating}</label>
+
+            <label>URL de la imagen:</label>
+            <input type="text" name="image" onChange={handleChange} />
+            <label className="warning-Text">{errors.image}</label>
 
             <label>Etiquetas: </label>
             <CreatableSelect isMulti options={selectOptions} onChange={handleSelect} placeholder='Categoria...'/>
