@@ -30,7 +30,7 @@ const App = () => {
   const showCart = useSelector((state) => state.modalCart);
 
   return (
-    <div id="app" className='home-container'>
+    <div id="app" className='home-container' style={{height:'100vh'}}>
 
       {
         (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar />)
