@@ -4,8 +4,12 @@ import {
     GET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    FILTER_PRODUCTS_BY_NAME,
+    FILTER_RESTAURANTS_BY_NAME,
+    ORDER_BY_RATING_PRODUCTS,
     ORDER_BY_NAME,
     ORDER_BY_RATING,
+    ORDER_BY_PRICE,
     FILTER_BY_RATING,
     OPEN_PRODUCT_DETAILS,
     CLOSE_PRODUCT_DETAILS,
@@ -21,6 +25,8 @@ import {
 } from './actionsTypes';
 
 const initialState = {
+    filteredProducts: [], // Lista filtrada de productos
+    filteredRestaurants: [], // Lista filtrada de restaurantes
     filterByRating: null,
     products: [],
     product: {},
@@ -29,7 +35,7 @@ const initialState = {
     restaurants: [], // * stores
     restaurantSelected: {},
     paymentUrl: null,
-    shippingFee: 0,
+    shippingFee: 2,
 
     cartDetails: {
         store: {},
@@ -45,7 +51,6 @@ let itemsCount = 0;
 let foundItem = '';
 let quantity = 0;
 let index = null;
-let store = {}
 
 const rootReducer = (state = initialState, { type, payload }) => {
     switch (type) {
@@ -60,12 +65,31 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurants: payload,
             }
-
+            
         case GET_RESTAURANT:
             return {
                 ...state,
                 restaurantSelected: payload,
             }
+            case FILTER_PRODUCTS_BY_NAME:
+                const productName = payload.toLowerCase();
+                const filteredProducts = state.products.filter((product) =>
+                  product.name.toLowerCase().includes(productName)
+                );
+                return {
+                  ...state,
+                  filteredProducts,
+                };
+          
+              case FILTER_RESTAURANTS_BY_NAME:
+                const restaurantName = payload.toLowerCase();
+                const filteredRestaurantsByName = state.restaurants.filter((restaurant) =>
+                  restaurant.name.toLowerCase().includes(restaurantName)
+                );
+                return {
+                  ...state,
+                  filteredRestaurantsByName,
+                };
 
         case ORDER_BY_NAME:
             let sortedRestaurants = [...state.restaurants];
@@ -96,16 +120,41 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurants: sortedRestaurantsRating,
             };
-        case FILTER_BY_RATING:
-            const ratingFilter = payload;  // Accede al payload directamente
-            const filteredRestaurants = ratingFilter
-                ? state.restaurants.filter(restaurant => restaurant.rating > ratingFilter)
-                : state.restaurants;
-            return {
-                ...state,
-                restaurants: filteredRestaurants,
-            };
+         case ORDER_BY_PRICE:
+                const sortedProductsByPrice = [...state.products];
+                if (payload === 'low') {
+                    sortedProductsByPrice.sort((a, b) => a.price - b.price);
+                } else if (payload === 'high') {
+                    sortedProductsByPrice.sort((a, b) => b.price - a.price);
+                }
+                return {
+                    ...state,
+                    products: sortedProductsByPrice
+                };
 
+                case ORDER_BY_RATING_PRODUCTS:
+                    let sortedProductsByRating = [...state.products];
+                    if (payload === 'low') {
+                      sortedProductsByRating.sort((a, b) => a.rating - b.rating);
+                    } else if (payload === 'high') {
+                      sortedProductsByRating.sort((a, b) => b.rating - a.rating);
+                    }
+                    console.log('Sorted Products By Rating:', sortedProductsByRating);
+                    return {
+                      ...state,
+                      filteredProducts: sortedProductsByRating,
+                    };
+
+         case FILTER_BY_RATING:
+             const ratingFilter = payload;  // Accede al payload directamente
+            const filteredRestaurants = ratingFilter
+               ? state.restaurants.filter(restaurant => restaurant.rating > ratingFilter)
+               : state.restaurants;
+             return {
+              ...state,
+                restaurants: filteredRestaurants,
+             };
+    
         case OPEN_PRODUCT_DETAILS:
             const product = state.products.find(product => payload === product._id);
             return {

@@ -15,11 +15,11 @@ import {
     LinkCard,
     Editar
 
-} from "./ProductCardStyles";
+} from "../ProductCard/ProductCardStyles";
 
-import { openProductDetails } from '../../redux/actions';
+import { openProductDetails } from '../../redux/actions/';
 
-function ProductCard({ name, price, rating, image, id}) {
+function MyProductCard({ name, price, rating, image, id}) {
     
     const {userId} = useAuth();
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function ProductCard({ name, price, rating, image, id}) {
                 </ImgContainer>
                 <Details>
                     <Name>{name}</Name>
-                    <LinkCard onClick={() => dispatch(openProductDetails(id))}>Ver mas</LinkCard>
+                    <LinkCard onClick={() => dispatch(openProductDetails(id))}>Editar Producto</LinkCard>
                     <Score>⭐{rating}</Score>
                 </Details>
             </ProductItem>
@@ -42,4 +42,4 @@ function ProductCard({ name, price, rating, image, id}) {
     )
 }
 
-export default ProductCard;
+export default MyProductCard;

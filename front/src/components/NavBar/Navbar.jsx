@@ -11,7 +11,7 @@ import { orderByName, sortedByRating, filterByRating} from '../../redux/actions'
 
 const Navbar = () => {
   const dispatch = useDispatch()
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, userId } = useAuth()
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,6 +20,21 @@ const Navbar = () => {
   const [sliderValue, setSliderValue] = useState(0);
   
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
+
+  
+  const [userData, setUserData] = useState((null))
+
+  useEffect(() => {
+    axios.get(`http://localhost:3004/users/${userId}`)
+      .then((data) => {
+        data && setUserData(data.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [userId])
+
+  const typeUser = userData?.[0]?.role
 
   const applyRatingFilterButton = () => {
     dispatch(filterByRating(sliderValue));
@@ -76,6 +91,8 @@ const Navbar = () => {
     navigate('/login')
   }
 
+  
+
 
   return (
     <nav className="navbar">
@@ -94,42 +111,45 @@ const Navbar = () => {
             {filtersDropdownOpen && (
               <div className="dropdown-content">
                 <div className="filter-button">
-                  <button>Ordenar por Rating</button>
+                <button style={{ backgroundColor: 'black', color: 'white' }}>Ordenar por Rating</button>
                   <div className="dropdown-content-inner show-scroll">
                     <a href="#" onClick={() => handleSortByRatingClick('low')}>Peor Rating</a>
                     <a href='#' onClick={() => handleSortByRatingClick('high')}>Mejor Rating</a>                  
                     </div>
                 </div>
                 <div className="filter-button">
-                  <button>Ordenar por Nombre</button>
+                <button style={{ backgroundColor: 'black', color: 'white' }}>Ordenar por Nombre</button>
                   <div className="dropdown-content-inner show-scroll">
                   <a href='#' onClick={() => handleSortByNameClick('desc')}>Z-A</a>
                     <a href='#' onClick={() => handleSortByNameClick('asc')}>A-Z</a>
                   </div>
                 </div>
-                <div className="filter-button">
-                  <button>Filtrar por Rating</button>
-                  <div className="dropdown-content-inner show-scroll">
-                    <div className="inputContainer">
-                      <div className="slider-container">
-                        <div className="slider-label">Mayor que:</div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="5"
-                          step="1"
-                          className="inputRating"
-                          id="ratingFilterInput"
-                          value={sliderValue}
-                          onChange={handleRatingInputChange} // Usamos handleRatingInputChange aquí
-                          onKeyPress={handleKeyPress}
-                        />
-                        <div className="slider-value">{sliderValue}</div>
-                        <button onClick={applyRatingFilterButton}>Aplicar</button>
+                {/* 
+                  <div className="filter-button">
+                    <button>Filtrar por Rating</button>
+                    <div className="dropdown-content-inner show-scroll">
+                      <div className="inputContainer">
+                        <div className="slider-container">
+                          <div className="slider-label">Mayor que:</div>
+                          <input
+                            type="range"
+                            min="0"
+                            max="5"
+                            step="1"
+                            className="inputRating"
+                            id="ratingFilterInput"
+                            value={sliderValue}
+                            onChange={handleRatingInputChange}
+                            onKeyPress={handleKeyPress}
+                          />
+                          <div className="slider-value">{sliderValue}</div>
+                          <button onClick={applyRatingFilterButton}>Aplicar</button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                  */}
+
               </div>
             )}
           </div>
@@ -150,10 +170,9 @@ const Navbar = () => {
           ) : <UserButton />}
         </div>
         <div className="buttonCreate">
-          {isSignedIn ? <Link to="/createProduct" className="link">
-            Agregar Producto
-          </Link> : null  }
-          
+          {isSignedIn && typeUser === 'Seller' ? <div>
+            <Link to='/myRestaurant' className='link'>Mi Restaurante</Link>
+          </div> : null  }
         </div>
             <CartBtn/>
       </div>

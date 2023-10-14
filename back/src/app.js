@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
-
+const fileUpload = require("express-fileupload");
 
 const server = express();
 server.use(express.json());
@@ -23,7 +23,11 @@ server.use((req, res, next) => {
 });
 //server.use(express.static('public'));
 server.use('/', routes);
-
+//Para usar los archivos temporales para manejar la subida de las imagenes en cloudinary
+server.use(fileUpload({
+  useTempFiles : true,
+  tempFileDir : './uploads'
+}));
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

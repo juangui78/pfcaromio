@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useAuth, useUser } from '@clerk/clerk-react'
 import validate from './validation';
+import Swal from 'sweetalert2'
 export default function RegisterForm() {
 
   const {userId} = useAuth()
@@ -54,7 +55,7 @@ export default function RegisterForm() {
         navigate('/home')
         
     } else {
-        alert('Error. Por favor rellena bien los campos de tu Restaurante')
+        Swal.fire({title: 'Error. Por favor rellena bien los campos de tu Restaurante', icon: 'error'})
     }
     
   }
@@ -76,14 +77,14 @@ export default function RegisterForm() {
         userInfo.role = 'Seller'
         const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
         const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
-        alert('Tienda Creada con Exito')
+        Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
         console.log('store creada')
         return
       }
 
       console.log(userInfo);
       const create = await axios.post('http://localhost:3004/users', userInfo)
-      alert('Usuario Creado con Exito')
+      Swal.fire({title: 'Usuario Creado con Exito', icon: 'success'})
       
       
       console.log('usuario creado')
@@ -119,6 +120,9 @@ export default function RegisterForm() {
 
                 <label>Imagen de tu Restaurante: </label>
                 <input type="text" name='image' onChange={handleChange}/>
+
+                <label>Rating: </label>
+                <input type="text" name='rating' onChange={handleChange}/>
               </div>
             ) : null}
             

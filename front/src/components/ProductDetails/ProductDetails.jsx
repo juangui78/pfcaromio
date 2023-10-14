@@ -1,82 +1,75 @@
-//import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { closeProductDetails, addItemCart, getStore } from '../../redux/actions';
 
-import {
+const ProductDetails = ({ show }) => {
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
 
-} from './ProductDetailsStyles'
+  const handleAddItem = () => {
+    dispatch(addItemCart(product));
+    dispatch(closeProductDetails());
+  };
 
-export default function ProductDetails({ show }) {
-
-    const dispatch = useDispatch();
-
-    const product = useSelector((state) => state.product);
-    const restaurantSelected = useSelector((state) => state.restaurantSelected);
-    console.log(localStorage);
-    const handleAddItem = (event) => {
-        dispatch(addItemCart(product))
-        dispatch(closeProductDetails())
+  const handleClick = (event) => {
+    if (event.target.id === 'closeButton') {
+      dispatch(closeProductDetails());
     }
+  };
 
-    const handleClick = (event) => {
-        if (event.target.id === "overlay") dispatch(closeProductDetails())
+  const handleEscape = (event) => {
+    if (event.key === 'Escape') {
+      dispatch(closeProductDetails());
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
     };
+  }, []);
 
-    useEffect(() => {
+  return (
+    <>
+      {show && (
+        <Overlay id="overlay" onClick={handleClick}>
+          <ModalContainer>
+            <Header>
+              ⭐{product.rating}
+              <CloseBtn id="closeButton" onClick={() => dispatch(closeProductDetails())}>
+                X
+              </CloseBtn>
+            </Header>
+            <Details>
+              <ImgContainer>
+                <Img src={product.image} alt="" />
+              </ImgContainer>
+              <Description>
+                <Name>{product.name}</Name>
+                <Summary>{product.description}</Summary>
+                <Price>{product.price}</Price>
+                <Footer>
+                  <Button onClick={handleAddItem}>Agregar al carrito</Button>
+                </Footer>
+              </Description>
+            </Details>
+          </ModalContainer>
+        </Overlay>
+      )}
+    </>
+  );
+};
 
-        if (Object.keys(restaurantSelected).length === 0 && Object.keys(product).length > 0) {
-            dispatch(getStore(product.store))
-        }
 
-        const handleEsc = (event) => {
-            if (event.key === 'Escape') {
-                dispatch(closeProductDetails())
-            }
-        };
-
-        window.addEventListener('keydown', handleEsc);
-
-        return () => {
-            window.removeEventListener('keydown', handleEsc);
-        };
-
-    }, [product]);
-
-    return (
-        <>
-            {show &&
-                <Overlay onClick={handleClick} id="overlay">
-                    <ModalContainer id="modalContainer">
-                        <Header> ⭐{product.rating} </Header>
-                        <CloseBtn onClick={() => dispatch(closeProductDetails())}> X </CloseBtn>
-                        <Details>
-                            <ImgContainer>
-                                <Img src={product.image} alt="" />
-                            </ImgContainer>
-                            <Description>
-                                <Name>{product.name}</Name>
-                                <Summary>{product.description}</Summary>
-                                <Price>{product.price}</Price>
-                                <Footer>
-                                    <button onClick={handleAddItem}>Agregar al carrito</button>
-                                </Footer>
-                            </Description>
-                        </Details>
-                    </ModalContainer>
-                </Overlay>
-            }
-
-        </>
-    );
-}
+export default ProductDetails
 
 
 const Overlay = styled.div`
     width: 100vw;
-    height: 100vh;
+    height: 120vh;
     position: fixed;
     top: 0;
     left: 0;
@@ -177,4 +170,18 @@ export const Footer = styled.footer`
     display: flex;
     margin: auto 0;
     justify-content: center;
+`;
+
+export const Button = styled.button`
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #333; /* Cambio de color al pasar el ratón */
+    }
 `;
