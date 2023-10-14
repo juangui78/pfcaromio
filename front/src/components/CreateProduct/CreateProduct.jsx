@@ -48,6 +48,7 @@ export default function CreateProduct () {
         description: '',
         stock: '',
         rating: '',
+        image: '',
         tags: []
     })
 
@@ -58,6 +59,7 @@ export default function CreateProduct () {
         description: '',
         stock: '',
         rating: '',
+        image: '',
         tags: []
     })
 
@@ -79,9 +81,10 @@ export default function CreateProduct () {
 
     //Parte de cloudinary
 
-    //se crea el estado que tendrá la imagen temporalmente
+    //se crea el estado que tendrá la imagen temporalmente y el de la URL  
 
-    const[currentImage, setCurrentImage] = useState()
+    const[currentImage, setCurrentImage] = useState();
+    //const[currentURL, setCurrentUrl] = useState("");
     //Se crea una funcion
 
     const subirImagen = (file) =>{
@@ -91,8 +94,10 @@ export default function CreateProduct () {
         formData.append("file", currentImage);
         formData.append("upload_preset", "vp72qx31");
         axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response)=>{
-            console.log(response)
+            console.log(response.data.secure_url)
         });
+        //setCurrentUrl(response.data.secure_url);
+        setProductData({...productData, [image]: response.data.secure_url})
     }   
 
 
