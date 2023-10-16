@@ -45,21 +45,21 @@ const Products = () => {
     setPriceFilter(event.target.value);
   };
 
-  const applyFilters = () => {
-    
-   let filteredProducts = axios
-      .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      }); ;
-      // filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
-    // }
-    // if (priceFilter) {
-    //   filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
-    // };
+  const applyFilters = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
+      let filteredProducts = response.data;
+  
+      if (ratingFilter) {
+        filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
+      }
+      if (priceFilter) {
+        filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
+      }
+      setProducts(filteredProducts);
+    } catch (error) {
+      console.error('Error al aplicar filtros:', error);
+    }
   };
 
   const handlePriceSort = () => {
@@ -110,10 +110,10 @@ const Products = () => {
         </FilterContainer>
         <FilterContainer>
           <FilterButton onClick={handleSortByRating}>
-            Ordenar por Rating ({sortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})
+            Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})
           </FilterButton>
           <FilterButton onClick={handlePriceSort}>
-            Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})
+            Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})
           </FilterButton>
         </FilterContainer>
         <Cards id="cards">
