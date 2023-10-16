@@ -1,0 +1,65 @@
+.ReviewsContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ReviewsContainer button {
+    background-color: #ffc000;
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .ReviewsContainer button:hover {
+    background-color: #e1a902;
+  }
+  
+  .ReviewsContainer label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .ReviewsContainer select,
+  .ReviewsContainer textarea {
+    width: 100%;
+    padding: 10px;
+    padding-left: 1px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .ReviewsContainer .ratingSelect {
+    margin-top: 20px;
+    margin-left: 3px;
+  }
+  .ReviewsContainer .ratingSelect .text{
+    color: #000000;
+  }
+  
+  .ReviewsContainer .commentContainer {
+    margin-top: 10px;
+    margin-left: 3px;
+  }
+  .ReviewsContainer .commentContainer .text {
+    color: #000000;
+  }
+  
+  .ReviewsContainer select option {
+    font-size: 14px;
+  }
+  
+  .star {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 2;
+    margin: 0 2px; /* Adjust the margin as needed */
+  }
+  
