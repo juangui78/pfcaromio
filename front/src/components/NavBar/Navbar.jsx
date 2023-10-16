@@ -20,12 +20,20 @@ import {
   FaSortAlphaUp,
   FaSortAlphaDown,
   FaSortDown,
+  FaTimes,
 
 } from 'react-icons/fa';
 
-import { NavBar, FilterByBtn, OrderByBtn } from './NavBarStyles';
-//import './Navbar.css';
+import {
+  NavBar,
+  FilterByBtn,
+  FilterItem,
+  OrderByBtn,
+  FilterSection,
+  FilterModal,
+} from './NavBarStyles';
 
+//import './Navbar.css';
 
 const Navbar = () => {
   const dispatch = useDispatch()
@@ -38,10 +46,15 @@ const Navbar = () => {
   const [sliderValue, setSliderValue] = useState(0);
 
   const filtersRef = useRef(null);
+  const filterRatingInput = useRef(null);
+  const filterPriceInput = useRef(null);
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
 
   const [userData, setUserData] = useState((null))
+
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [priceSortOrder, setPriceSortOrder] = useState('asc');
 
   useEffect(() => {
     axios.get(`http://localhost:3004/users/${userId}`)
@@ -110,25 +123,50 @@ const Navbar = () => {
     navigate('/login')
   }
 
+
+  const handleRatingFilterChange = () => { }
+
+  const handlePriceFilterChange = () => { }
+
+  const applyFilters = () => {
+    let filteredProducts = axios
+      .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });;
+
+    filtersRef.current.close();
+  }
+
   const showFilters = () => {
     filtersRef.current.showModal()
   }
 
+  const closeFilters = () => {
+
+    filterRatingInput.current = '';
+    filterPriceInput.current = '';
+    filtersRef.current.close();
+  }
 
   return (
     <NavBar>
       <div className='nav'>
         <div className='nav-logo'>
           <Link to='/home' >
-            <img className="img-logo" src="LogoPizzeria.png" alt="Logo" />
+            <img className="img-logo" src="/LogoPizzeria.png" alt="Logo" />
           </Link>
         </div>
-           
+
         <div className='nav-input-search'>
           <search className='search'>
             <input type="search" id="searchInput" placeholder='Buscar restaurante o pizza' />
             <button type="submit"><FaSearch /></button>
           </search>
+
           <div className='filters'>
             <FilterByBtn onClick={showFilters}>
               <span>Filtrar por: </span>
@@ -151,7 +189,7 @@ const Navbar = () => {
                   <a href="#" onClick={() => handleSortByRatingClick('high')}>Mejor Rating <FaThumbsUp /></a>
 
                   <input className="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub" />
-                  <label className="for-dropdown-sub" for="dropdown-sub">Orden Alfabético <FaSortDown /></label>
+                  <label className="for-dropdown-sub" htmlFor="dropdown-sub">Orden Alfabético <FaSortDown /></label>
                   <div className="section-dropdown-sub">
                     <a href='#' onClick={() => handleSortByNameClick('asc')}>Ascendente
                       <IconContext.Provider value={{ style: { width: '20px', height: '20px' } }} >
@@ -201,20 +239,43 @@ const Navbar = () => {
 
       </div>
 
-      <dialog ref={filtersRef} className="filterCard" id="favDialog">
+      <FilterModal ref={filtersRef} className="filterCard" id="favDialog">
         <form method="dialog">
           <section>
-            <p>
-              <span for="favAnimal">Filtros:</span>
-            </p>
-            Aqui se van a aplicar los filtros del producto
+
+            <header>
+              <span htmlFor="favAnimal">Filtrar por:</span>
+              <span className='btnClose' onClick={closeFilters}>
+                <FaTimes />
+              </span>
+            </header>
+
+            <FilterSection className="filterSection" action="">
+              <FilterItem>
+                <label htmlFor="priceFilter">Precio menor a:</label>
+                <input type="number" name="priceFilter" id="priceFilter" /* value={priceFilter} */ onChange={handlePriceFilterChange} />
+              </FilterItem>
+
+              <FilterItem>
+                <label htmlFor="ratingFilter">Rating mayor a:</label>
+                <input type="number" /* value={ratingFilter} */ ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
+              </FilterItem>
+              <FilterItem>
+                <button className='orderBtn'> Ordenar por Rating ({sortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})</button>
+              </FilterItem>
+              <FilterItem>
+                <button className='orderBtn'> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})</button>
+              </FilterItem>
+
+            </FilterSection>
+
           </section>
           <menu>
-            <button id="cancel" type="reset">Cancelar</button>
-            <button type="submit">Filtrar</button>
+            <button id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
+            <button type="button" onClick={applyFilters}>Filtrar</button>
           </menu>
         </form>
-      </dialog>
+      </FilterModal>
 
     </NavBar>
     /*   <nav className="navbar">

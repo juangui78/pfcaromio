@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 export const NavBar = styled.nav`
+    position: fixed;
+    top:0px;
+    z-index:100;
     border: 0px dashed red;
     color: black;
     background-color: white;
-    position: fixed;
     width: 100%;
     height: 100px;
     display: flex;
@@ -129,20 +131,38 @@ export const NavBar = styled.nav`
 
     dialog{
         position: fixed;
-        animation: down 0.5s;
+        animation: linear 0.2s down;
         box-shadow: #CCC;
         border: 1px solid gray;
         border-radius: 8px;
         background-color: white;
         color: black;
 
+        form > section > header {
+            font-size: 1.2em;
+            font-weight: 500;
+            padding-bottom:0.5rem ;
+            border-bottom: 1px solid gray;
+            display: flex;
+            justify-content: space-between;
+            span.btnClose{
+                cursor: pointer;
+            }
+        }
+
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
         @keyframes down {
-            0% { opacity: 0; position:absolute;  top: -20rem; }
-            100% { opacity: 1;  position:relative;  top: 0rem; }
+            0% {
+                transform: translateY(-20rem);
+                //position:relative;  top: -20rem; 
+            }
+            100% {
+                transform: translateY(0);
+                 //position:relative;  top: 0rem; 
+            }
         }
     }
 `;
@@ -365,6 +385,61 @@ export const OrderByBtn = styled.div`
     .section-dropdown-sub a {
         font-size: 14px;
     }
-    
+`;
+
+export const FilterSection = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const FilterModal = styled.dialog`
+    menu{
+     display: flex ;
+     justify-content: space-around;
+    /*  margin-block-start:0;
+     margin-block-end:0; */
+     padding-inline-start: 0;
+    }
+    button.dialogBtn{
+        background-color: red;
+    }
+`;
+
+export const FilterItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.5rem;
+    color: gray;
+    label{
+        padding-bottom:0.25rem ;
+    }
+
+    input{
+        padding: 0.5rem;
+        font-size: 1rem;
+        background-color: #EEE;
+        border:none;
+        color: black;
+        border-radius: 8px;
+
+        &:focus{
+            outline: 1px solid gray;
+            background-color: #ffeba7;
+        }
+    }
+
+    button{
+        background-color: transparent;
+        color: gray;
+        font-weight: normal;
+        border: 1px solid gray;
+        &:hover{
+            background-color: #ffeba7;
+            color:black;
+            border-color: #ffeba7;
+        }
+    }
 
 `;

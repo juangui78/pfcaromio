@@ -89,13 +89,13 @@ const Products = () => {
   return (
     <div>
       <Container>
-        <NavbarProducts
+       {/*  <NavbarProducts
           ratingFilter={ratingFilter}
           onRatingFilterChange={handleRatingFilterChange}
           onPriceFilterChange={handlePriceFilterChange}
           onApplyFilters={applyFilters}
           onSortByRating={handleSortByRating}
-        />
+        /> */}
         <Title>Lista de productos</Title>
         <FilterContainer>
           <div>
