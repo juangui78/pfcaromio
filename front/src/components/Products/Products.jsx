@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import ReviewsStore from '../ReviewsStore/ReviewsStore';
 import { getProducts, getProductsByStore, orderByRatingProducts, orderByPrice } from '../../redux/actions';
 import { useParams } from 'react-router-dom';
 import NavbarProducts from '../NavBar/NavbarProducts';
@@ -129,6 +130,7 @@ const Products = () => {
           ))}
         </Cards>
       </Container>
+      <ReviewsStore/>
     </div>
   );
 };
