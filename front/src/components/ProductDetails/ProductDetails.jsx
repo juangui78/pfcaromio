@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeProductDetails, addItemCart, getStore } from '../../redux/actions';
+import Reviews from '../Reviews/Reviews';
 
 const ProductDetails = ({ show }) => {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ const ProductDetails = ({ show }) => {
                 X
               </CloseBtn>
             </Header>
+          <ScrollableContent>
             <Details>
               <ImgContainer>
                 <Img src={product.image} alt="" />
@@ -55,7 +57,9 @@ const ProductDetails = ({ show }) => {
                   <Button onClick={handleAddItem}>Agregar al carrito</Button>
                 </Footer>
               </Description>
-            </Details>
+                </Details>
+              <Reviews/>
+            </ScrollableContent>
           </ModalContainer>
         </Overlay>
       )}
@@ -66,10 +70,15 @@ const ProductDetails = ({ show }) => {
 
 export default ProductDetails
 
+const ScrollableContent = styled.div`
+  max-height: 400px; /* Altura máxima para activar el desplazamiento vertical */
+  overflow-y: auto; /* Desbordamiento vertical */
+  padding-bottom: 10px; /* Espacio adicional en la parte inferior para evitar que el último elemento se oculte */
+`;
 
 const Overlay = styled.div`
     width: 100vw;
-    height: 120vh;
+    height: 130vh;
     position: fixed;
     top: 0;
     left: 0;
@@ -88,6 +97,7 @@ const ModalContainer = styled.div`
     border-radius: 5px;
     box-shadow: rgba(100,100,111, 0.2) 0px 7px 29px 0px ;
     padding: 20px;
+    margin-bottom: 60px;
 `;
 
 const Header = styled.div`
@@ -182,6 +192,6 @@ export const Button = styled.button`
     cursor: pointer;
 
     &:hover {
-        background-color: #333; /* Cambio de color al pasar el ratón */
+        background-color: #333;
     }
 `;
