@@ -30,12 +30,12 @@ export const NavBar = styled.nav`
             display: flex;
             align-items: center;
             justify-items: center;
-            height: 100px;
+            height: 80px;
             img.img-logo{
-                width: 140px;
+                width: 180px;
             }
             a{
-                width: 100%;
+                width: 110%;
                 display: flex;
                 justify-content: center;
             }

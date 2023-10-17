@@ -28,7 +28,8 @@ export const BackgroundContainer = styled.div`
     top:0;
     left:0;
     width: 100%;
-    height: 100vh;
+    height: 110vh;
+    overflow-y: hidden;
 
     display: flex;
     justify-content: center;
@@ -36,6 +37,7 @@ export const BackgroundContainer = styled.div`
     flex-direction: column;
 
     h1{
+        color: white;
         font-size: 80pt;
         font-family: NewPizza;
         line-height: 1;
@@ -44,11 +46,13 @@ export const BackgroundContainer = styled.div`
         padding-bottom: 1rem;
     }
     h2{
+        color: white;
         font-size: 36pt;
         line-height: 1;
         margin-bottom: 0;
     }
     span.text{
+        color: white;
         font-size: x-large;
         padding-bottom: 2rem;
     }
@@ -65,6 +69,9 @@ export const BackgroundContainer = styled.div`
     }
     div{
         display: flex;
+    }
+    body {
+        overflow: hidden;
     }
  
 `;

@@ -4,23 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import ReviewsStore from '../ReviewsStore/ReviewsStore';
 import {
-/*   getProducts,
-  getProductsByStore,
-  orderByRatingProducts,
-  orderByPrice, */
   setProductsList
 } from '../../redux/actions';
 
 import { useParams } from 'react-router-dom';
-//import NavbarProducts from '../NavBar/NavbarProducts';
 import {
   Container,
   Title,
   Cards,
-/*   FilterContainer,
-  FilterLabel,
-  FilterInput,
-  FilterButton, */
 } from './ProductsStyles';
 
 const Products = () => {
@@ -28,115 +19,36 @@ const Products = () => {
   const { storeId } = useParams();
   const productsFromState = useSelector((state) => state.products);
   const [products, setProducts] = useState([]);
-  const [ratingFilter, setRatingFilter] = useState('');
-  const [priceFilter, setPriceFilter] = useState('');
-  const [sortOrder, setSortOrder] = useState('desc');
-  const [priceSortOrder, setPriceSortOrder] = useState('asc');
 
   useEffect(() => {
-    if (productsFromState.length > 0) {
-      setProducts(productsFromState)
+    if (JSON.stringify(products) !== JSON.stringify(productsFromState)) {
+      setProducts(productsFromState);
     }
-    else {
-      axios
-        .get(`http://localhost:3004/products/?storeid=${storeId}`)
-        .then((response) => {
-          setProducts(response.data);
-          dispatch(setProductsList(response.data))
-        })
-        .catch((error) => {
-          console.error('Error fetching products:', error);
-        });
-    }
+  }, [productsFromState]);
 
-  }, [dispatch, storeId, productsFromState]);
+  useEffect(() => {
+    // Limpiar los productos al cambiar de pizzería
+    setProducts([]);
 
-/*   const handleRatingFilterChange = (event) => {
-    setRatingFilter(event.target.value);
-  }; */
-
-/*   const handlePriceFilterChange = (event) => {
-    setPriceFilter(event.target.value);
-  };
-
-  const applyFilters = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
-      let filteredProducts = response.data;
-
-      if (ratingFilter) {
-        filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
-      }
-      if (priceFilter) {
-        filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
-      }
-      setProducts(filteredProducts);
-    } catch (error) {
-      console.error('Error al aplicar filtros:', error);
-    }
-  };
-
-  const handlePriceSort = () => {
-    const sortedProducts = [...products].sort((a, b) => {
-      if (priceSortOrder === 'asc') {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
-    });
-    setProducts(sortedProducts);
-    setPriceSortOrder(priceSortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByRating = () => {
-    const sortedProducts = [...products].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a.rating - b.rating;
-      } else {
-        return b.rating - a.rating;
-      }
-    });
-    setProducts(sortedProducts);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  }; */
+    // Fetch de los nuevos productos
+    axios
+      .get(`http://localhost:3004/products/?storeid=${storeId}`)
+      .then((response) => {
+        setProducts(response.data);
+        dispatch(setProductsList(response.data));
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+  }, [dispatch, storeId]);
 
   return (
     <div>
       <Container>
-        {/*  <NavbarProducts
-          ratingFilter={ratingFilter}
-          onRatingFilterChange={handleRatingFilterChange}
-          onPriceFilterChange={handlePriceFilterChange}
-          onApplyFilters={applyFilters}
-          onSortByRating={handleSortByRating}
-        /> */}
         <Title>
-          <h1>Lista de productos</h1></Title>
-
-
-        {/*   <FilterContainer>
-          <div>
-            <FilterLabel>Filtrar por Rating:</FilterLabel>
-            <FilterInput type="number" value={ratingFilter} onChange={handleRatingFilterChange} placeholder='Mayor que...' />
-          </div>
-          <div>
-            <FilterLabel>Filtrar por Precio:</FilterLabel>
-            <FilterInput type="number" value={priceFilter} onChange={handlePriceFilterChange} placeholder='Menor que...'/>
-          </div>
-          <FilterButton onClick={applyFilters}>Aplicar filtros</FilterButton>
-        </FilterContainer>
-        <FilterContainer>
-          <FilterButton onClick={handleSortByRating}>
-            Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})
-          </FilterButton>
-          <FilterButton onClick={handlePriceSort}>
-            Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})
-          </FilterButton>
-        </FilterContainer> */}
-
-
+          <h1>Lista de productos</h1>
+        </Title>
         <Cards id="cards">
-
           {products.map((product) => (
             <ProductCard
               name={product.name}
