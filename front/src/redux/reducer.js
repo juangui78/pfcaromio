@@ -22,6 +22,7 @@ import {
     SET_RESTAURANT,
     CLEAR_CART,
     CREATE_CHECKOUT,
+    GET_EMAIL_KEYS,
 
 } from './actionsTypes';
 
@@ -328,6 +329,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 paymentUrl: payload
+
+            }
+        case GET_EMAIL_KEYS:
+            console.log(payload)
+            return {
+                ...state,
+                emailKeys: payload
 
             }
 

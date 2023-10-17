@@ -2,7 +2,7 @@
 const Stripe = require('stripe');
 require('dotenv').config();
 
-const { STRIPE_SECRET } = process.env;
+const { STRIPE_SECRET, EMAILJS_PUBLIC_KEY, EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID } = process.env;
 const stripe = new Stripe(STRIPE_SECRET);
 
 const createCheckout = async (cartDetails) => {
@@ -18,7 +18,7 @@ const createCheckout = async (cartDetails) => {
                         },
                         currency: 'usd',
                         unit_amount: item.price * 100,
-                    }, 
+                    },
                     quantity: parseInt(item.quantity),
                 }
             )
@@ -30,7 +30,7 @@ const createCheckout = async (cartDetails) => {
             cancel_url: 'http://localhost:5173?/home?cancel=true',
             line_items: itemsCart
         })
-       
+
         return session;
 
     } catch (err) {
@@ -39,8 +39,12 @@ const createCheckout = async (cartDetails) => {
 };
 
 
-const successPayment = async (paymentDetails) => { 
+const getEmailKeys = async () => {
+    return {EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY}        
+}
 
+const successPayment = async () => {
+        
 }
 
 const cancelPayment = async () => { }

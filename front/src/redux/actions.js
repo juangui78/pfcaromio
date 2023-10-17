@@ -20,6 +20,7 @@ import {
     CLEAR_CART,
     SET_RESTAURANT,
     CREATE_CHECKOUT,
+    GET_EMAIL_KEYS,
     ERROR
 } from "./actionsTypes";
 
@@ -303,6 +304,24 @@ export const createCheckout = (cartDetails) => {
           
             return dispatch(
                 { type: CREATE_CHECKOUT, payload: data.url},
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const getEmailKeys = () => {
+    return async function (dispatch) {
+        try {
+            const {data } = await axios.get('http://localhost:3004/payment/get-email-keys');
+            console.log(data.keys);
+          
+            return dispatch(
+                { type: GET_EMAIL_KEYS, payload: data.keys},
             )
         }
         catch (error) {

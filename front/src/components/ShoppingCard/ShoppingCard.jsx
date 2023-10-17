@@ -2,10 +2,11 @@ import { IconContext } from "react-icons";
 import { FaTimesCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { React, useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 
 import ItemCart from '../ItemCart/ItemCart';
 
-import { closeCart, clearCart, createCheckout } from '../../redux/actions';
+import { closeCart, clearCart, createCheckout, getEmailKeys } from '../../redux/actions';
 
 import {
     Container,
@@ -25,12 +26,10 @@ const ShoppingCard = () => {
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const showCart = useSelector((state) => state.modalCart);
-    //const restaurantSelected = useSelector(state => state.restaurantSelected);
+    
     const paymentUrl = useSelector(state => state.paymentUrl);
 
     let cartDetails = useSelector((state) => state.cartDetails);
-    //let cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
-    //let restaurantSelected = JSON.parse(localStorage.getItem('restaurantSelected'));
     let itemsCount = useSelector(state => state.cartDetails.itemsCount);
     if (itemsCount === 0) {
         cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
@@ -46,8 +45,22 @@ const ShoppingCard = () => {
         dispatch(createCheckout(cartDetails))
     };
 
+    const sendPaymentEmail = () => {
+        const keys = dispatch(getEmailKeys())
+        console.log(keys);
+/* 
+        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, cartDetails, EMAILJS_PUBLIC_KEY)
+            .then((result) => {
+                console.log(result.text);
+            }, (error) => {
+                console.log(error.text);
+            }); */
+    }
+
     useEffect(() => {
+
         if (paymentUrl) {
+            sendPaymentEmail;
             window.location.replace(paymentUrl);
         }
     }, [paymentUrl])
@@ -66,12 +79,12 @@ const ShoppingCard = () => {
                     </CloseButton>
                 </Header>
 
-                {cartDetails.store  &&
+                {cartDetails.store &&
                     <StoreDetails>
                         <StoreName> {cartDetails.store.name}</StoreName>
                         <StoreAddress> {cartDetails.store.address}</StoreAddress>
                     </StoreDetails>
-                    }
+                }
 
 
                 <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>

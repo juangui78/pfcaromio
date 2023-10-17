@@ -71,6 +71,14 @@ const Navbar = (props) => {
       setCurrentStore(JSON.parse(localStorage.getItem('restaurantSelected')));
     }
 
+    axios.get(`http://localhost:3004/products/?storeid=${currentStore.id}`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+      
     axios.get(`http://localhost:3004/users/${userId}`)
       .then((data) => {
         data && setUserData(data.data)
@@ -79,13 +87,6 @@ const Navbar = (props) => {
         console.log(error)
       })
 
-    axios.get(`http://localhost:3004/products/?storeid=${currentStore.id}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
     
   }, [userId, store])
 
