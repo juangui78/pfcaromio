@@ -1,5 +1,6 @@
 import {
     GET_PRODUCTS,
+    SET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
     FILTER_PRODUCTS_BY_NAME,
@@ -24,12 +25,29 @@ import {
 
 import axios from 'axios';
 
-export const getProducts = () => {
+export const getProducts = (storeId) => {
+
     return async function (dispatch) {
         try {
-            const { data } = await axios.get("http://localhost:3004/products/");
+            const { data } = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
+    
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const setProductsList = (products) => {
+    return async function (dispatch) {
+        try {
+            return dispatch(
+                { type: SET_PRODUCTS, payload: products },
             )
         }
         catch (error) {

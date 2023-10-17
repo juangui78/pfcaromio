@@ -63,7 +63,7 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
             ...(storeid ? { store: storeid } : {}),
             ...(maxPrice ? { price: { $lte: parseFloat(maxPrice) } } : {}),
         };
-
+       
         return await Products.find(filter);
 
     } catch (err) {

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    padding: 1rem;
+    
     flex-wrap: nowrap;
     flex-direction: column;
     
@@ -11,20 +11,24 @@ export const Container = styled.div`
     } 
 `;
 
-export const Title = styled.h1`
-
+export const Title = styled.header`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
     width: 100%;
-    text-align: rigth;
-    font-size: 24pt;
     color:var(--red);
-    margin-left: 30px;
-    margin-top: 200px;
-    margin-bottom: 50px
+    margin-bottom: 50px;
+    height: 200px;
+    align-items: flex-end;
+    h1{
+      font-size: 24pt;
+    }
     
 `;
 
 export const Cards = styled.div`
-    padding: 1rem 1rem 0rem 1rem;
+    padding: 1rem 4rem 0rem 4rem;
     display: grid;
     grid-template-columns: 
         repeat(

@@ -25,11 +25,12 @@ const ShoppingCard = () => {
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const showCart = useSelector((state) => state.modalCart);
-    const restaurantSelected = useSelector(state => state.restaurantSelected);
+    //const restaurantSelected = useSelector(state => state.restaurantSelected);
     const paymentUrl = useSelector(state => state.paymentUrl);
 
     let cartDetails = useSelector((state) => state.cartDetails);
     //let cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
+    //let restaurantSelected = JSON.parse(localStorage.getItem('restaurantSelected'));
     let itemsCount = useSelector(state => state.cartDetails.itemsCount);
     if (itemsCount === 0) {
         cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
@@ -213,7 +214,7 @@ const Overlay = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0,0,0, 0.5) ;
+    background: rgba(0,0,0, 0.3) ;
     display: flex;
 
 `;

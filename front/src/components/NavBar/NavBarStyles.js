@@ -80,6 +80,15 @@ export const NavBar = styled.nav`
                 display: flex;
                 flex-direction:row;
                 justify-content: space-between;
+                align-items:center;
+                
+                div.last{
+                    display: flex;
+                    justify-content:center;
+                    align-items: center;
+                    flex-grow: inherit;
+                    font-size: small;
+                }
             }
         }
 
@@ -112,7 +121,7 @@ export const NavBar = styled.nav`
             }
 
             div.nav-btn-user-container{
-                padding-top: 0.5rem;
+               // padding-top: 0.5rem;
 
                 button{
                     background-color: white;
@@ -169,7 +178,7 @@ export const NavBar = styled.nav`
 
 export const FilterByBtn = styled.button`
     background-color: transparent;
-    color: black;
+    color:  ${(props) => props.disabled ? '#DDD': 'black'};
     border: none;
     display: flex;
     align-items: center;
@@ -178,14 +187,14 @@ export const FilterByBtn = styled.button`
     border: 0px solid;
 `;
 
-export const DropDownMenu = styled.div`
+/* export const DropDownMenu = styled.div`
     background-color: white;
     color: black;
     border: none;
     display: flex;
     align-items: center;
     gap: 1rem;
-`;
+`; */
 
 export const OrderByBtn = styled.div`
     .sec-center {
@@ -230,7 +239,8 @@ export const OrderByBtn = styled.div`
         text-align: center;
         background-color: transparent;
         cursor: pointer;
-        color: black;
+        color:  ${(props) => props.disabled ? '#DDD': 'black'};
+
     }
 
     .dropdown:checked + label:before,
@@ -441,5 +451,4 @@ export const FilterItem = styled.div`
             border-color: #ffeba7;
         }
     }
-
 `;

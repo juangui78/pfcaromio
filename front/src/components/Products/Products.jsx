@@ -25,8 +25,13 @@ const Products = () => {
   const [priceFilter, setPriceFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
-
+ 
   useEffect(() => {
+    if(productsFromState.length > 0)
+    {
+      setProducts(productsFromState)
+    }
+    else{
     axios
       .get(`http://localhost:3004/products/?storeid=${storeId}`)
       .then((response) => {
@@ -35,8 +40,12 @@ const Products = () => {
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
-    dispatch(getProducts());
-  }, [dispatch, storeId]);
+    }
+    
+
+
+   
+  }, [dispatch, storeId, productsFromState]);
 
   const handleRatingFilterChange = (event) => {
     setRatingFilter(event.target.value);
@@ -97,8 +106,11 @@ const Products = () => {
           onApplyFilters={applyFilters}
           onSortByRating={handleSortByRating}
         /> */}
-        <Title>Lista de productos</Title>
-        <FilterContainer>
+        <Title>
+          <h1>Lista de productos</h1></Title>
+        
+        
+      {/*   <FilterContainer>
           <div>
             <FilterLabel>Filtrar por Rating:</FilterLabel>
             <FilterInput type="number" value={ratingFilter} onChange={handleRatingFilterChange} placeholder='Mayor que...' />
@@ -116,8 +128,11 @@ const Products = () => {
           <FilterButton onClick={handlePriceSort}>
             Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})
           </FilterButton>
-        </FilterContainer>
+        </FilterContainer> */}
+
+    
         <Cards id="cards">
+      
           {products.map((product) => (
             <ProductCard
               name={product.name}

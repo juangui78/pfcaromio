@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
 
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
-import { orderByName, sortedByRating, filterByRating } from '../../redux/actions';
+import { orderByName, sortedByRating, filterByRating, setProductsList } from '../../redux/actions';
 
 import { IconContext } from "react-icons";
 import {
@@ -35,28 +35,42 @@ import {
 
 //import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = (props) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { isSignedIn, userId } = useAuth()
   const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [sliderValue, setSliderValue] = useState(0);
+
+  const [currentStore, setCurrentStore] = useState({});
+  const [products, setProducts] = useState([])
 
   const filtersRef = useRef(null);
   const filterRatingInput = useRef(null);
   const filterPriceInput = useRef(null);
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
+  const disableFilterBtn = location.pathname.startsWith('/products');
 
   const [userData, setUserData] = useState((null))
 
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
 
+  const store = useSelector(state => state.restaurantSelected);
+
   useEffect(() => {
+    if (store.id) {
+      setCurrentStore(store)
+    }
+    else {
+      setCurrentStore(JSON.parse(localStorage.getItem('restaurantSelected')));
+    }
+
     axios.get(`http://localhost:3004/users/${userId}`)
       .then((data) => {
         data && setUserData(data.data)
@@ -64,7 +78,16 @@ const Navbar = () => {
       .catch((error) => {
         console.log(error)
       })
-  }, [userId])
+
+    axios.get(`http://localhost:3004/products/?storeid=${currentStore.id}`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+    
+  }, [userId, store])
 
   const typeUser = userData?.[0]?.role
 
@@ -123,23 +146,74 @@ const Navbar = () => {
     navigate('/login')
   }
 
+  const handleRatingFilterChange = (event) => {
+    setRatingFilter(event.target.value);
+  };
 
-  const handleRatingFilterChange = () => { }
+  const handlePriceFilterChange = (event) => {
+    setPriceFilter(event.target.value);
+  };
 
-  const handlePriceFilterChange = () => { }
+  /*  const applyFilters = async () => {
+     try {
+       const response = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
+       let filteredProducts = response.data;
+   
+       if (ratingFilter) {
+         filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
+       }
+       if (priceFilter) {
+         filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
+       }
+       setProducts(filteredProducts);
+     } catch (error) {
+       console.error('Error al aplicar filtros:', error);
+     }
+   }; */
 
   const applyFilters = () => {
+    const storeId = currentStore.id;
     let filteredProducts = axios
       .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
       .then((response) => {
         setProducts(response.data);
+        dispatch(setProductsList(response.data));
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
       });;
 
+    setRatingFilter('');
+    setPriceFilter('');
     filtersRef.current.close();
   }
+
+  const handlePriceSort = () => {
+    const sortedProducts = [...products].sort((a, b) => {
+      if (priceSortOrder === 'asc') {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+    dispatch(setProductsList(sortedProducts));
+    setProducts(sortedProducts);
+    setPriceSortOrder(priceSortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByRating = () => {
+
+    const sortedProducts = [...products].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.rating - b.rating;
+      } else {
+        return b.rating - a.rating;
+      }
+    });
+    dispatch(setProductsList(sortedProducts));
+    setProducts(sortedProducts);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
 
   const showFilters = () => {
     filtersRef.current.showModal()
@@ -168,18 +242,20 @@ const Navbar = () => {
           </search>
 
           <div className='filters'>
-            <FilterByBtn onClick={showFilters}>
+            <FilterByBtn onClick={showFilters} disabled={disableFilterBtn}>
               <span>Filtrar por: </span>
-              <IconContext.Provider value={{ style: { color: 'black', width: '20px', height: '20px' } }} >
+              <IconContext.Provider value={{ style: { color: disableFilterBtn ? '#DDD':'black', width: '20px', height: '20px' } }} >
                 <FaSlidersH />
               </IconContext.Provider>
             </FilterByBtn>
 
-            <OrderByBtn>
+            <div className='last'>Último restaurante visto: {currentStore.name}</div>
+
+            <OrderByBtn disabled={!disableFilterBtn}>
               <div className="sec-center">
-                <input className="dropdown" type="checkbox" id="dropdown" name="dropdown" />
+                <input className="dropdown" type="checkbox" id="dropdown" name="dropdown" disabled={!disableFilterBtn} />
                 <label className="for-dropdown" htmlFor="dropdown">Ordenar por:
-                  <IconContext.Provider value={{ style: { paddingLeft: '1rem', color: 'black', width: '20px', height: '20px' } }} >
+                  <IconContext.Provider value={{ style: { paddingLeft: '1rem', color: disableFilterBtn ? 'black':'#DDD', width: '20px', height: '20px' } }} >
                     <FaList />
                   </IconContext.Provider>
                 </label>
@@ -253,18 +329,18 @@ const Navbar = () => {
             <FilterSection className="filterSection" action="">
               <FilterItem>
                 <label htmlFor="priceFilter">Precio menor a:</label>
-                <input type="number" name="priceFilter" id="priceFilter" /* value={priceFilter} */ onChange={handlePriceFilterChange} />
+                <input type="number" name="priceFilter" id="priceFilter" value={priceFilter} onChange={handlePriceFilterChange} />
               </FilterItem>
 
               <FilterItem>
                 <label htmlFor="ratingFilter">Rating mayor a:</label>
-                <input type="number" /* value={ratingFilter} */ ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
+                <input type="number" value={ratingFilter} ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
               </FilterItem>
               <FilterItem>
-                <button className='orderBtn'> Ordenar por Rating ({sortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})</button>
+                <button className='orderBtn' onClick={handleSortByRating}>  Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})</button>
               </FilterItem>
               <FilterItem>
-                <button className='orderBtn'> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})</button>
+                <button className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})</button>
               </FilterItem>
 
             </FilterSection>
