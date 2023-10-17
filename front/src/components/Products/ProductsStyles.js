@@ -1,23 +1,35 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    
     flex-wrap: nowrap;
     flex-direction: column;
-    
-    width: 100%;
+    width: 101%;
+    padding: 1rem 0;
+    background-image: url('https://png.pngtree.com/background/20220731/original/pngtree-racing-background-abstract-stripes-withruby-red-black-gray-and-white-free-picture-image_1913659.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    overflow-x: hidden; /* Evita el scroll horizontal */
+
     @media (max-width: 800px) {
-        padding: 4rem 0rem 0rem 0rem;
-    } 
+        padding: 1rem 0 10rem; /* Ajusta este valor según sea necesario */
+    }
+
+    /* Limita el ancho de los elementos internos */
+    > * {
+        max-width: 100%;
+    }
 `;
 
 export const Title = styled.header`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: black;
     width: 100%;
-    color:var(--red);
+    color: white;
+    margin-left: -7px;
+    margin-top: -19px;
     margin-bottom: 50px;
     height: 200px;
     align-items: flex-end;
@@ -30,12 +42,15 @@ export const Title = styled.header`
 export const Cards = styled.div`
     padding: 1rem 4rem 0rem 4rem;
     display: grid;
+    margin-top: -30px;
+    margin-left: -12px;
+    margin-bottom: 10px;
     grid-template-columns: 
         repeat(
             auto-fit,
-            minmax(260px, 260px)
+            minmax(250px, 260px)
         );
-    gap:2rem;
+    gap:1.4rem;
 `;
 export const FilterContainer = styled.div`
   margin-left: 30px;

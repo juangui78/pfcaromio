@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Products.css'
 import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
