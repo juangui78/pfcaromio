@@ -13,13 +13,14 @@ router.post('/create-checkout', async (req, res) => {
     try {
         const session = await createCheckout(req.body);
         //res.redirect(303, session.url);
+   
         res.status(200).json(session);
     } catch (error) {
         res.status(500).json({ error: 'Payment Error ' });
     }
 });
 
-router.post('/get-email-keys', async (req, res) => {
+router.get('/get-email-keys', async (req, res) => {
     try {
         const keys = await getEmailKeys();
         res.status(200).json(keys);

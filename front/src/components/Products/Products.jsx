@@ -3,17 +3,24 @@ import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import ReviewsStore from '../ReviewsStore/ReviewsStore';
-import { getProducts, getProductsByStore, orderByRatingProducts, orderByPrice } from '../../redux/actions';
+import {
+/*   getProducts,
+  getProductsByStore,
+  orderByRatingProducts,
+  orderByPrice, */
+  setProductsList
+} from '../../redux/actions';
+
 import { useParams } from 'react-router-dom';
-import NavbarProducts from '../NavBar/NavbarProducts';
+//import NavbarProducts from '../NavBar/NavbarProducts';
 import {
   Container,
   Title,
   Cards,
-  FilterContainer,
+/*   FilterContainer,
   FilterLabel,
   FilterInput,
-  FilterButton,
+  FilterButton, */
 } from './ProductsStyles';
 
 const Products = () => {
@@ -25,33 +32,30 @@ const Products = () => {
   const [priceFilter, setPriceFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
- 
+
   useEffect(() => {
-    if(productsFromState.length > 0)
-    {
+    if (productsFromState.length > 0) {
       setProducts(productsFromState)
     }
-    else{
-    axios
-      .get(`http://localhost:3004/products/?storeid=${storeId}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
+    else {
+      axios
+        .get(`http://localhost:3004/products/?storeid=${storeId}`)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data))
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
     }
-    
 
-
-   
   }, [dispatch, storeId, productsFromState]);
 
-  const handleRatingFilterChange = (event) => {
+/*   const handleRatingFilterChange = (event) => {
     setRatingFilter(event.target.value);
-  };
+  }; */
 
-  const handlePriceFilterChange = (event) => {
+/*   const handlePriceFilterChange = (event) => {
     setPriceFilter(event.target.value);
   };
 
@@ -59,7 +63,7 @@ const Products = () => {
     try {
       const response = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
       let filteredProducts = response.data;
-  
+
       if (ratingFilter) {
         filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
       }
@@ -94,12 +98,12 @@ const Products = () => {
     });
     setProducts(sortedProducts);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
+  }; */
 
   return (
     <div>
       <Container>
-       {/*  <NavbarProducts
+        {/*  <NavbarProducts
           ratingFilter={ratingFilter}
           onRatingFilterChange={handleRatingFilterChange}
           onPriceFilterChange={handlePriceFilterChange}
@@ -108,9 +112,9 @@ const Products = () => {
         /> */}
         <Title>
           <h1>Lista de productos</h1></Title>
-        
-        
-      {/*   <FilterContainer>
+
+
+        {/*   <FilterContainer>
           <div>
             <FilterLabel>Filtrar por Rating:</FilterLabel>
             <FilterInput type="number" value={ratingFilter} onChange={handleRatingFilterChange} placeholder='Mayor que...' />
@@ -130,9 +134,9 @@ const Products = () => {
           </FilterButton>
         </FilterContainer> */}
 
-    
+
         <Cards id="cards">
-      
+
           {products.map((product) => (
             <ProductCard
               name={product.name}
@@ -145,7 +149,7 @@ const Products = () => {
           ))}
         </Cards>
       </Container>
-      <ReviewsStore/>
+      <ReviewsStore />
     </div>
   );
 };

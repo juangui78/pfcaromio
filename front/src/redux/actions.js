@@ -31,7 +31,7 @@ export const getProducts = (storeId) => {
     return async function (dispatch) {
         try {
             const { data } = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
-    
+            
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },
             )
@@ -300,10 +300,8 @@ export const createCheckout = (cartDetails) => {
     return async function (dispatch) {
         try {
             const {data } = await axios.post('http://localhost:3004/payment/create-checkout', cartDetails);
-            console.log(data.url);
-          
             return dispatch(
-                { type: CREATE_CHECKOUT, payload: data.url},
+                { type: CREATE_CHECKOUT, payload: data},
             )
         }
         catch (error) {
@@ -318,10 +316,8 @@ export const getEmailKeys = () => {
     return async function (dispatch) {
         try {
             const {data } = await axios.get('http://localhost:3004/payment/get-email-keys');
-            console.log(data.keys);
-          
             return dispatch(
-                { type: GET_EMAIL_KEYS, payload: data.keys},
+                { type: GET_EMAIL_KEYS, payload: data},
             )
         }
         catch (error) {

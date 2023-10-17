@@ -114,6 +114,11 @@ export const NavBar = styled.nav`
                     border: none;
                     background-color: var(--orange);
                     color: white;
+                    padding-left: 0.5rem;
+                    padding-right: 0.5rem;
+                    padding-top: 0.3rem;
+                    padding-bottom: 0.3rem;
+                    border-radius: 5px;
                     &:hover{
                         color:black;
                     }

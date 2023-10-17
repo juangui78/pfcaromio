@@ -37,6 +37,8 @@ const initialState = {
     restaurants: [], // * stores
     restaurantSelected: {},
     paymentUrl: null,
+    paymentData: null,
+    emailKeys:{},
     shippingFee: 2,
 
     cartDetails: {
@@ -166,7 +168,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
             };
 
         case OPEN_PRODUCT_DETAILS:
-            const product = state.products.find(product => payload === product._id);
+            console.log(payload)
+            const product = state.products.find(product => payload == product._id);
             return {
                 ...state,
                 modalProductDetails: true,
@@ -311,6 +314,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 total: 0,
             }
             localStorage.setItem('cartDetails', JSON.stringify({}));
+            localStorage.setItem('emailKeys', JSON.stringify({}));
 
             return {
                 ...state,
@@ -326,13 +330,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case CREATE_CHECKOUT:
+            localStorage.setItem('paymentData', JSON.stringify(payload));
+
             return {
                 ...state,
-                paymentUrl: payload
+                paymentUrl: payload.url,
 
             }
+
         case GET_EMAIL_KEYS:
-            console.log(payload)
+            localStorage.setItem('emailKeys', JSON.stringify(payload));
             return {
                 ...state,
                 emailKeys: payload

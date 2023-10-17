@@ -2,7 +2,6 @@ import { IconContext } from "react-icons";
 import { FaTimesCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { React, useState, useEffect } from 'react';
-import emailjs from '@emailjs/browser';
 
 import ItemCart from '../ItemCart/ItemCart';
 
@@ -25,6 +24,7 @@ const ShoppingCard = () => {
 
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
+   
     const showCart = useSelector((state) => state.modalCart);
     
     const paymentUrl = useSelector(state => state.paymentUrl);
@@ -45,22 +45,10 @@ const ShoppingCard = () => {
         dispatch(createCheckout(cartDetails))
     };
 
-    const sendPaymentEmail = () => {
-        const keys = dispatch(getEmailKeys())
-        console.log(keys);
-/* 
-        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, cartDetails, EMAILJS_PUBLIC_KEY)
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            }); */
-    }
 
-    useEffect(() => {
-
+    useEffect(() => {        
+        
         if (paymentUrl) {
-            sendPaymentEmail;
             window.location.replace(paymentUrl);
         }
     }, [paymentUrl])
@@ -68,8 +56,8 @@ const ShoppingCard = () => {
     return (
         <>
             <Overlay id="overlay" onClick={handleClickOverlay} style={{ display: showCart ? "" : "none" }} />
-            <Container right={showCart ? "0%" : "-35%"}>
-
+            <Container $right={showCart ? "0%" : "-35%"}>
+         
                 <Header>
                     <Title>Tu carrito</Title>
                     <CloseButton onClick={() => dispatch(closeCart())}>
