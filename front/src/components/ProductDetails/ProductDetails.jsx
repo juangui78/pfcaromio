@@ -52,7 +52,7 @@ const ProductDetails = ({ show }) => {
               <Description>
                 <Name>{product.name}</Name>
                 <Summary>{product.description}</Summary>
-                <Price>{product.price}</Price>
+                <Price>{product.price}$ Dólares</Price>
                 <Footer>
                   <Button onClick={handleAddItem}>Agregar al carrito</Button>
                 </Footer>
@@ -143,6 +143,7 @@ const ImgContainer = styled.div`
 `;
 
 export const Img = styled.img`
+border: 1px solid black; /* Añade un borde negro */
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -168,11 +169,14 @@ export const Name = styled.h2`
 
 export const Price = styled.h2`
     display: flex;
-    margin: auto 0;
+    margin-top: 60px;
+    margin-bottom: -5px;
     justify-content: center;
     font-size: x-large;
 `;
 export const Summary = styled.p`
+    margin-bottom: -10px;
+    margin-top: -5px;
     height: 6rem;
     text-align: center;
 `;
