@@ -239,7 +239,7 @@ export const OrderByBtn = styled.div`
         text-align: center;
         background-color: transparent;
         cursor: pointer;
-        color:  ${(props) => props.disabled ? '#DDD': 'black'};
+        color:  ${(props) => props.disabled ? 'black': '#DDD'};
 
     }
 

@@ -54,7 +54,7 @@ const Navbar = (props) => {
   const filterPriceInput = useRef(null);
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
-  const disableFilterBtn = location.pathname.startsWith('/products');
+  const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
 
   const [userData, setUserData] = useState((null))
 
@@ -242,9 +242,9 @@ const Navbar = (props) => {
           </search>
 
           <div className='filters'>
-            <FilterByBtn onClick={showFilters} disabled={disableFilterBtn}>
+            <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
               <span>Filtrar por: </span>
-              <IconContext.Provider value={{ style: { color: disableFilterBtn ? '#DDD':'black', width: '20px', height: '20px' } }} >
+              <IconContext.Provider value={{ style: { color: !disableFilterBtn ? '#DDD':'black', width: '20px', height: '20px' } }} >
                 <FaSlidersH />
               </IconContext.Provider>
             </FilterByBtn>
@@ -253,9 +253,9 @@ const Navbar = (props) => {
 
             <OrderByBtn disabled={!disableFilterBtn}>
               <div className="sec-center">
-                <input className="dropdown" type="checkbox" id="dropdown" name="dropdown" disabled={!disableFilterBtn} />
+                <input className="dropdown" type="checkbox" id="dropdown" name="dropdown" disabled={disableFilterBtn} />
                 <label className="for-dropdown" htmlFor="dropdown">Ordenar por:
-                  <IconContext.Provider value={{ style: { paddingLeft: '1rem', color: disableFilterBtn ? 'black':'#DDD', width: '20px', height: '20px' } }} >
+                  <IconContext.Provider value={{ style: { paddingLeft: '1rem', color: !disableFilterBtn ? 'black':'#DDD', width: '20px', height: '20px' } }} >
                     <FaList />
                   </IconContext.Provider>
                 </label>
