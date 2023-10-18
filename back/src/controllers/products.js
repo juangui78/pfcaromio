@@ -2,10 +2,10 @@ const  {Products}  = require('../models/product');
 const { Store } = require('../models/store');
 const mongoose = require('mongoose');
 
-// Obtener todos los productos
-const getAllProducts = async (storeid) => {
+//Obtener todos los productos
+const getAllProducts = async (storeId) => {
     try {
-        return storeid ? await Products.find({ store: storeid }) : await Products.find();
+        return storeId ? await Products.find({ store: storeId }).exec() : await Products.find();
     } catch (err) {
         console.log(err);
     }
@@ -90,7 +90,9 @@ const createProduct = async (name, price, rating, description,image, stock, stor
         console.log(newProduct);
         await newProduct.save();
 
-        
+        // const store = await Store.findById(storeId);
+        // store.products.push(newProduct);
+        // await store.save();
         
         return newProduct;
 

@@ -36,8 +36,9 @@ export const getProducts = () => {
 export const getProductsByStore = (id) => {
     return async function (dispatch) {
         try {
-            //const data = await ...;
-            const data = ProductsData.filter((product) => product.storeId === id);
+            
+            // const {data} = await axios.get(`http://localhost:3004/products?storeId=${id}`);
+            // const data = ProductsData.filter((product) => product.storeId === id);
             console.log(data)
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },

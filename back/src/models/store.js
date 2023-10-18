@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const storeSchema = new Schema({
+    user: {type: Schema.Types.ObjectId, ref: 'User', required: true,},
     name: {type: String, required: true},
     address: {type: String, required: true},
     rating: {type: Number, default: 0},

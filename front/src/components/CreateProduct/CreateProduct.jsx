@@ -4,11 +4,12 @@ import { useState } from 'react'
 import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth, useClerk } from '@clerk/clerk-react'
 export default function CreateProduct () {
 
     const navigate = useNavigate()
     const {userId} = useAuth()
+
 
     // Obtengo valores del select y los seteo en ProductData
     const handleSelect = (newValue) => {
