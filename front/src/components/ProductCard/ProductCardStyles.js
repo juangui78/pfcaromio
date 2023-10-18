@@ -33,6 +33,7 @@ export const ProductItem = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
+    
 `;
 
 export const Price = styled.div`

@@ -5,8 +5,9 @@ import styled from 'styled-components';
 export const CardContainer = styled.div`
     width: 320px;
     border-radius: 10px; 
-    background-color: #F3F3F3;
+    background-color: #FFF;
     transition: 0.5s;
+    box-shadow: 2px 4px 10px gray;
     &:hover {
         transform: scale(102%);
         background-color: beige;
