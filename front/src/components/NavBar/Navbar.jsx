@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
-
+import './Navbar.css'
 import CartBtn from '../CartBtn/CartBtn';
 import SearchBar from '../SearchBar/SearchBar';
 import { orderByName, sortedByRating, filterByRating, setProductsList } from '../../redux/actions';
@@ -26,6 +27,7 @@ import {
 
 import {
   NavBar,
+  AlertContainer,
   FilterByBtn,
   FilterItem,
   OrderByBtn,
@@ -148,11 +150,78 @@ const Navbar = (props) => {
   }
 
   const handleRatingFilterChange = (event) => {
-    setRatingFilter(event.target.value);
+    const value = event.target.value;
+    if (value === '' || value === null) {
+      setRatingFilter('');
+    } else {
+      const parsedValue = parseInt(value, 10);
+      if (isNaN(parsedValue)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Por favor, introduce un número válido.',
+          position: 'top',
+          toast: true,
+          showConfirmButton: false,
+          timer: 3000
+        });
+      } else if (parsedValue < 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'El número no puede ser negativo.',
+          position: 'top',
+          toast: true,
+          showConfirmButton: false,
+          timer: 3000,
+          customClass: {
+            container: 'swal-overlay',
+          },
+        });
+      } else if (parsedValue > 5) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'El número no puede ser mayor a 5.',
+          position: 'top',
+          toast: true,
+          showConfirmButton: false,
+          timer: 3000,
+          customClass: {
+            container: 'swal-overlay',
+          },
+        });
+      } else {
+        setRatingFilter(parsedValue);
+      }
+    }
   };
 
   const handlePriceFilterChange = (event) => {
-    setPriceFilter(event.target.value);
+    const value = event.target.value;
+  
+    if (value === '' || value === null) {
+      setPriceFilter('');
+    } else {
+      const parsedValue = parseFloat(value);
+  
+      if (isNaN(parsedValue) || parsedValue < 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'El número no puede ser negativo.',
+          position: 'top',
+          toast: true,
+          showConfirmButton: false,
+          timer: 3000,
+          customClass: {
+            container: 'swal-overlay',
+          },
+        });
+      } else {
+        setPriceFilter(parsedValue);
+      }
+    }
   };
 
   /*  const applyFilters = async () => {
@@ -333,15 +402,17 @@ const Navbar = (props) => {
                 <input type="number" name="priceFilter" id="priceFilter" value={priceFilter} onChange={handlePriceFilterChange} />
               </FilterItem>
 
-              <FilterItem>
-                <label htmlFor="ratingFilter">Rating mayor a:</label>
-                <input type="number" value={ratingFilter} ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
-              </FilterItem>
+              <AlertContainer>
+                <FilterItem>
+                  <label htmlFor="ratingFilter">Rating mayor a:</label>
+                  <input type="number" value={ratingFilter} ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
+                </FilterItem>
+              </AlertContainer>
               <FilterItem>
                 <button className='orderBtn' onClick={handleSortByRating}>  Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})</button>
               </FilterItem>
               <FilterItem>
-                <button className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor a mayor' : 'mayor a menor'})</button>
+                <button className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})</button>
               </FilterItem>
 
             </FilterSection>
@@ -349,69 +420,13 @@ const Navbar = (props) => {
           </section>
           <menu>
             <button id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
-            <button type="button" onClick={applyFilters}>Filtrar</button>
+            <button type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
           </menu>
         </form>
       </FilterModal>
 
     </NavBar>
-    /*   <nav className="navbar">
-        <div className="navbar-container">
-  
-          <div className="logo">
-            <Link to='/home'>
-              <img src="LogoPizzeria.png" alt="Logo" />
-            </Link>
-          </div>
-          <div className="filters">
-            <div className="dropdown">
-              <button className="filter-button filter-buttonns" onClick={toggleFiltersDropdown}>
-                Agregar filtros
-              </button>
-              {filtersDropdownOpen && (
-                <div className="dropdown-content">
-                  <div className="filter-button">
-                  <button style={{ backgroundColor: 'black', color: 'white' }}>Ordenar por Rating</button>
-                    <div className="dropdown-content-inner show-scroll">
-                      <a href="#" onClick={() => handleSortByRatingClick('low')}>Peor Rating</a>
-                      <a href='#' onClick={() => handleSortByRatingClick('high')}>Mejor Rating</a>                  
-                      </div>
-                  </div>
-                  <div className="filter-button">
-                  <button style={{ backgroundColor: 'black', color: 'white' }}>Ordenar por Nombre</button>
-                    <div className="dropdown-content-inner show-scroll">
-                    <a href='#' onClick={() => handleSortByNameClick('desc')}>Z-A</a>
-                      <a href='#' onClick={() => handleSortByNameClick('asc')}>A-Z</a>
-                    </div>
-                  </div>
-                  
-                </div>
-              )}
-            </div>
-          </div>
-          {!showFiltersAndSearch && (
-            <div className="back-to-home-button" style={{ marginRight: '545px', borderBottom: '1px solid black', position: 'relative' }}>
-              <Link to="/home" style={{ textDecoration: 'none', color: 'black', fontSize: '16px' }}>
-                Volver a Inicio
-              </Link>
-            </div>
-          )}
-  
-              <SearchBar />
-  
-          <div className="user-actions">
-            {!isSignedIn ? (
-              <button className="login-button" onClick={() => handleLoginButton()}>Iniciar Sesión</button>
-            ) : <UserButton />}
-          </div>
-          <div className="buttonCreate">
-            {isSignedIn && typeUser === 'Seller' ? <div>
-              <Link to='/myRestaurant' className='link'>Mi Restaurante</Link>
-            </div> : null  }
-          </div>
-              <CartBtn/>
-        </div>
-      </nav> */
+
   );
 };
 

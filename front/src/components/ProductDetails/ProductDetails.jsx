@@ -117,8 +117,8 @@ const CloseBtn = styled.button`
     position: absolute;
     top: 20px;
     right: 20px;
-    background: none;
-    color: gray;
+    background: red;
+    color: white;
     width: 20px;
     height: 30px;
     padding-left: 8px;
@@ -128,7 +128,7 @@ const CloseBtn = styled.button`
     transition: .3s ease all;
     border-radius: 3px;
     &:hover{
-        color: black;   
+        color: white;   
 }
 `;
 export const Details = styled.div`
