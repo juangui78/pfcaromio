@@ -5,6 +5,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import {useSelector } from 'react-redux';
 
 import LoginForm from './components/Login/Login'
+import Slide from './components/Slide/Slide';
 import Logout from './components/Logout/Logout'
 import Profile from './components/Profile/Profile'
 import NavBar from '../src/components/NavBar/Navbar'
@@ -37,7 +38,10 @@ const App = () => {
       }
        <Routes>
         <Route path='/' element={<LandingPage />}></Route>
-        <Route path='/home' element={<Restaurants />}></Route>
+        <Route path='/home' element={<>
+          <Slide />
+          <Restaurants />
+        </>}></Route>
         <Route path="/products" element={<Products />} /> 
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
