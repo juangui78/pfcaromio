@@ -31,13 +31,11 @@ const getProductsSortedByRating = async (order, storeid) => {
         const productsQuery = storeid ? { store: storeid } : {};
 
         return Products.find(productsQuery).sort({ rating: sortOrder });
-
-        
-        
     } catch (err) {
         console.log(err);
     }
 };
+
 
 
 // Obtener productos por su ID o nombre
@@ -65,7 +63,7 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
             ...(storeid ? { store: storeid } : {}),
             ...(maxPrice ? { price: { $lte: parseFloat(maxPrice) } } : {}),
         };
-
+       
         return await Products.find(filter);
 
     } catch (err) {
@@ -75,47 +73,51 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
 
 // Crear un nuevo producto
 
-const createProduct = async (name, price, rating, description,image, stock, storeId) => {
+const createProduct = async (UserStoreId, name, price, rating, description,image, stock) => {
     try {
-        console.log('error aqui');
+        console.log(UserStoreId);
+        console.log(name);
+        const store = await Store.findOne({userIdentifier: UserStoreId})
         const newProduct = new Products({
+            store: store._id,
             name: name,
             price: price,
             rating: rating,
             description: description,
             image: image,
             stock: stock,
-            store: storeId,
         });
         console.log(newProduct);
         await newProduct.save();
 
+<<<<<<< HEAD
         // const store = await Store.findById(storeId);
         // store.products.push(newProduct);
         // await store.save();
+=======
+        store.products.push(newProduct);
+        await store.save();
+>>>>>>> e6968d3aaade0f22a99be564a4545e816c0794fa
         
         return newProduct;
 
     } catch (err) {
-        console.log('error aqui', err);
+        console.log(err);
     }
 };
 
-
-    
-const getProductsByStore = async (storeId) => {
+// Actualizar Producto
+const updateProduct = async (UserStoreId, name, price, rating, description, image, stock) => {
     try {
-    
-      const productos = await Products.find({ store: storeId }).exec();
-      console.log('Productos relacionados con la tienda:', productos);
-      return productos;
-    } catch (err) {
-      console.error('Error al buscar productos:', err);
-      throw 'error aqui', err; // 
-    }
-  };
-    
+        const store = await Store.findOne({userIdentifier: UserStoreId})
+        const product = await Products.findOne({name: name});
 
+        console.log(product);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 module.exports = { 
     getAllProducts,
@@ -124,5 +126,6 @@ module.exports = {
     getProductsByIdOrName,
     getProductsByFilter,
     createProduct,
-    getProductsByStore
+    updateProduct
+    //getProductsByStore
 };

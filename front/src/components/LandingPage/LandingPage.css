@@ -1,6 +1,7 @@
 .landing-page {
     display: flex;
-    height: 100vh;
+    height: 120vh;
+    margin-bottom: 20px;
   }
   
   .left-half {
@@ -76,4 +77,3 @@
     color: white;
   }
  
-  

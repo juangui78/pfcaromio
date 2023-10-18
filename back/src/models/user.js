@@ -36,6 +36,8 @@ const userSchema = new Schema({
       type: String,
       required: true,
     },
+
+    store: { type: Schema.Types.ObjectId, ref: 'Store'}
     
   });
 

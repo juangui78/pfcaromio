@@ -3,9 +3,17 @@ import { NavLink } from "react-router-dom";
 
 import styled from 'styled-components';
 
+export const Editar = styled.button`
+    border-radius: 10px;
+    &:hover {
+        background-color: red;
+    }
+`;
+
 export const CardContainer = styled.div`
     color: var(--red);
-    width: 255px;
+    margin-left: 8px;
+    width: 265px;
     box-shadow: 2px 4px 10px gray;
     border-radius: 10px; 
     background-color: var(--orange);
@@ -25,6 +33,7 @@ export const ProductItem = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
+    
 `;
 
 export const Price = styled.div`
@@ -109,8 +118,8 @@ export const LinkCard = styled.button`
     transition: border-color 0.5s;
     margin-top: 0.3rem;
     &:hover{
-        color: #1a1a1a;
-        background-color: var(--orange);
+        color: white;
+        background-color: #333;
 
     }
 `;

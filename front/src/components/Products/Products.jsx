@@ -1,65 +1,70 @@
-//import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { ProductCard } from '../ProductCard/ProductCard';
+import './Products.css'
+import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { getProducts, getProductsByStore } from '../../redux/actions';
-import { useParams } from "react-router-dom";
-import NavbarProducts from '../NavBar/NavbarProducts';
+import ReviewsStore from '../ReviewsStore/ReviewsStore';
 import {
-    Container,
-    Title,
-    Cards,
-} from './ProductsStyles'
+  setProductsList
+} from '../../redux/actions';
 
-export default function Products() {
-    const dispatch = useDispatch();
-    const { storeId } = useParams();
-    
-    // const products = useSelector((state) => state.products);
+import { useParams } from 'react-router-dom';
+import {
+  Container,
+  Title,
+  Cards,
+} from './ProductsStyles';
 
-    // useEffect(() => {
-    //     //if(id) dispatch(getProductsByStore(id));
-    //    // else dispatch(getProducts());
-    //     dispatch(getProducts());
-    // }, [dispatch])
+const Products = () => {
+  const dispatch = useDispatch();
+  const { storeId } = useParams();
+  const productsFromState = useSelector((state) => state.products);
+  const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        
-        axios.get(`http://localhost:3004/products/${storeId}`)
-            .then((products) => {
-                setProducts(products.data)
-            })
+  useEffect(() => {
+    if (JSON.stringify(products) !== JSON.stringify(productsFromState)) {
+      setProducts(productsFromState);
+    }
+  }, [productsFromState]);
 
-        dispatch(getProducts());
-    }, [])  
+  useEffect(() => {
+    // Limpiar los productos al cambiar de pizzería
+    setProducts([]);
 
-    const [products, setProducts] = useState([])
+    // Fetch de los nuevos productos
+    axios
+      .get(`http://localhost:3004/products/?storeid=${storeId}`)
+      .then((response) => {
+        setProducts(response.data);
+        dispatch(setProductsList(response.data));
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+  }, [dispatch, storeId]);
 
-    return (
-        <div>                
-            <Container>      
-              <NavbarProducts/>
-                <Title>
-                    Lista de productos
-                </Title>
-                <Cards id="cards">
-                    {
-                        products?.map((product) => (
-                            <ProductCard
-                                name={product.name}
-                                price={product.price}
-                                rating={product.rating }
-                                image={product.image}
-                                key={product._id}
-                                id={product._id}>
-                            </ProductCard>
-                        ))
-                    }
-                </Cards>
-            </Container>
-        </div>
-    )
-}
+  return (
+    <div>
+      <Container>
+        <Title>
+          <h1>Lista de productos</h1>
+        </Title>
+        <Cards id="cards">
+          {products.map((product) => (
+            <ProductCard
+              name={product.name}
+              price={product.price}
+              rating={product.rating}
+              image={product.image}
+              key={product._id}
+              id={product._id}
+            />
+          ))}
+        </Cards>
+      </Container>
+      <ReviewsStore />
+    </div>
+  );
+};
 
-
+export default Products;

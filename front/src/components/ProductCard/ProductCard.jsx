@@ -1,5 +1,8 @@
 import { useDispatch } from 'react-redux';
-
+import { useAuth } from '@clerk/clerk-react';
+import { useParams } from 'react-router-dom';
+import { useState, useEffect  } from 'react';
+import axios from 'axios';
 import {
     CardContainer,
     Img,
@@ -10,15 +13,17 @@ import {
     ProductItem,
     ImgContainer,
     LinkCard,
+    Editar
 
 } from "./ProductCardStyles";
 
 import { openProductDetails } from '../../redux/actions';
 
-function ProductCard({ name, price, rating, image, id, storeId }) {
-
-    const dispatch = useDispatch();
+function ProductCard({ name, price, rating, image, id}) {
     
+    const {userId} = useAuth();
+    const dispatch = useDispatch();
+   
     return (
         
         <CardContainer >
@@ -37,4 +42,4 @@ function ProductCard({ name, price, rating, image, id, storeId }) {
     )
 }
 
-export { ProductCard };
+export default ProductCard;
