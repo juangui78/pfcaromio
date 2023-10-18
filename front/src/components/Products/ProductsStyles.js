@@ -5,8 +5,6 @@ export const Container = styled.div`
     flex-direction: column;
     width: 101%;
     padding: 1rem 0;
-    background-image: url('https://png.pngtree.com/background/20220731/original/pngtree-racing-background-abstract-stripes-withruby-red-black-gray-and-white-free-picture-image_1913659.jpg');
-    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     overflow-x: hidden; /* Evita el scroll horizontal */

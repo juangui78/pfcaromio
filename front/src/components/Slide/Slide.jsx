@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Slide.css'
 
 const promotions = [
-  { id: 1, imageUrl: 'https://www.pizzaspiccolo.com.co//wp-content/uploads/2018/05/Promo-Madres-banner-web-1.jpg' },
-  { id: 2, imageUrl: 'https://png.pngtree.com/png-clipart/20210711/original/pngtree-creative-fashion-pizza-promotion-banner-template-on-yellow-background-png-image_6510564.jpg' },
-  { id: 3, imageUrl: 'https://png.pngtree.com/png-clipart/20210711/original/pngtree-yellow-creative-pizza-promotion-banner-template-png-image_6510566.jpg' },
-  { id: 4, imageUrl: 'https://png.pngtree.com/png-clipart/20210711/original/pngtree-creative-gourmet-pizza-promotion-banner-template-png-image_6510562.jpg' },
+  { id: 1, imageUrl: 'https://fiorellapizza.com/wp-content/uploads/2022/03/banners-FIORELLA-4-pizzas.jpg' },
+  { id: 2, imageUrl:  '../../public/promo2.jpg'},
+  { id: 3, imageUrl: '../../public/promo3.png' },
+  { id: 4, imageUrl: '../../public/promo4.jpg' },
   { id: 5, imageUrl: 'https://genovesapizza.cl/wp-content/uploads/2020/06/banner3.jpg' }
 ];
 
