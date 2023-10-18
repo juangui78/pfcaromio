@@ -24,9 +24,9 @@ const ShoppingCard = () => {
 
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
-   
+
     const showCart = useSelector((state) => state.modalCart);
-    
+
     const paymentUrl = useSelector(state => state.paymentUrl);
 
     let cartDetails = useSelector((state) => state.cartDetails);
@@ -46,8 +46,8 @@ const ShoppingCard = () => {
     };
 
 
-    useEffect(() => {        
-        
+    useEffect(() => {
+
         if (paymentUrl) {
             window.location.replace(paymentUrl);
         }
@@ -57,7 +57,7 @@ const ShoppingCard = () => {
         <>
             <Overlay id="overlay" onClick={handleClickOverlay} style={{ display: showCart ? "" : "none" }} />
             <Container $right={showCart ? "0%" : "-35%"}>
-         
+
                 <Header>
                     <Title>Tu carrito</Title>
                     <CloseButton onClick={() => dispatch(closeCart())}>
@@ -67,7 +67,8 @@ const ShoppingCard = () => {
                     </CloseButton>
                 </Header>
 
-                {cartDetails.store &&
+                {
+                    cartDetails && cartDetails.store &&
                     <StoreDetails>
                         <StoreName> {cartDetails.store.name}</StoreName>
                         <StoreAddress> {cartDetails.store.address}</StoreAddress>
@@ -82,16 +83,20 @@ const ShoppingCard = () => {
 
                 <Body>
                     {
-                        cartDetails.items?.map((item, index) => (
+                        cartDetails && cartDetails.items?.map((item, index) => (
                             <ItemCart key={'item' + item._id} item={item} />
                         ))
                     }
                 </Body>
 
                 <Totales style={{ display: itemsCount ? '' : 'none' }}>
-                    <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
-                    {/*  <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li> */}
-                    <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
+                    {
+                        cartDetails && 
+                        <>
+                            <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
+                            <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
+                        </>
+                    }
                 </Totales>
 
                 <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>

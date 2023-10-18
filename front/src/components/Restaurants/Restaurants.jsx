@@ -106,7 +106,7 @@ export default function Restaurants() {
           
                 <ShoppingCard />
 
-                <Descuentos $isSignedIn={isSignedIn}>
+                <Descuentos $isSignedIn={isSignedIn} >
                     <CardDescuento />
                 </Descuentos>
 

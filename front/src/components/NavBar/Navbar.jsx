@@ -6,7 +6,7 @@ import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
 
 import CartBtn from '../CartBtn/CartBtn';
-import SearchBar from '../SearchBar/SearchBar';
+//import SearchBar from '../SearchBar/SearchBar';
 import { orderByName, sortedByRating, filterByRating, setProductsList } from '../../redux/actions';
 
 import { IconContext } from "react-icons";
@@ -56,7 +56,8 @@ const Navbar = (props) => {
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
   const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
 
-  const [userData, setUserData] = useState((null))
+  //const [userData, setUserData] = useState((null))
+  const {userData} = props;
 
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
@@ -71,23 +72,23 @@ const Navbar = (props) => {
       setCurrentStore(JSON.parse(localStorage.getItem('restaurantSelected')));
     }
 
-    axios.get(`http://localhost:3004/products/?storeid=${currentStore.id}`)
+    axios.get(`http://localhost:3004/products/?storeid=${currentStore?.id}`)
       .then((response) => {
         setProducts(response.data);
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
-      
-    axios.get(`http://localhost:3004/users/${userId}`)
+
+  /*   axios.get(`http://localhost:3004/users/${userId}`)
       .then((data) => {
         data && setUserData(data.data)
       })
       .catch((error) => {
         console.log(error)
-      })
+      }) */
 
-    
+
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
@@ -245,18 +246,20 @@ const Navbar = (props) => {
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
               <span>Filtrar por: </span>
-              <IconContext.Provider value={{ style: { color: !disableFilterBtn ? '#DDD':'black', width: '20px', height: '20px' } }} >
+              <IconContext.Provider value={{ style: { color: !disableFilterBtn ? '#DDD' : 'black', width: '20px', height: '20px' } }} >
                 <FaSlidersH />
               </IconContext.Provider>
             </FilterByBtn>
-
-            <div className='last'>Último restaurante visto: {currentStore.name}</div>
-
+            {
+              typeUser !== "Seller"
+                ? <div className='last' $typeuser = {typeUser} >Último restaurante visto: {currentStore?.name}</div>
+                : ''
+            }
             <OrderByBtn disabled={!disableFilterBtn}>
               <div className="sec-center">
                 <input className="dropdown" type="checkbox" id="dropdown" name="dropdown" disabled={disableFilterBtn} />
                 <label className="for-dropdown" htmlFor="dropdown">Ordenar por:
-                  <IconContext.Provider value={{ style: { paddingLeft: '1rem', color: !disableFilterBtn ? 'black':'#DDD', width: '20px', height: '20px' } }} >
+                  <IconContext.Provider value={{ style: { paddingLeft: '1rem', color: !disableFilterBtn ? 'black' : '#DDD', width: '20px', height: '20px' } }} >
                     <FaList />
                   </IconContext.Provider>
                 </label>
@@ -297,7 +300,7 @@ const Navbar = (props) => {
               ) : <UserButton className="userBtn" />
             }
           </div>
-          {
+     {/*      {
             isSignedIn && typeUser === 'Seller'
               ? <div className='line-div'></div>
               : null
@@ -308,7 +311,7 @@ const Navbar = (props) => {
               isSignedIn && typeUser === 'Seller'
                 ? <Link to='/myRestaurant' className='link'>Mi Restaurante</Link> : null
             }
-          </div>
+          </div> */}
 
           <div className='line-div'></div>
           <div><CartBtn /></div>
