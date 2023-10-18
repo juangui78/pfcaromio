@@ -181,6 +181,10 @@ export const NavBar = styled.nav`
     }
 `;
 
+export const AlertContainer = styled.div`
+  z-index: 10000;
+`;
+
 export const FilterByBtn = styled.button`
     background-color: transparent;
     color:  ${(props) => props.disabled ? '#DDD': 'black'};
@@ -410,14 +414,39 @@ export const FilterSection = styled.div`
 export const FilterModal = styled.dialog`
     menu{
      display: flex ;
+     z-index: 10;
      justify-content: space-around;
     /*  margin-block-start:0;
      margin-block-end:0; */
      padding-inline-start: 0;
     }
-    button.dialogBtn{
+    button.dialogBtn {
         background-color: red;
-    }
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    
+      button.dialogBtn:hover {
+        background-color: #750202;
+      }
+      
+      button.filterBtn {
+        background-color: #808080; 
+        color: white; 
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    
+      button.filterBtn:hover {
+        background-color: #555555; 
+      }
 `;
 
 export const FilterItem = styled.div`

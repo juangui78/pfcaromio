@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const CardContainer = styled.div`
     width: 320px;
     border-radius: 10px; 
-    background-color: #FFF;
+    background-color: #F3F3F3;
     transition: 0.5s;
     &:hover {
         transform: scale(102%);
@@ -58,7 +58,7 @@ export const Name = styled.h5`
 
 export const Score = styled.div`
     position: relative;
-    background-color: #FFFA;
+    background-color: #F3F3F3;
     width: 60px;
     text-align: center ;
     color: #777;

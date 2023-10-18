@@ -28,6 +28,7 @@ export const AceptButtonDialog = styled.button`
 `;
 
 export const Container = styled.div`
+    margin-top: 4rem;
     padding: 2rem;
     gap: 4rem;
     flex-wrap: nowrap;

@@ -7,6 +7,7 @@ import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
 
 import LoginForm from './components/Login/Login'
+import Slide from './components/Slide/Slide';
 import Logout from './components/Logout/Logout'
 import Profile from './components/Profile/Profile'
 import NavBar from '../src/components/NavBar/Navbar'
@@ -49,14 +50,20 @@ const App = () => {
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
-        <Route 
-          path='/home' 
+        <Route
+          path='/home'
           element={
             userData?.[0]?.role !== "Seller"
-            ? <Restaurants />
-            : <DashboardSeller userData={userData}/>            
+              ? <><Slide /> <Restaurants /> </>
+              : <DashboardSeller userData={userData} />
           } />
-       
+
+        <Route path="/products" element={<Products />} />
+     {/*    <Route path='/home' element={<>
+          <Slide />
+          <Restaurants />
+        </>}></Route> */}
+
         <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct />}></Route>
@@ -64,7 +71,7 @@ const App = () => {
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
         {/* <Route path='/myRestaurant' element={<DashboardSeller userData={userData} />}></Route> */}
-        <Route path='/myRestaurant' element={<MyRestaurant />}></Route>
+      {/*   <Route path='/myRestaurant' element={<MyRestaurant />}></Route> */}
 
       </Routes>
 
