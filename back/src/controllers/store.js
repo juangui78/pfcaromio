@@ -35,20 +35,19 @@ const getStoresSortedByRating = async (order) => {
 };
 
 // Obtener una tienda por su ID o por su nombre
-const getStoreByIdOrName = async (name) => {
+const getStoreByIdOrName = async (identifier) => {
     try {
-
-        const store = await Store.findOne({
-            $or: [
-                { name: { $regex: new RegExp(name, 'i') } }, // Buscar por nombre (ignorando mayúsculas/minúsculas)
-                { userIdentifier: name}
-            ]
-        }).populate('products');
-
+        const storeQuery = mongoose.isValidObjectId(identifier)
+            ? { _id: identifier }
+            : { name: { $regex: new RegExp(identifier, 'i') } };
+            
+        const store = await Store.findOne(storeQuery)
+            // .populate('reviews')
+            .populate('products');
+        
         return store;
     } catch (err) {
         console.log(err);
-        throw new Error('Error al buscar la tienda por nombre.');
     }
 };
 

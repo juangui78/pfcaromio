@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUserById, createUser, getUserByStore } = require('../controllers/users');
+const { getAllUsers, getUserById, createUser } = require('../controllers/users');
 
 // Ruta para obtener todos los usuarios
 router.get('/', async (req, res) => {
@@ -25,18 +25,6 @@ router.get('/:userId', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Error fetching user' });
-    }
-});
-
-// Ruta para obtener usuario de Restaurante por ID
-router.post('/', async (req, res) => {
-    const storeId = req.query.storeId;
-    console.log(storeId);
-    try {
-        const user = await getUserByStore(storeId);
-        res.status(200).json(user); // Status 200 OK
-    } catch (error) {
-        console.log(error);
     }
 });
 
