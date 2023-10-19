@@ -1,130 +1,45 @@
-import React from 'react';
-import { IconContext } from "react-icons";
-
-import {
-    FaPen,
-    FaTrash,
-    FaStar,
-    FaStarHalfAlt
-} from 'react-icons/fa';
+import React, { useState } from 'react';
 
 import {
     Header,
     ButtonsSection,
     Container,
-    ProductsTable,
-    Table,
-    Head,
-    Tbody,
-    Row,
-    Cell,
-    FirstCell,
-    LastCell,
-    ActionButton, ActionButtonCell, RowGroup,
-    RowHead,
-    TableHead,
-    FirstHead,
-    LastHead,
-    HeadImg, 
-    LinkA
+    DashboardContainer,
 
 } from './DashboardSellerStyles';
+
+import { DataTable } from './DataTable';
+import CreateProduct from '../CreateProduct/CreateProduct';
 
 import { ProductsData } from './data';
 
 const DashboardSeller = (props) => {
 
     const { userData } = props;
+    const [activeTab, setActiveTab] = useState('dataTable');
 
     return (
-        <Container>
-            <Header>
-                <b>Mi Dashboard</b>
-                <span>{userData[0].username}</span>
-                <ButtonsSection>
-                    <button>Mis Datos</button>
-                    <button>Mis Productos</button>
-                    <LinkA to='/createProduct'>Crear Pizza</LinkA>
-                
-                </ButtonsSection>
-            </Header>
+        <>
+            <Container>
+                <Header>
+                    <b>Mi Dashboard</b>
+                    <span>{userData[0].username}</span>
+                    <ButtonsSection>
+                        <button onClick={() => setActiveTab("dataTable")}>Mis Productos</button>
+                        <button onClick={() => setActiveTab("misDatos")}>Mis Datos</button>
+                        <button onClick={() => setActiveTab("createProduct")}>Crear Pizza</button>
+                        {/* <LinkA to='/createProduct'>Crear Pizza</LinkA> */}
 
-            <ProductsTable>
-                <Table>
-                    <TableHead>
-                        <RowHead>
-                            <HeadImg></HeadImg>
-                            <Head>Producto</Head>
-                            <Head >Descripción</Head>
-                            <Head>Precio</Head>
-                            <Head>Rating</Head>
-                            <Head>Stock</Head>
-                            <LastHead></LastHead>
-                        </RowHead>
-                    </TableHead>
+                    </ButtonsSection>
+                </Header>
 
-                    <Tbody>
-                        {
-                            ProductsData.map((item, index) => (
+                <DashboardContainer>
+                    <DataTable visible={activeTab} ProductsData={ProductsData} />
+                    <CreateProduct visible={activeTab} userData={userData} />
+                </DashboardContainer>
 
-                                < Row >
-                                    <FirstCell style={{ height: '50px' }}>
-                                        <img src={item.image} alt="product" width={80} />
-                                    </FirstCell>
-                                    <FirstCell>
-                                        {item.name}
-                                    </FirstCell>
-                                    <Cell style={{ maxWidth: '400px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{item.description}</Cell>
-                                    <Cell>{item.price}</Cell>
-
-                                    <Cell key={index}>
-
-                                        {item.rating}
-
-                                        {function () {
-                                            let oper = Number.parseInt(item.rating)
-                                            let res = item.rating % oper;
-                                            let stars = [];
-                                            for (let i = 0; i < oper; i++) {
-                                                stars.push(<i style={{ color: 'orange' }}><FaStar /></i>)
-                                            }
-
-                                            for (let i = 0; i < res; i++) {
-                                                stars.push(<i style={{ color: 'orange' }}><FaStarHalfAlt /></i>)
-                                            }
-                                            return stars
-                                        }()
-                                        }
-
-                                    </Cell>
-                                    <Cell>
-                                        4
-                                    </Cell>
-                                    <LastCell>
-                                        <ActionButtonCell>
-                                            <button>
-                                                <IconContext.Provider value={{ style: { color: 'gray', width: '20px', height: '20px' } }} >
-                                                    <FaPen />
-                                                </IconContext.Provider>
-                                            </button>
-                                            <button>
-                                                <IconContext.Provider value={{ style: { color: 'red', width: '20px', height: '20px' } }} >
-                                                    <FaTrash />
-                                                </IconContext.Provider>
-                                            </button>
-
-                                        </ActionButtonCell>
-                                    </LastCell>
-                                </Row>
-                            ))}
-
-                    </Tbody>
-                </Table>
-            </ProductsTable>
-
-
-
-        </Container >
+            </Container >
+        </>
     )
 }
 
