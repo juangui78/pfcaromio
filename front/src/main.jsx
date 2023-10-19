@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <FontStyles />
           <App />
         </ClerkProvider>
-      </React.StrictMode>,
+      </React.StrictMode>
     </BrowserRouter>
   </Provider>
 )

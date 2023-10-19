@@ -43,14 +43,23 @@ export const ButtonsSection = styled.section`
     display: flex;
     gap: 1rem;
     button{
-        padding: 0.3rem 1rem;
+        padding: 0.5rem 1rem;
         &:hover{
             color: orange
         }
     }
  
 `;
+
 export const ProductsTable = styled.section`
+    position:relative; 
+    top:6.5rem; 
+    z-index:1;
+    background-color: white;
+    padding: 1rem;
+`;
+
+export const DashboardContainer = styled.section`
     position:relative; 
     top:6.5rem; 
     z-index:1;

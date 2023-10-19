@@ -5,26 +5,38 @@ import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'
-import Swal from 'sweetalert2'
-import cloudinary from '../../cloudinary/config.js'
+import Swal from 'sweetalert2';
+import styled from 'styled-components';
 
-export default function CreateProduct () {
+import cloudinary from '../../cloudinary/config.js'
+import { Name } from '../ProductDetails/ProductDetails'
+
+export default function CreateProduct({ visible, userData }) {
 
     const navigate = useNavigate()
-    const {userId} = useAuth()
+    const { userId } = useAuth();
+    const [image, setImage] = useState(null);
 
     // Obtengo valores del select y los seteo en ProductData
     const handleSelect = (newValue) => {
         setSelectOptions(newValue)
-        setProductData({...productData, tags: newValue})
+        setProductData({ ...productData, tags: newValue })
     }
     // Obtengo valores de los inputs
     const handleChange = (event) => {
-        setProductData({...productData, [event.target.name]: event.target.value})
+        setProductData({ ...productData, [event.target.name]: event.target.value })
         setErrors(
-            validate({...productData, [event.target.name]: event.target.value, image: event.target.value})
+            validate({ ...productData, [event.target.name]: event.target.value, image: event.target.value })
         )
     }
+
+    const handleChangeImage = (e) => {
+        if (e.target.files[0]) {
+            setCurrentImage(e.target.files[0])
+            setImage(URL.createObjectURL(e.target.files[0]));
+        }
+    }
+
     // Se envia el POST con el submit
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -35,12 +47,14 @@ export default function CreateProduct () {
         if (!hasErrors) {
             createProduct(productData)
         } else {
-            Swal.fire({title: 'Error. Por favor rellena bien los campos de tu Pizza',
-        icon: 'error',})
+            Swal.fire({
+                title: 'Error. Por favor rellena bien los campos de tu Pizza',
+                icon: 'error',
+            })
         }
-        
+
     }
-    const options = [{value: 'pepperoni', label: 'pepperoni'}]
+    const options = [{ value: 'pepperoni', label: 'pepperoni' }]
 
     const [selectOptions, setSelectOptions] = useState([options])
     const [productData, setProductData] = useState({
@@ -51,9 +65,9 @@ export default function CreateProduct () {
         stock: '',
         rating: '',
         tags: [],
-        image: '' 
+        image: ''
     });
-    
+
     const [errors, setErrors] = useState({
         UserStoreId: '',
         name: '',
@@ -65,88 +79,247 @@ export default function CreateProduct () {
         image: ''
     });
 
-    const createProduct = async(productData) => {
-            try {
-                subirImagen();
-                productData.UserStoreId = userId
-                const create = await axios.post('http://localhost:3004/products', productData)
-                Swal.fire({title: 'Producto Creado con Exito', 
-            icon: 'success'})
-                navigate('/home')
-                console.log('Producto creado')
-                console.log(productData);
-            } catch (error) {
-                Swal.fire({title: 'Error. Por favor intenta de nuevo', icon: 'error'})
-            }
-            
-        
+    const createProduct = async (productData) => {
+        try {
+            subirImagen();
+            productData.UserStoreId = userId
+            const create = await axios.post('http://localhost:3004/products', productData)
+            Swal.fire({
+                title: 'Producto Creado con Exito',
+                icon: 'success'
+            })
+            navigate('/home')
+            console.log('Producto creado')
+            console.log(productData);
+        } catch (error) {
+            Swal.fire({ title: 'Error. Por favor intenta de nuevo', icon: 'error' })
+        }
     }
 
     //Parte de cloudinary
 
     //se crea el estado que tendrá la imagen temporalmente y el de la URL  
 
-    const[currentImage, setCurrentImage] = useState();
+    const [currentImage, setCurrentImage] = useState();
     //const[currentURL, setCurrentUrl] = useState("");
     //Se crea una funcion
 
-    const subirImagen = (file) =>{
+    const subirImagen = (file) => {
         console.log(currentImage);
 
         const formData = new FormData();
         formData.append("file", currentImage);
         formData.append("upload_preset", "vp72qx31");
-        axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response)=>{
+        axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response) => {
             console.log(response.data.secure_url)
         });
         //setCurrentUrl(response.data.secure_url);
-        setProductData({...productData, [image]: response.data.secure_url})
-    }   
+        setProductData({ ...productData, [image]: response.data.secure_url })
+    }
 
+    return (
+        <>
+            <Container style={{ display: visible === 'createProduct' ? '' : 'none' }}>
+                <header>
+                    <TitleL> {userData[0].username}, vamos a crear tu pizza</TitleL>
+                </header>
+                <Form action="">
+                    <FomrContent>
+                        <Item>
+                            <LabelHead className='labels'>Nombre de tu Pizza:</LabelHead>
+                            <ColInputs>
+                                <input type="text" name='name' onChange={handleChange} />
+                                <label className='warning-Text'>{errors.name}</label>
+                            </ColInputs>
+                        </Item>
+                        <Item>
+                            <LabelHead className='labels'>Describe tu Pizza:</LabelHead>
+                            <ColInputs>
+                                <textarea rows="4" name='description' onChange={handleChange}></textarea>
+                                <label className='warning-Text'>{errors.description}</label>
+                            </ColInputs>
+                        </Item>
+                        <Item>
+                            <LabelHead className='labels'>Precio de tu Pizza (USD):</LabelHead>
+                            <ColInputs>
+                                <input type="number" name='price' onChange={handleChange} />
+                                <label className='warning-Text'>{errors.price}</label>
+                            </ColInputs>
+                        </Item>
+                        <Item>
+                            <LabelHead className='labels'>Stock:</LabelHead>
+                            <ColInputs>
+                                <input type="number" name='stock' onChange={handleChange} />
+                                <label className='warning-Text'>{errors.stock}</label>
+                            </ColInputs>
+                        </Item>
+                        <Item>
+                            <LabelHead className='labels'>Rating:</LabelHead>
+                            <ColInputs>
+                                <input type="number" name='rating' onChange={handleChange} />
+                                <label className='warning-Text'>{errors.rating}</label>
+                            </ColInputs>
+                        </Item>
+                        <Item>
+                            <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
+                            <ColInputs>
+                                <input type="file" name='stock' onChange={handleChangeImage} />
+                            </ColInputs>
+                        </Item>
+                        <Item>
+                            <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
+                            <ColInputs className='last'>
+                                {image && (
+                                    <img
+                                        src={image}
+                                        alt="Preview"
+                                    />
+                                )}
+                            </ColInputs>
+                        </Item>
 
-    return(<div className='createSection'>
-        <div>
-            <h1>Agregar tu Producto</h1>
-            <h2>Vamos a crear tu Pizza!</h2>
+                        <Item>
+                            <LabelHead className='labels'></LabelHead>
+                            <ColInputs className='footer'>
+                                <input type='reset' value="Cancelar" />
+                                <input type='submit' value="Crear" onClick={handleSubmit} />
+                            </ColInputs>
+                        </Item>
 
-            <Link to='/home' className='cancelar-button'>Cancelar</Link>
-        </div>
-        <form className='container-form'>
-            <label>Nombre de tu Pizza: </label>
-            <input type="text" name='name'onChange={handleChange}/>
-            <label className='warning-Text'>{errors.name}</label>
-
-            <label>Describe tu Pizza: </label>
-            <input type="text" name='description' onChange={handleChange}/>
-            <label className='warning-Text'>{errors.description}</label>
-
-            <label>Precio: (USD)</label>
-            <input type="text" name='price'onChange={handleChange}/>
-            <label className='warning-Text'>{errors.price}</label>
-
-            <label>Cantidad: (Unidades)</label>
-            <input type="text" name='stock'onChange={handleChange}/>
-            <label className='warning-Text'>{errors.stock}</label>
-
-            <label>Rating: </label>
-            <input type="text" name='rating'onChange={handleChange}/>
-            <label className='warning-Text'>{errors.rating}</label>
-
-            <label>URL de la imagen:</label>
-            <input type="text" name="image" onChange={handleChange} />
-            <label className="warning-Text">{errors.image}</label>
-
-            <label>Etiquetas: </label>
-            <CreatableSelect isMulti options={selectOptions} onChange={handleSelect} placeholder='Categoria...'/>
-            
-            <label>Subir imagen </label>
-            <input type='file' onChange={(e) =>{setCurrentImage(e.target.files[0])}}/>
-            <button type='submit' onClick={handleSubmit}>Crear</button>
-        </form>
-
-        <div>
-            
-        </div>
-    </div>
+                    </FomrContent>
+                </Form>
+            </Container>
+        </>
     )
 }
+
+
+const Container = styled.div`
+    box-sizing: border-box;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: gray;
+    
+    header{
+        text-align: center;
+    }
+`;
+
+const Form = styled.form`
+    position: relative;
+    border: 0px dashed red;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    input{
+        box-sizing: border-box;
+        width: 100%;
+        font-size: 1rem;
+        padding: 5px;
+        background-color: #EEE;
+        border: 0px solid gray;
+        border-radius: 5px;
+        color: black;
+        outline: none;
+        padding: 0.5rem;
+        &:focus{
+            outline:1px solid orange;
+            background-color: #E2E2E2;
+        }
+        
+    }
+
+    textarea{
+        box-sizing: border-box;
+        width: 100%;
+        resize: none;
+        font-size: 1rem;
+        padding: 5px;
+        background-color: #EEE;
+        border: 0px solid gray;
+        border-radius: 5px;
+        color: black;
+        outline: none;
+        padding: 0.5rem;
+        &:focus{
+            outline:1px solid orange;
+            background-color: #E2E2E2;
+        }
+        
+    }
+    
+    table{
+        border-spacing: 8px;
+    }
+
+    table > tr > th {
+        width: 25%;
+        font-weight: 500;
+        text-align: start;
+    }
+    table > tr > td.last{
+        border-bottom:3px solid #DDD;
+        text-align: center;
+    }
+
+    table > tr > td.footer {
+        text-align: center;
+        
+        input[type=submit]{
+            background-color: orange;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 0.6em 1.2em;
+            font-size: 1em;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.25s;
+            width: fit-content;
+            color:white;
+            margin: 10px 10px;
+            &:hover{
+                background-color: #474747;
+            }
+        }
+
+        input[type=reset]{
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 0.6em 1.2em;
+            font-size: 1em;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.25s;
+            width: fit-content;
+            color:white;
+            &:hover{
+                background-color: #474747;
+            }
+        }
+    }
+    img{
+        max-width: 300px;
+    }
+`;
+
+const TitleName = styled.div`
+    font-size: 1.2rem;
+    font-weight: 500;
+`;
+
+const TitleL = styled.div`
+    font-size: large;
+`;
+
+const Item = styled.tr``;
+const LabelHead = styled.th``;
+const FomrContent = styled.table``;
+const ColInputs = styled.td``;
