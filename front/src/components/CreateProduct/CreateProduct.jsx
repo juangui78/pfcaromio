@@ -4,6 +4,7 @@ import { useState } from 'react'
 import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
+
 import { useAuth } from '@clerk/clerk-react'
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
@@ -16,6 +17,7 @@ export default function CreateProduct({ visible, userData }) {
     const navigate = useNavigate()
     const { userId } = useAuth();
     const [image, setImage] = useState(null);
+
 
     // Obtengo valores del select y los seteo en ProductData
     const handleSelect = (newValue) => {

@@ -25,7 +25,7 @@ export default function RegisterForm() {
     description: '',
     rating: '',
     revenue: '',
-    // image: '',
+
   })
 
   const [errors, setErrors] = useState({
@@ -75,6 +75,7 @@ export default function RegisterForm() {
       if (selectOption.value === 'store') {
         registerFormRestaurant.userIdentifier = userId
         userInfo.role = 'Seller'
+        console.log(userInfo);
         const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
         const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
         Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
