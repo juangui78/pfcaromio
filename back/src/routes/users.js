@@ -28,22 +28,22 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
-// Ruta para obtener usuario de Restaurante por ID
-router.post('/', async (req, res) => {
-    const storeId = req.query.storeId;
-    console.log(storeId);
-    try {
-        const user = await getUserByStore(storeId);
-        res.status(200).json(user); // Status 200 OK
-    } catch (error) {
-        console.log(error);
-    }
-});
+// // Ruta para obtener usuario de Restaurante por ID
+// router.post('/', async (req, res) => {
+//     const storeId = req.query.storeId;
+//     console.log(storeId);
+//     try {
+//         const user = await getUserByStore(storeId);
+//         res.status(200).json(user); // Status 200 OK
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
 
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
     const { username ,email ,age, role, userIdentifier} = req.body;
-
+    console.log('entro a la ruta');
     try {
         const newUser = await createUser(username ,email ,age, role, userIdentifier);
         res.status(201).json(newUser);

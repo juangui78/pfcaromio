@@ -90,14 +90,13 @@ const createProduct = async (UserStoreId, name, price, rating, description,image
         console.log(newProduct);
         await newProduct.save();
 
-<<<<<<< HEAD
         // const store = await Store.findById(storeId);
         // store.products.push(newProduct);
         // await store.save();
-=======
+
         store.products.push(newProduct);
         await store.save();
->>>>>>> e6968d3aaade0f22a99be564a4545e816c0794fa
+
         
         return newProduct;
 

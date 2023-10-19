@@ -4,14 +4,11 @@ import { useState } from 'react'
 import validate from './validation'
 import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
-<<<<<<< HEAD
-import { useAuth, useClerk } from '@clerk/clerk-react'
-=======
+
 import { useAuth } from '@clerk/clerk-react'
 import Swal from 'sweetalert2'
 import cloudinary from '../../cloudinary/config.js'
 
->>>>>>> e6968d3aaade0f22a99be564a4545e816c0794fa
 export default function CreateProduct () {
 
     const navigate = useNavigate()

@@ -15,13 +15,12 @@ router.get('/:storeId', async (req, res) => {
     const storeId = req.params.storeId;
 
     try {
-<<<<<<< HEAD
-        const products = await getProductsByStore(storeId);
+
+        // const products = await getProductsByStore(storeId);
         console.log("Intenta traerlos")
-=======
         const products = await getAllProducts(storeid);
         //console.log("Intenta traerlos")
->>>>>>> e6968d3aaade0f22a99be564a4545e816c0794fa
+
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products' });
@@ -69,7 +68,7 @@ router.get('/filtered', async (req, res) => {
 });
 
 // Ruta para obtener productos por su ID o por su nombre
-<<<<<<< HEAD
+
 // router.get('/:productIdOrName', async (req, res) => {
 //     const productIdOrName = req.params.productIdOrName;
 //     const storeId = req.query.storeId;
@@ -86,10 +85,7 @@ router.get('/filtered', async (req, res) => {
 //     }
 // });
 
-// Ruta para crear un nuevo producto
-router.post('/', async (req, res) => {
-    const { name, price, rating, description,image, stock, storeId } = req.body;
-=======
+
 router.get('/:productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
     try {
@@ -108,7 +104,7 @@ router.get('/:productIdOrName', async (req, res) => {
 router.get('/:productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
     const storeid = req.query.storeid;
->>>>>>> e6968d3aaade0f22a99be564a4545e816c0794fa
+
 
     try {
         const products = await getProductsByIdOrName(productIdOrName, storeid);
@@ -122,6 +118,7 @@ router.get('/:productIdOrName', async (req, res) => {
      }
 });
 
+// Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
     const { UserStoreId, name, price, rating, description,image, stock} = req.body;
     
@@ -135,7 +132,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
+
 // Ruta para obtener productos por restaurante
 // router.get('/:storeId', async (req, res) => {
     
@@ -151,6 +148,4 @@ router.post('/', async (req, res) => {
     
 // })
 
-=======
->>>>>>> e6968d3aaade0f22a99be564a4545e816c0794fa
 module.exports = router;
