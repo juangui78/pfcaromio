@@ -16,6 +16,11 @@ import {
 function RestaurantCard(props) {
     const restaurant = props;
     const dispatch = useDispatch();
+    
+    const selectStore = () => {
+        dispatch(setRestaurant(restaurant));
+    }
+
     return (
 
         <CardContainer >
@@ -26,7 +31,7 @@ function RestaurantCard(props) {
                 <Details>
                     <Name>{restaurant.name}</Name>
                     <Address>{restaurant.address}</Address>
-                    <LinkCard to= {`/products/${restaurant.id}`}> Productos</LinkCard>
+                    <LinkCard to= {`/products/${restaurant.id}`} onClick={selectStore}> Productos</LinkCard>
                     <Score>⭐{restaurant.rating}</Score>
                 </Details>
             </RestaurantItem>

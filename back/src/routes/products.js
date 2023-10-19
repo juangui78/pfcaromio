@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
     try {
         const products = await getAllProducts(storeid);
-        console.log("Intenta traerlos")
+        //console.log("Intenta traerlos")
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products' });
@@ -49,6 +49,20 @@ router.get('/by-rating', async (req, res) => {
     }
 });
 
+// Ruta para obtener productos filtrados
+router.get('/filtered', async (req, res) => {
+    const minRating = req.query.minRating;
+    const maxPrice = req.query.maxPrice;
+    const storeid = req.query.storeid;
+
+    try {
+        const filteredProducts = await getProductsByFilter(minRating, maxPrice, storeid);
+        res.json(filteredProducts);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching filtered products' });
+    }
+});
+
 // Ruta para obtener productos por su ID o por su nombre
 router.get('/:productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
@@ -61,20 +75,6 @@ router.get('/:productIdOrName', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products' });
-    }
-});
-
-// Ruta para obtener productos filtrados
-router.get('/filtered', async (req, res) => {
-    const minRating = req.query.minRating;
-    const maxPrice = req.query.maxPrice;
-    const storeid = req.query.storeid;
-
-    try {
-        const filteredProducts = await getProductsByFilter(minRating, maxPrice, storeid);
-        res.json(filteredProducts);
-    } catch (error) {
-        res.status(500).json({ error: 'Error fetching filtered products' });
     }
 });
 

@@ -1,15 +1,19 @@
 import styled from "styled-components";
 
-
 export const BtnContainer = styled.div`
     color:black;
-    padding-left:1.5rem;
-    padding-right: 2rem;
+    padding-left:1rem;
+    padding-right:1rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    
 `;
 
 export const Button = styled.button`
     color:black;
-    padding:0.1rem;
+    padding:0.5rem;
     background-color: transparent;
     border: none;
     position: relative;

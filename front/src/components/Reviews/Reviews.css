@@ -1,0 +1,64 @@
+.ReviewsContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 15px; /* Aumentamos el radio de borde */
+  margin-right: 20px;
+  margin-top: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Incrementamos la intensidad de la sombra */
+}
+
+.ReviewsContainer button {
+  background-color: #ff8c00; /* Un tono más naranja */
+  color: #fff; /* Texto en blanco */
+  padding: 12px 24px; /* Aumentamos el padding */
+  border: none;
+  cursor: pointer;
+  border-radius: 8px; /* Un radio de borde más redondeado */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.ReviewsContainer button:hover {
+  background-color: #e07d00; /* Cambiamos el tono al pasar el ratón */
+}
+
+.ReviewsContainer label {
+  display: block;
+  margin-top: 15px; /* Ajustamos el margen superior */
+}
+
+.ReviewsContainer select,
+.ReviewsContainer textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px; /* Ajustamos el margen superior */
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px; /* Incrementamos el tamaño de fuente */
+}
+
+.ReviewsContainer .ratingSelect {
+  margin-top: 20px;
+  margin-left: 3px;
+}
+.ReviewsContainer .ratingSelect .text{
+  color: #000000;
+}
+
+.ReviewsContainer .commentContainer {
+  margin-top: 15px; /* Ajustamos el margen superior */
+  margin-left: 3px;
+}
+
+.ReviewsContainer .commentContainer .text {
+  color: #333; /* Cambiamos el color del texto */
+}
+
+.ReviewsContainer select option {
+  font-size: 16px; /* Incrementamos el tamaño de fuente */
+}
+
+.star {
+  font-size: 24px; /* Aumentamos el tamaño de la estrella */
+  font-weight: bold;
+  margin: 0 5px; /* Ajustamos el margen */
+}

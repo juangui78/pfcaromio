@@ -1,0 +1,64 @@
+
+.ReviewsContainer {
+  padding: 20px;
+  background-color: #f5f5f5; /* Cambiado a un tono más claro */
+  border-radius: 12px; /* Ajustado el radio del borde */
+  margin-top: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ReviewsContainer button {
+  background-color: #ffc000;
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.ReviewsContainer button:hover {
+  background-color: #e1a902;
+}
+
+.ReviewsContainer label {
+  display: block;
+  margin-top: 12px; /* Ajustado el margen superior */
+  color: #000000; /* Cambiado a texto negro */
+}
+
+.ReviewsContainer select,
+.ReviewsContainer textarea {
+  width: 100%;
+  padding: 12px;
+  padding-left: 2px; /* Ajustado el padding izquierdo */
+  margin-top: 8px; /* Ajustado el margen superior */
+  border-radius: 8px; /* Ajustado el radio del borde */
+  border: 1px solid #ccc;
+  font-size: 16px; /* Ajustado el tamaño de fuente */
+}
+
+.ReviewsContainer .ratingSelect {
+  margin-top: 20px;
+  margin-left: 3px;
+}
+
+.ReviewsContainer .ratingSelect .text {
+  color: #000000;
+}
+
+.ReviewsContainer .commentContainer {
+  margin-top: 10px;
+  margin-left: 3px;
+}
+
+.ReviewsContainer .commentContainer .text {
+  color: #000000;
+}
+
+.star {
+  font-size: 24px; /* Ajustado el tamaño de las estrellas */
+  font-weight: bold;
+  line-height: 2;
+  margin: 0 4px; /* Ajustado el margen */
+}

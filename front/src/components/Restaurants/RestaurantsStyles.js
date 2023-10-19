@@ -12,7 +12,7 @@ export const Dialog = styled.dialog`
 
 export const DialogIcon = styled.span`
     font-size: xxx-large;
-    color:  ${(props) => props.modalType === 'success' ? 'green': 'red'};
+    color:  ${(props) => props.$modaltype === 'success' ? 'green' : 'red'};
 `;
 
 export const DialogMessage = styled.section`
@@ -23,11 +23,12 @@ export const DialogMessage = styled.section`
 
 export const AceptButtonDialog = styled.button`
     color: white;
-    background-color:  ${(props) => props.modalType === 'success' ? 'green': 'red'};
+    background-color:  ${(props) => props.$modaltype === 'success' ? 'green' : 'red'};
     width: 260px;
 `;
 
 export const Container = styled.div`
+    margin-top: 4rem;
     padding: 2rem;
     gap: 4rem;
     flex-wrap: nowrap;
@@ -39,8 +40,10 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+    
     width: 100%;
-    margin-left: 20px;
+    margin-top: 40px;
+    text-align: center;
     font-size: 24pt;
     color:var(--red);
     font-family: 'Secular One', 'sans-serif';
@@ -63,6 +66,7 @@ export const Descuentos = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    height: ${(props) => props.$isSignedIn ? '4rem' : ''};
     
 `;
 

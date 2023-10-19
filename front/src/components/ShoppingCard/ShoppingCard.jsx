@@ -5,7 +5,7 @@ import { React, useState, useEffect } from 'react';
 
 import ItemCart from '../ItemCart/ItemCart';
 
-import { closeCart, clearCart, createCheckout } from '../../redux/actions';
+import { closeCart, clearCart, createCheckout, getEmailKeys } from '../../redux/actions';
 
 import {
     Container,
@@ -24,11 +24,17 @@ const ShoppingCard = () => {
 
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
+
     const showCart = useSelector((state) => state.modalCart);
-    const cartDetails = useSelector((state) => state.cartDetails);
-    const itemsCount = useSelector(state => state.cartDetails.itemsCount);
-    const restaurantSelected = useSelector(state => state.restaurantSelected);
+
     const paymentUrl = useSelector(state => state.paymentUrl);
+
+    let cartDetails = useSelector((state) => state.cartDetails);
+    let itemsCount = useSelector(state => state.cartDetails.itemsCount);
+    if (itemsCount === 0) {
+        cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
+    }
+    itemsCount = cartDetails ? cartDetails.itemsCount : 0;
 
     const handleClickOverlay = (e) => {
         if (e.target.id === "overlay") dispatch(closeCart())
@@ -39,61 +45,65 @@ const ShoppingCard = () => {
         dispatch(createCheckout(cartDetails))
     };
 
+
     useEffect(() => {
-       
-   
 
         if (paymentUrl) {
             window.location.replace(paymentUrl);
         }
     }, [paymentUrl])
 
-
     return (
         <>
-
             <Overlay id="overlay" onClick={handleClickOverlay} style={{ display: showCart ? "" : "none" }} />
-            <Container right={showCart ? "0%" : "-35%"}>
-              
-                        <Header>
-                            <Title>Tu carrito</Title>
-                            <CloseButton onClick={() => dispatch(closeCart())}>
-                                <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
-                                    <FaTimesCircle />
-                                </IconContext.Provider>
-                            </CloseButton>
-                        </Header>
+            <Container $right={showCart ? "0%" : "-35%"}>
 
-                        <StoreDetails>
-                            <StoreName> {restaurantSelected.name}</StoreName>
-                            <StoreAddress> {restaurantSelected.address}</StoreAddress>
-                        </StoreDetails>
+                <Header>
+                    <Title>Tu carrito</Title>
+                    <CloseButton onClick={() => dispatch(closeCart())}>
+                        <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
+                            <FaTimesCircle />
+                        </IconContext.Provider>
+                    </CloseButton>
+                </Header>
+
+                {
+                    cartDetails && cartDetails.store &&
+                    <StoreDetails>
+                        <StoreName> {cartDetails.store.name}</StoreName>
+                        <StoreAddress> {cartDetails.store.address}</StoreAddress>
+                    </StoreDetails>
+                }
 
 
-                        <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
-                            <span>Aún no tienes productos en tu carrito</span>
-                            <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
-                        </Empty>
+                <Empty style={{ display: itemsCount ? 'none' : 'flex' }}>
+                    <span>Aún no tienes productos en tu carrito</span>
+                    <ButtonStart onClick={() => dispatch(closeCart())}>Iniciar compra</ButtonStart>
+                </Empty>
 
-                        <Body>
-                            {
-                                cartDetails.items.map((item, index) => (
-                                    <ItemCart key={'item' + item._id} item={item} />
-                                ))
-                            }
-                        </Body>
+                <Body>
+                    {
+                        cartDetails && cartDetails.items?.map((item, index) => (
+                            <ItemCart key={'item' + item._id} item={item} />
+                        ))
+                    }
+                </Body>
 
-                        <Totales style={{ display: itemsCount ? '' : 'none' }}>
+                <Totales style={{ display: itemsCount ? '' : 'none' }}>
+                    {
+                        cartDetails && 
+                        <>
                             <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
-                            <li>{`Envío: $ ${parseFloat(2).toFixed(2)}`} </li>
                             <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
-                        </Totales>
+                        </>
+                    }
+                </Totales>
 
-                        <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
-                            <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
-                            <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
-                        </Footer>
-          
+                <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
+                    <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
+                    <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
+                </Footer>
+
             </Container>
 
         </>
@@ -210,7 +220,7 @@ const Overlay = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0,0,0, 0.5) ;
+    background: rgba(0,0,0, 0.3) ;
     display: flex;
 
 `;

@@ -33,6 +33,7 @@ export const ProductItem = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
+    
 `;
 
 export const Price = styled.div`
@@ -117,8 +118,8 @@ export const LinkCard = styled.button`
     transition: border-color 0.5s;
     margin-top: 0.3rem;
     &:hover{
-        color: #1a1a1a;
-        background-color: var(--orange);
+        color: white;
+        background-color: #333;
 
     }
 `;

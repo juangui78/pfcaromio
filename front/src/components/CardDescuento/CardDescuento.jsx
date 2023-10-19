@@ -19,7 +19,6 @@ const CardDescuento = () => {
       <button onClick={() => toSignIn()}>¡Registrarme!</button>
       {/* <LoginForm></LoginForm> */}
     </div>
-
    
   );
 };

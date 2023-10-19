@@ -1,4 +1,5 @@
 export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const GET_RESTAURANTS = 'GET_RESTAURANTS';
 export const GET_RESTAURANT = 'GET_RESTAURANT';
 export const FILTER_PRODUCTS_BY_NAME = 'FILTER_PRODUCTS_BY_NAME';
@@ -18,4 +19,5 @@ export const DELETE_CART_ITEM = 'DELETE_CART_ITEM';
 export const CLEAR_CART = 'CLEAR_CART';
 export const SET_RESTAURANT = 'SET_RESTAURANT';
 export const CREATE_CHECKOUT = 'CREATE_CHECKOUT';
+export const GET_EMAIL_KEYS = 'GET_EMAIL_KEYS';
 export const ERROR = 'ERROR';
