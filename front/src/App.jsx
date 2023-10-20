@@ -12,7 +12,7 @@ import Logout from './components/Logout/Logout'
 import Profile from './components/Profile/Profile'
 import NavBar from '../src/components/NavBar/Navbar'
 import LandingPage from '../src/components/LandingPage/LandingPage';
-import CreateProduct from '../src/components/CreateProduct/CreateProduct';
+import CreateProduct from './components/FormProduct/FormProduct';
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
-
+      
       {
         (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />)
 

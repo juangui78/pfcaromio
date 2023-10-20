@@ -11,6 +11,7 @@ import CartBtn from '../CartBtn/CartBtn';
 import { orderByName, sortedByRating, filterByRating, setProductsList } from '../../redux/actions';
 
 import { IconContext } from "react-icons";
+
 import {
   FaSearch,
   FaUser,
@@ -155,7 +156,7 @@ const Navbar = (props) => {
     if (value === '' || value === null) {
       setRatingFilter('');
     } else {
-      const parsedValue = parseInt(value, 10);
+      const parsedValue = parseFloat(value);
       if (isNaN(parsedValue)) {
         Swal.fire({
           icon: 'error',

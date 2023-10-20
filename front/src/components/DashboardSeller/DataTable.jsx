@@ -1,11 +1,12 @@
 import React from 'react'
 import { IconContext } from "react-icons";
+import Swal from 'sweetalert2';
 
 import {
     FaPen,
     FaTrash,
     FaStar,
-    FaStarHalfAlt
+    FaStarHalfAlt,
 } from 'react-icons/fa';
 
 import {
@@ -30,10 +31,38 @@ import {
 
 } from './DashboardSellerStyles';
 
-export const DataTable = ({visible, ProductsData}) => {
+export const DataTable = ({ visible, ProductsData }) => {
+    const deleteItem = (id, name) => {
+
+        Swal.fire({
+            title: 'Está seguro?',
+            text: `Se eliminará de la base de datos el producto ${name}!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'orange',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar!',
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Eliminado!',
+                    'El producto fue eliminado con éxito.',
+                    'success'
+                )
+            }
+        })
+    }
     return (
         <>
-            <Table style={{ display: visible === 'dataTable' ? '' : 'none'}}>
+
+            <Table style={{ display: visible === 'dataTable' ? '' : 'none' }}>
                 <TableHead>
                     <RowHead>
                         <HeadImg></HeadImg>
@@ -64,24 +93,25 @@ export const DataTable = ({visible, ProductsData}) => {
 
                                     {item.rating}
 
-                                    {function () {
-                                        let oper = Number.parseInt(item.rating)
-                                        let res = item.rating % oper;
-                                        let stars = [];
-                                        for (let i = 0; i < oper; i++) {
-                                            stars.push(<i style={{ color: 'orange' }}><FaStar /></i>)
-                                        }
+                                    {
+                                        function () {
+                                            let oper = Number.parseInt(item.rating)
+                                            let res = item.rating % oper;
+                                            let stars = [];
+                                            for (let i = 0; i < oper; i++) {
+                                                stars.push(<i style={{ color: 'orange' }}><FaStar /></i>)
+                                            }
 
-                                        for (let i = 0; i < res; i++) {
-                                            stars.push(<i style={{ color: 'orange' }}><FaStarHalfAlt /></i>)
-                                        }
-                                        return stars
-                                    }()
+                                            for (let i = 0; i < res; i++) {
+                                                stars.push(<i style={{ color: 'orange' }}><FaStarHalfAlt /></i>)
+                                            }
+                                            return stars
+                                        }()
                                     }
 
                                 </Cell>
                                 <Cell>
-                                    4
+                                    {item.stock}
                                 </Cell>
                                 <LastCell>
                                     <ActionButtonCell>
@@ -90,7 +120,7 @@ export const DataTable = ({visible, ProductsData}) => {
                                                 <FaPen />
                                             </IconContext.Provider>
                                         </button>
-                                        <button>
+                                        <button onClick={() => deleteItem(item.id, item.name)}>
                                             <IconContext.Provider value={{ style: { color: 'red', width: '20px', height: '20px' } }} >
                                                 <FaTrash />
                                             </IconContext.Provider>

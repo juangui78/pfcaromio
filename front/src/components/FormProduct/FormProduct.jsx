@@ -2,7 +2,7 @@ import './CreateProduct.css'
 import axios from 'axios'
 import { useState } from 'react'
 import validate from './validation'
-import CreatableSelect from 'react-select/creatable'
+//import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '@clerk/clerk-react'
