@@ -6,7 +6,6 @@ const userSchema = new Schema({
     
     username: {
       type: String,
-      required: true, // Field is required
       minlength: 3,   // Minimum length
       maxlength: 30,  // Maximum length
     },

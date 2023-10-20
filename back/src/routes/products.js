@@ -7,16 +7,17 @@ const {
     getProductsByIdOrName, 
     getProductsByFilter, 
     createProduct,
-    getProductsByStore
+    updateProduct
 } = require('../controllers/products');
 
 // Ruta para obtener todos los productos
 router.get('/', async (req, res) => {
-    const storeid = req.query.storeid;
+    const storeId = req.query.storeid;
 
     try {
-        const products = await getAllProducts(storeid);
-        //console.log("Intenta traerlos")
+        console.log("Intenta traerlos")
+        const products = await getAllProducts(storeId);
+
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products' });
@@ -53,21 +54,24 @@ router.get('/by-rating', async (req, res) => {
 router.get('/filtered', async (req, res) => {
     const minRating = req.query.minRating;
     const maxPrice = req.query.maxPrice;
-    const storeid = req.query.storeid;
+    const storeId = req.query.storeid;
 
     try {
-        const filteredProducts = await getProductsByFilter(minRating, maxPrice, storeid);
+        const filteredProducts = await getProductsByFilter(minRating, maxPrice, storeId);
         res.json(filteredProducts);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching filtered products' });
     }
 });
 
-// Ruta para obtener productos por su ID o por su nombre
+//Ruta para obtener productos por su ID o por su nombre
+
 router.get('/:productIdOrName', async (req, res) => {
     const productIdOrName = req.params.productIdOrName;
+    const storeId = req.query.storeid;
+
     try {
-        const products = await getProductsByIdOrName(productIdOrName);
+        const products = await getProductsByIdOrName(productIdOrName, storeId);
         if (!products || products.length === 0) {
             res.status(404).json({ error: 'Products not found' });
         } else {
@@ -78,23 +82,8 @@ router.get('/:productIdOrName', async (req, res) => {
     }
 });
 
-//Ruta para obtener productos por su ID o por su nombre
-router.get('/:productIdOrName', async (req, res) => {
-    const productIdOrName = req.params.productIdOrName;
-    const storeid = req.query.storeid;
 
-    try {
-        const products = await getProductsByIdOrName(productIdOrName, storeid);
-        if (!products || products.length === 0) {
-            res.status(404).json({ error: 'Products not found' });
-        } else {
-            res.status(200).json(products);
-        }
-    } catch (error) {
-         res.status(500).json({ error: 'Error fetching products' });
-     }
-});
-
+// Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
     const { UserStoreId, name, price, rating, description,image, stock} = req.body;
     
@@ -106,5 +95,27 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Error creating the product' });
     }
 });
+
+// Ruta para editar un producto por su ID
+router.put('/:productId', async (req, res) => {
+  const productId = req.params.productId;
+  const { name, price, rating, description, image, stock } = req.body;
+
+  try {
+    const updatedProduct = await updateProduct(productId, name, price, rating, description, image, stock);
+
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al editar el producto' });
+  }
+});
+
+module.exports = router;
+
+
 
 module.exports = router;

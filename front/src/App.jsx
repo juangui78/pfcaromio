@@ -12,7 +12,7 @@ import Logout from './components/Logout/Logout'
 import Profile from './components/Profile/Profile'
 import NavBar from '../src/components/NavBar/Navbar'
 import LandingPage from '../src/components/LandingPage/LandingPage';
-import CreateProduct from '../src/components/CreateProduct/CreateProduct';
+import CreateProduct from './components/FormProduct/FormProduct';
 import ProductDetails from './components/ProductDetails/ProductDetails'
 import Products from './components/Products/Products'
 import Restaurants from '../src/components/Restaurants/Restaurants'
@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
-
+      
       {
         (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />)
 
@@ -66,7 +66,7 @@ const App = () => {
 
         <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />
-        <Route path='/createproduct' element={<CreateProduct />}></Route>
+        <Route path='/createproduct' element={<CreateProduct userData={userData} />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>

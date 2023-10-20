@@ -30,7 +30,7 @@ const createUser = async (username, email, age, role, userIdentifier) => {
             role: role,
             userIdentifier: userIdentifier,
         });
-
+        console.log(newUser);
         await newUser.save()
             .then((result) => {
                 console.log('Usuario guardado con éxito:', result, 'usuario: ', newUser) ;

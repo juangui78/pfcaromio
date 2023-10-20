@@ -2,10 +2,10 @@ const  {Products}  = require('../models/product');
 const { Store } = require('../models/store');
 const mongoose = require('mongoose');
 
-// Obtener todos los productos
-const getAllProducts = async (storeid) => {
+//Obtener todos los productos
+const getAllProducts = async (storeId) => {
     try {
-        return storeid ? await Products.find({ store: storeid }) : await Products.find();
+        return storeId ? await Products.find({ store: storeId }).exec() : await Products.find();
     } catch (err) {
         console.log(err);
     }
@@ -92,8 +92,13 @@ const createProduct = async (UserStoreId, name, price, rating, description,image
         console.log(newProduct);
         await newProduct.save();
 
+        // const store = await Store.findById(storeId);
+        // store.products.push(newProduct);
+        // await store.save();
+
         store.products.push(newProduct);
         await store.save();
+
         
         return newProduct;
 
@@ -102,6 +107,35 @@ const createProduct = async (UserStoreId, name, price, rating, description,image
     }
 };
 
+// Controlador para editar un producto por su ID
+const updateProduct = async (productId, name, price, rating, description, image, stock) => {
+    try {
+        const product = await Products.findById(productId);
+    
+        if (!product) return null;
+    
+        if (name) product.name = name;
+        if (price) product.price = price;
+        if (rating) product.rating = rating;
+        if (description) product.description = description;
+        if (image) product.image = image;
+        if (stock) product.stock = stock;
+    
+        await product.save();
+
+        const store = await Store.findById(product.store);
+        if (!store) console.log("No store found") ;
+        const productIndex = store.products.findIndex(p => p._id.equals(product._id));
+        if (productIndex !== -1) store.products[productIndex] = product;
+        await store.save();
+
+        return product;
+
+    } catch (error) {
+        console.log(err);
+    }
+  };
+
 module.exports = { 
     getAllProducts,
     getProductsSortedByPrice,
@@ -109,5 +143,6 @@ module.exports = {
     getProductsByIdOrName,
     getProductsByFilter,
     createProduct,
+    updateProduct
     //getProductsByStore
 };
