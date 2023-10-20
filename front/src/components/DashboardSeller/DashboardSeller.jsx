@@ -20,11 +20,12 @@ import { ProductsData } from './data';
 
 const DashboardSeller = (props) => {
 
-    const [productsList, setProductsList ] = useState(ProductsData);
-    const [product, setProduct ] = useState({});
+    const [productsList, setProductsList] = useState(ProductsData);
+    const [product, setProduct] = useState({});
 
     const setProductData = (item) => {
-        setProduct(data)
+        setProduct(item);
+        console.log(item);
     }
 
     const handleSearch = (event) => {
@@ -55,7 +56,7 @@ const DashboardSeller = (props) => {
                 </Header>
 
                 <DashboardContainer>
-                    <DataTable visible={activeTab} ProductsData={productsList} setProductData={setProductData} />
+                    <DataTable visible={activeTab} setActiveTab={setActiveTab} ProductsData={productsList} setProductData={setProductData} />
                     <FormProduct visible={activeTab} userData={userData} product={product} />
                 </DashboardContainer>
 

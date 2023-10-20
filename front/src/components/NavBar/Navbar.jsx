@@ -423,8 +423,8 @@ const Navbar = (props) => {
 
           </section>
           <menu>
-            <button id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
             <button type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
+            <button id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
           </menu>
         </form>
       </FilterModal>
