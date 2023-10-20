@@ -126,5 +126,4 @@ module.exports = {
     getProductsByFilter,
     createProduct,
     updateProduct
-    //getProductsByStore
 };
