@@ -7,6 +7,7 @@ const {
     getProductsByIdOrName, 
     getProductsByFilter, 
     createProduct,
+    updateProduct
 } = require('../controllers/products');
 
 // Ruta para obtener todos los productos
@@ -95,6 +96,27 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Error creating the product' });
     }
 });
+
+// Ruta para editar un producto por su ID
+router.put('/:productId', async (req, res) => {
+  const productId = req.params.productId;
+  const { name, price, rating, description, image, stock } = req.body;
+
+  try {
+    const updatedProduct = await updateProduct(productId, name, price, rating, description, image, stock);
+
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al editar el producto' });
+  }
+});
+
+module.exports = router;
+
 
 
 module.exports = router;

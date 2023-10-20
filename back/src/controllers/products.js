@@ -105,18 +105,34 @@ const createProduct = async (UserStoreId, name, price, rating, description,image
     }
 };
 
-// Actualizar Producto
-const updateProduct = async (UserStoreId, name, price, rating, description, image, stock) => {
+// Controlador para editar un producto por su ID
+const updateProduct = async (productId, name, price, rating, description, image, stock) => {
     try {
-        const store = await Store.findOne({userIdentifier: UserStoreId})
-        const product = await Products.findOne({name: name});
+        const product = await Products.findById(productId);
+    
+        if (!product) return null;
+    
+        if (name) product.name = name;
+        if (price) product.price = price;
+        if (rating) product.rating = rating;
+        if (description) product.description = description;
+        if (image) product.image = image;
+        if (stock) product.stock = stock;
+    
+        await product.save();
 
-        console.log(product);
+        const store = await Store.findById(product.store);
+        if (!store) console.log("No store found") ;
+        const productIndex = store.products.findIndex(p => p._id.equals(product._id));
+        if (productIndex !== -1) store.products[productIndex] = product;
+        await store.save();
+
+        return product;
 
     } catch (error) {
-        console.log(error.message);
+        console.log(err);
     }
-}
+  };
 
 module.exports = { 
     getAllProducts,
