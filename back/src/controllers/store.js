@@ -15,7 +15,7 @@ const getStoresSortedByName = async (order) => {
     try {
         const sortOrder = order && (order.toLowerCase() === 'asc') ? 1 : -1;
         const stores = await Store.find().sort({ name: sortOrder });
- 
+
         return stores;
     } catch (err) {
         console.log(err);
@@ -41,11 +41,26 @@ const getStoreByIdOrName = async (name) => {
         const store = await Store.findOne({
             $or: [
                 { name: { $regex: new RegExp(name, 'i') } }, // Buscar por nombre (ignorando mayúsculas/minúsculas)
-                { userIdentifier: name}
+                { userIdentifier: name }
             ]
         }).populate('products');
 
         return store;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error al buscar la tienda por nombre.');
+    }
+};
+
+
+const getStoreByName = async (name) => {
+    try {
+       const nameRegex = new RegExp(name, 'i');
+        const stores = await Store.find({
+            name: {$regex: nameRegex}
+        });
+        return stores;
+
     } catch (err) {
         console.log(err);
         throw new Error('Error al buscar la tienda por nombre.');
@@ -70,7 +85,7 @@ const getStoresByFilter = async (minRating) => {
 
 const createStore = async (userIdentifier, name, address, rating, revenue, image, products, description) => {
     // console.log(req.files);
-    
+
     try {
         const newStore = new Store({
             userIdentifier: userIdentifier,
@@ -98,5 +113,6 @@ module.exports = {
     getStoresSortedByRating,
     getStoreByIdOrName,
     getStoresByFilter,
-    createStore
+    createStore,
+    getStoreByName
 };

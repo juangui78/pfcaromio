@@ -21,8 +21,11 @@ import {
     Dialog,
     DialogIcon,
     DialogMessage,
-    AceptButtonDialog
+    AceptButtonDialog,
+    NoFound,
+    ButtonBack
 } from './RestaurantsStyles'
+
 
 export default function Restaurants() {
 
@@ -32,9 +35,8 @@ export default function Restaurants() {
 
     const restaurants = useSelector((state) => state.restaurants);
     const { isSignedIn, userId } = useAuth()
-
-
     const cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
+
     const emailKeys = JSON.parse(localStorage.getItem('emailKeys'));
     const paymentData = JSON.parse(localStorage.getItem('paymentData'));
 
@@ -49,16 +51,40 @@ export default function Restaurants() {
         dialogRef.current.close();
     }
 
+
     const sendPaymentEmail = (e) => {
-       
+
+        let table = '<table style="border:1px solid #EEE; border-collapse:collapse; text-align:left; width:500px"><tr><thead>';
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px; width:50%">Item</th>'
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Cantidad</th>'
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Precio</th>';
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Subtotal</th></tr></thead><tbody>';
+        cartDetails.items.forEach(item => {
+            table += `
+            <tr>
+              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.name}</td> 
+              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.quantity}</td> 
+              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price}</td>
+              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price * item.quantity}</td>
+            </tr>
+          `;
+        });
+        table += `<tr> 
+                <th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px"" colspan=3>Total:</th>
+                <td style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px""> ${cartDetails.total}</td>
+            </tr><tbody>`;
+        table += '</table>';
+
         const userName = userData ? userData.username : 'Apreciado cliente';
         const emailParams = {
             from_name: "Caro Mio Pizza",
             to_name: userName,
             message: "Te estamos enviando los detalles de la compra que realizaste.",
-            datails: cartDetails,
+
+            message_html: table
 
         }
+        console.log(emailParams);
         emailjs.send(emailKeys.EMAILJS_SERVICE_ID, emailKeys.EMAILJS_TEMPLATE_ID, emailParams, emailKeys.EMAILJS_PUBLIC_KEY)
             .then((result) => {
                 console.log(result.text);
@@ -67,6 +93,9 @@ export default function Restaurants() {
             });
     }
 
+    const handleLoadAll = () => {
+        dispatch(getRestaurants())
+    }
     useEffect(() => {
 
         const currentParams = Object.fromEntries([...searchParams]);
@@ -97,22 +126,29 @@ export default function Restaurants() {
 
         dispatch(getRestaurants());
         dispatch(getEmailKeys());
-    
+
     }, [dispatch, searchParams])
 
     return (
         <>
-            <Container>|
-          
-                <ShoppingCard />
+            <Container>
 
-               {/*  <Descuentos $isSignedIn={isSignedIn} >
-                    <CardDescuento />
-                </Descuentos> */}
+                <ShoppingCard />
 
                 <Title>
                     Restaurantes
                 </Title>
+                {
+                    restaurants.length === 0 &&
+                    <NoFound>
+                        <p>
+                            No se encontraron restuarantes con la palabra clave.
+                        </p>
+                        <p>
+                            <ButtonBack onClick={handleLoadAll}>Volver</ButtonBack>
+                        </p>
+                    </NoFound>
+                }
                 <Cards id="cards">
                     {
                         restaurants?.map((restaurant) => (

@@ -5,10 +5,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
+import 'animate.css';
+
 import './Navbar.css'
 import CartBtn from '../CartBtn/CartBtn';
 //import SearchBar from '../SearchBar/SearchBar';
-import { orderByName, sortedByRating, filterByRating, setProductsList } from '../../redux/actions';
+import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData } from '../../redux/actions';
 
 import { IconContext } from "react-icons";
 
@@ -23,6 +25,7 @@ import {
   FaSortAlphaDown,
   FaSortDown,
   FaTimes,
+  FaHome,
 
 } from 'react-icons/fa';
 
@@ -55,15 +58,19 @@ const Navbar = (props) => {
   const filtersRef = useRef(null);
   const filterRatingInput = useRef(null);
   const filterPriceInput = useRef(null);
+  const searchInputRef = useRef(null);
+  const searchSelectRef = useRef(null);
 
   const showFiltersAndSearch = !location.pathname.startsWith('/products');
   const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
 
   //const [userData, setUserData] = useState((null))
-  const {userData} = props;
+  const { userData } = props;
 
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
+  const [searchBy, setSearchBy] = useState('restaurante');
+  const [search, setSearch] = useState('');
 
   const store = useSelector(state => state.restaurantSelected);
 
@@ -83,13 +90,13 @@ const Navbar = (props) => {
         console.error('Error fetching products:', error);
       });
 
-  /*   axios.get(`http://localhost:3004/users/${userId}`)
-      .then((data) => {
-        data && setUserData(data.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      }) */
+    /*   axios.get(`http://localhost:3004/users/${userId}`)
+        .then((data) => {
+          data && setUserData(data.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        }) */
 
 
   }, [userId, store])
@@ -202,12 +209,12 @@ const Navbar = (props) => {
 
   const handlePriceFilterChange = (event) => {
     const value = event.target.value;
-  
+
     if (value === '' || value === null) {
       setPriceFilter('');
     } else {
       const parsedValue = parseFloat(value);
-  
+
       if (isNaN(parsedValue) || parsedValue < 0) {
         Swal.fire({
           icon: 'error',
@@ -227,24 +234,8 @@ const Navbar = (props) => {
     }
   };
 
-  /*  const applyFilters = async () => {
-     try {
-       const response = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
-       let filteredProducts = response.data;
-   
-       if (ratingFilter) {
-         filteredProducts = filteredProducts.filter((product) => product.rating >= ratingFilter);
-       }
-       if (priceFilter) {
-         filteredProducts = filteredProducts.filter((product) => product.price <= priceFilter);
-       }
-       setProducts(filteredProducts);
-     } catch (error) {
-       console.error('Error al aplicar filtros:', error);
-     }
-   }; */
-
   const applyFilters = () => {
+    //const { storeId } = useParams();
     const storeId = currentStore.id;
     let filteredProducts = axios
       .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
@@ -254,7 +245,7 @@ const Navbar = (props) => {
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
-      });;
+      });
 
     setRatingFilter('');
     setPriceFilter('');
@@ -291,6 +282,9 @@ const Navbar = (props) => {
   const showFilters = () => {
     filtersRef.current.showModal()
   }
+  const reset = () => {
+    dispatch(onSearchData(false, null, null));
+  }
 
   const closeFilters = () => {
 
@@ -299,20 +293,56 @@ const Navbar = (props) => {
     filtersRef.current.close();
   }
 
+  const handleChange = (e) => {
+    e.target.name === 'searchInput' && setSearch(e.target.value)
+    e.target.name === 'searchBy' && setSearchBy(e.target.value)
+
+  }
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search) {
+      dispatch(onSearchData(true, searchBy, search));
+      setSearchBy('restaurante')
+      setSearch('');
+    }
+    else {
+      Swal.fire({
+        text: 'No hay parámetros de búsqueda, por favor escriba una palabra clave para buscar',
+        confirmButtonColor: 'orange',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown animate__faster',
+          backdrop: 'swal2-backdrop-show',
+          icon: 'swal2-icon-show'
+        }
+      })
+    }
+  }
+
   return (
     <NavBar>
       <div className='nav'>
         <div className='nav-logo'>
-          <Link to='/home' >
+          <Link to='/home' onClick={reset} >
             <img className="img-logo" src="/LogoPizzeria.png" alt="Logo" />
           </Link>
         </div>
+        <Link to='/home' onClick={reset} className='homeBtn'>
+          <IconContext.Provider value={{ style: { color:'gray', width: '20px', height: '20px' } }} >
+            <FaHome />
+          </IconContext.Provider>
+        </Link>
 
         <div className='nav-input-search'>
-          <search className='search'>
-            <input type="search" id="searchInput" placeholder='Buscar restaurante o pizza' />
-            <button type="submit"><FaSearch /></button>
-          </search>
+          <form onSubmit={handleSearch}>
+            <div className='search'>
+              <select ref={searchSelectRef} value={searchBy} name="searchBy" id="searchBy" onChange={handleChange}>
+                <option value='restaurante'>Burcar restaurante</option>
+                <option value='pizza'>Burcar pizza</option>
+              </select>
+              <input ref={searchInputRef} value={search} type="search" name="searchInput" id="searchInput" placeholder='' onChange={handleChange} />
+              <button type="submit" ><FaSearch /></button>
+            </div>
+          </form>
 
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
@@ -323,7 +353,7 @@ const Navbar = (props) => {
             </FilterByBtn>
             {
               typeUser !== "Seller"
-                ? <div className='last' $typeuser = {typeUser} >Último restaurante visto: {currentStore?.name}</div>
+                ? <div className='last' $typeuser={typeUser} >Último restaurante visto: {currentStore?.name}</div>
                 : ''
             }
             <OrderByBtn disabled={!disableFilterBtn}>
@@ -372,14 +402,14 @@ const Navbar = (props) => {
             }
           </div>
           {
-            !isSignedIn 
+            !isSignedIn
               ? <div className='line-div'></div>
               : null
           }
 
           <div className="buttonCreate">
             {
-              !isSignedIn 
+              !isSignedIn
                 ? <Link to='/register' className='link'>Registrarme</Link> : null
             }
           </div>

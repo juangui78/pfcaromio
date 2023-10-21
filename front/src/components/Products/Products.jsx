@@ -21,28 +21,53 @@ const Products = () => {
   const productsFromState = useSelector((state) => state.products);
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
+
+   useEffect(() => {
+
+    setProducts([]);
     if (JSON.stringify(products) !== JSON.stringify(productsFromState)) {
       setProducts(productsFromState);
     }
-  }, [productsFromState]);
+    else {
 
-  useEffect(() => {
+      const rute = storeId
+        ? `http://localhost:3004/products/?storeid=${storeId}`
+        : `http://localhost:3004/products`;
+
+      axios
+        .get(rute)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data));
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+    }
+  }, [dispatch, storeId, productsFromState]);
+ 
+
+/*   useEffect(() => {
     // Limpiar los productos al cambiar de pizzería
     setProducts([]);
+  
+      // Fetch de los nuevos productos
+      const rute = storeId
+        ? `http://localhost:3004/products/?storeid=${storeId}`
+        : `http://localhost:3004/products`;
 
-    // Fetch de los nuevos productos
-    axios
-      .get(`http://localhost:3004/products/?storeid=${storeId}`)
-      .then((response) => {
-        setProducts(response.data);
-        dispatch(setProductsList(response.data));
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
-  }, [dispatch, storeId]);
-
+      axios
+        .get(rute)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data));
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+    
+  }, [dispatch, storeId, productsFromState]);
+ */
   return (
     <div>
       <Container>
@@ -50,7 +75,7 @@ const Products = () => {
           <h1>Lista de productos</h1>
         </Title>
         <Cards id="cards">
-          {products.map((product) => (
+          {products?.map((product) => (
             <ProductCard
               name={product.name}
               price={product.price}

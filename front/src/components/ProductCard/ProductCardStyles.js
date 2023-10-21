@@ -13,10 +13,10 @@ export const Editar = styled.button`
 export const CardContainer = styled.div`
     color: var(--red);
     margin-left: 8px;
-    width: 265px;
+    width: 250px;
     box-shadow: 2px 4px 10px gray;
-    border-radius: 10px; 
-    background-color: var(--orange);
+    border-radius: 8px; 
+    background-color: #ffb731;
     transition: 0.3s;
     &:hover {
         transform: scale(102%);
@@ -25,11 +25,11 @@ export const CardContainer = styled.div`
 `;
 
 export const ProductItem = styled.div`
-    transition: 0.5s;
+    transition: 0.3s;
     text-align: center;
-    padding: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@ export const ProductItem = styled.div`
 `;
 
 export const Price = styled.div`
-    margin-top: -2rem;
+    margin-top: -1rem;
     margin-bottom: 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -49,12 +49,12 @@ export const Price = styled.div`
 `; 
 
 export const ImgContainer = styled.div`
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     position: relative;
     margin-top: -2rem;
     margin-bottom: 1rem;
-    padding: 1rem;
+    padding: 0.3rem;
     background-color: var(--red);
     border-radius: 50%;
 `;
@@ -90,10 +90,10 @@ export const Name = styled.h5`
 
 export const Score = styled.div`
     position: relative;
-    background-color: #FFFA;
+    background-color: #FFF;
     width: 60px;
     text-align: center ;
-    color: #777;
+    color: black;
 `; 
 
 export const RowBottom = styled.div`
@@ -113,7 +113,7 @@ export const LinkCard = styled.button`
     font-size: 1rem;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: red;
     cursor: pointer;
     transition: border-color 0.5s;
     margin-top: 0.3rem;

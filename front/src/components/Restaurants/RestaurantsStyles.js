@@ -49,14 +49,24 @@ export const Title = styled.h1`
     font-family: 'Secular One', 'sans-serif';
 `;
 
+export const NoFound = styled.h3`
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
+    color:var(--red);
+    font-family: 'Secular One', 'sans-serif';
+`;
+
+export const ButtonBack = styled.button`
+    font-size: 1rem;
+    font-weight: 300;
+`;
+
 export const Cards = styled.div`
     padding: 1rem 1rem 0rem 1rem;
-    display: grid;
-    grid-template-columns: 
-        repeat(
-            auto-fit,
-            minmax(340px, 340px)
-        );
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap:2rem;
 `;
 

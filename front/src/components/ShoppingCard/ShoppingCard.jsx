@@ -45,7 +45,6 @@ const ShoppingCard = () => {
         dispatch(createCheckout(cartDetails))
     };
 
-
     useEffect(() => {
 
         if (paymentUrl) {
@@ -93,7 +92,7 @@ const ShoppingCard = () => {
                     {
                         cartDetails && 
                         <>
-                            <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li>
+                            {/* <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li> */}
                             <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
                         </>
                     }
