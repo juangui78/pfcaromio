@@ -5,6 +5,7 @@ import {
     SET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    GET_RESTAURANTS_BY_NAME,
     FILTER_PRODUCTS_BY_NAME,
     FILTER_RESTAURANTS_BY_NAME,
     ORDER_BY_RATING_PRODUCTS,
@@ -23,6 +24,7 @@ import {
     CLEAR_CART,
     CREATE_CHECKOUT,
     GET_EMAIL_KEYS,
+    SET_SEARCH,
 
 } from './actionsTypes';
 
@@ -38,8 +40,10 @@ const initialState = {
     restaurantSelected: {},
     paymentUrl: null,
     paymentData: null,
-    emailKeys:{},
-    shippingFee: 2,
+    emailKeys: {},
+    shippingFee: 0,
+    search: false,
+    searchBy: 'resturant',
 
     cartDetails: {
         store: {},
@@ -63,7 +67,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 products: payload,
             }
-            
+
         case SET_PRODUCTS:
             return {
                 ...state,
@@ -195,8 +199,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case ADD_CART_ITEM:
-            //cartDetails = { ...state.cartDetails };
-
             cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
 
             if (Object.keys(cartDetails).length > 0) {
@@ -246,19 +248,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
             return {
                 ...state,
-                /*  cartDetails: {
-                     ...state.cartDetails,
-                     itemsCount: itemsCount,
-                     items: cartDetails.items,
-                     subtotal: cartDetails.subtotal,
-                     total: cartDetails.total,
-                     store: cartDetails.store
-                 } */
                 cartDetails: cartDetails
             }
 
         case REMOVE_CART_ITEM:
-            //cartDetails = { ...state.cartDetails };
             cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
             itemsCount = cartDetails.itemsCount - 1;
             cartDetails.itemsCount = itemsCount;
@@ -280,7 +273,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case DELETE_CART_ITEM:
-            //cartDetails = { ...state.cartDetails };
             cartDetails = JSON.parse(localStorage.getItem('cartDetails'));
 
             foundItem = cartDetails.items.find((product) => product._id === payload._id);
@@ -345,6 +337,34 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 emailKeys: payload
 
             }
+
+        case SET_SEARCH:
+            const searchState = payload.searchState;
+            const data = payload.data;
+            const searchBy = payload.searchBy;
+
+            if (searchState && searchBy === 'pizza') {
+                return {
+                    ...state,
+                    search: true,
+                    products: data,
+                    searchBy: searchBy
+                }
+            }
+            if (searchState && searchBy === 'restaurante') {
+                return {
+                    ...state,
+                    search: true,
+                    restaurants: data,
+                    searchBy: searchBy
+                }
+            }
+
+            if (!searchState)
+                return {
+                    ...state,
+                    search: false,
+                }
 
         default:
             return { ...state };

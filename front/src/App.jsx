@@ -1,7 +1,7 @@
 import './App.css'
 
 import { React, useState, useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
@@ -30,8 +30,14 @@ const App = () => {
 
   const showProductDetails = useSelector((state) => state.modalProductDetails);
   const showCart = useSelector((state) => state.modalCart);
-
+  const products = useSelector((state) => state.products);
+  const searchState = useSelector((state) => state.search);
+  const searchBy = useSelector((state) => state.searchBy);
+  const showRestaurants = (!searchState || (searchState && searchBy) === 'restaurante') ? true : false;
+  const showProducts =  (searchState && searchBy === 'pizza') ? true : false;
+  
   useEffect(() => {
+ 
     axios.get(`http://localhost:3004/users/${userId}`)
       .then((data) => {
         data && setUserData(data.data)
@@ -39,11 +45,11 @@ const App = () => {
       .catch((error) => {
         console.log(error)
       })
-  }, [userId])
+  }, [userId, searchState])
 
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
-      
+
       {
         (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />)
 
@@ -53,25 +59,28 @@ const App = () => {
         <Route
           path='/home'
           element={
-            userData?.[0]?.role !== "Seller"
-              ? <><Slide /> <Restaurants /> </>
-              : <DashboardSeller userData={userData} />
+
+            userData?.[0]?.role === "Seller"
+              ? <DashboardSeller userData={userData} />
+              : <>
+                {/* <Slide /> */}
+                {
+                 showProducts && <Navigate to="/products" />
+                }
+                {
+                  showRestaurants && <Restaurants />
+                }
+              </>
           } />
 
-        <Route path="/products" element={<Products />} />
-     {/*    <Route path='/home' element={<>
-          <Slide />
-          <Restaurants />
-        </>}></Route> */}
-
-        <Route path="/products" element={<Products />} />
+ {/*        <Route path="/products" element={<Products />} /> */}
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct userData={userData} />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
         {/* <Route path='/myRestaurant' element={<DashboardSeller userData={userData} />}></Route> */}
-      {/*   <Route path='/myRestaurant' element={<MyRestaurant />}></Route> */}
+        {/*   <Route path='/myRestaurant' element={<MyRestaurant />}></Route> */}
 
       </Routes>
 

@@ -39,16 +39,17 @@ export const Title = styled.header`
 
 export const Cards = styled.div`
     padding: 1rem 4rem 0rem 4rem;
-    display: grid;
-    margin-top: -30px;
+    display: flex;
+/*     margin-top: -30px;
     margin-left: -12px;
-    margin-bottom: 10px;
-    grid-template-columns: 
+    margin-bottom: 10px; */
+/*     grid-template-columns: 
         repeat(
             auto-fit,
             minmax(250px, 260px)
-        );
-    gap:1.4rem;
+        ); */
+    flex-wrap: wrap;
+    gap:1rem;
 `;
 export const FilterContainer = styled.div`
   margin-left: 30px;

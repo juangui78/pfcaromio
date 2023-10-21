@@ -1,4 +1,14 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+
+const formControl = css`
+    background-color: transparent;
+    border: 0px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color:black;
+    font-size: 1rem;
+    outline: none;
+`;
 
 export const NavBar = styled.nav`
     position: fixed;
@@ -45,7 +55,7 @@ export const NavBar = styled.nav`
             flex-grow: 4;
             padding:2px 2rem;
             
-            search{
+            div.search{
                 border: 0px dashed orange;
                 border-radius: 8px;
                 background-color: #EEE;
@@ -54,16 +64,12 @@ export const NavBar = styled.nav`
                 width: 100%;
                 display: flex;
                 flex-grow: 12;
+                
                 input {
                     flex-grow: 1;
-                    background-color: transparent;
-                    border: 0;
-                    padding-left: 1rem;
-                    padding-right: 1rem;
-                    color:black;
-                    font-size: 1rem;
-                    outline: none;
+                    ${formControl};
                 }
+
                 button{
                     background-color: transparent;
                     border: 0px solid black;
@@ -72,7 +78,12 @@ export const NavBar = styled.nav`
                     &:hover{
                         color:black;
                     }
+                }
 
+                select{
+                    ${formControl};
+                    border-radius: 8px 0px 0px 8px; 
+                    background-color: #DDD;
                 }
             }
 
