@@ -62,7 +62,7 @@ const App = () => {
             userData?.[0]?.role === "Seller"
               ? <DashboardSeller userData={userData} />
               : <>
-                {/* <Slide /> */}
+                <Slide />
                 {
                  showProducts && <Products />
                 }
