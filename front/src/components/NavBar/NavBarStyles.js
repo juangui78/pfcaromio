@@ -35,6 +35,11 @@ export const NavBar = styled.nav`
             border: 0px dashed blue;
         }
 
+        a.homeBtn{
+            background-color: transparent;
+            padding-top: 0.5rem;
+        }
+
         div.nav-logo{
             flex-grow: 1;
             display: flex;
@@ -82,8 +87,10 @@ export const NavBar = styled.nav`
 
                 select{
                     ${formControl};
+                    font-size: 0.8rem;
                     border-radius: 8px 0px 0px 8px; 
-                    background-color: #DDD;
+                    background-color: #EEE;
+                    border-right: 2px solid white;;
                 }
             }
 

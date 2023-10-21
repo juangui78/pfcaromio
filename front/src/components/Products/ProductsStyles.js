@@ -40,6 +40,7 @@ export const Title = styled.header`
 export const Cards = styled.div`
     padding: 1rem 4rem 0rem 4rem;
     display: flex;
+    justify-content: center;
 /*     margin-top: -30px;
     margin-left: -12px;
     margin-bottom: 10px; */

@@ -66,7 +66,7 @@ export const Score = styled.div`
 `; 
 
 
-export const LinkCard = styled(NavLink)`
+export const LinkCard = styled.button`
     width: 60%;
     color: var(--red);
     text-decoration: none;

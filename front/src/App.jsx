@@ -59,13 +59,12 @@ const App = () => {
         <Route
           path='/home'
           element={
-
             userData?.[0]?.role === "Seller"
               ? <DashboardSeller userData={userData} />
               : <>
                 {/* <Slide /> */}
                 {
-                 showProducts && <Navigate to="/products" />
+                 showProducts && <Products />
                 }
                 {
                   showRestaurants && <Restaurants />
@@ -73,7 +72,7 @@ const App = () => {
               </>
           } />
 
- {/*        <Route path="/products" element={<Products />} /> */}
+        <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct userData={userData} />}></Route>
         <Route path='/register' element={<Register />}></Route>

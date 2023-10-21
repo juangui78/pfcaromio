@@ -25,6 +25,7 @@ import {
   FaSortAlphaDown,
   FaSortDown,
   FaTimes,
+  FaHome,
 
 } from 'react-icons/fa';
 
@@ -280,6 +281,9 @@ const Navbar = (props) => {
   const showFilters = () => {
     filtersRef.current.showModal()
   }
+  const reset = () => {
+    dispatch(onSearchData(false, null, null));
+  }
 
   const closeFilters = () => {
 
@@ -303,7 +307,7 @@ const Navbar = (props) => {
     else {
       Swal.fire({
         text: 'No hay parámetros de búsqueda, por favor escriba una palabra clave para buscar',
-        confirmButtonColor:'orange',
+        confirmButtonColor: 'orange',
         showClass: {
           popup: 'animate__animated animate__fadeInDown animate__faster',
           backdrop: 'swal2-backdrop-show',
@@ -317,10 +321,15 @@ const Navbar = (props) => {
     <NavBar>
       <div className='nav'>
         <div className='nav-logo'>
-          <Link to='/home' >
+          <Link to='/home' onClick={reset} >
             <img className="img-logo" src="/LogoPizzeria.png" alt="Logo" />
           </Link>
         </div>
+        <Link to='/home' onClick={reset} className='homeBtn'>
+          <IconContext.Provider value={{ style: { color:'gray', width: '20px', height: '20px' } }} >
+            <FaHome />
+          </IconContext.Provider>
+        </Link>
 
         <div className='nav-input-search'>
           <form onSubmit={handleSearch}>

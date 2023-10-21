@@ -18,7 +18,6 @@ import {
 const Products = () => {
   const dispatch = useDispatch();
   const { storeId } = useParams();
-  console.log(storeId);
   const productsFromState = useSelector((state) => state.products);
   const [products, setProducts] = useState([]);
 

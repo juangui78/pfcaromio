@@ -352,11 +352,11 @@ export const onSearchData = (searchState, searchBy, search) => {
     return async function (dispatch) {
         let searchInfo = { searchState, searchBy, search }
         let response = null;
-        if(searchState && searchBy === 'pizza'){
+        if (searchState && searchBy === 'pizza') {
             response = await axios.get(`http://localhost:3004/products/${search}`)
             searchInfo.data = response.data;
         }
-        if(searchState && searchBy === 'restaurante'){
+        if (searchState && searchBy === 'restaurante') {
             response = await axios.get(`http://localhost:3004/stores/search/${search}`)
             searchInfo.data = response.data;
         }
@@ -374,43 +374,4 @@ export const onSearchData = (searchState, searchBy, search) => {
     }
 }
 
-export const onSearch = (searchState, searchBy, search) => {
-    return async function (dispatch) {
-        try {
 
-            const info = {}
-            const data = null;
-
-            if (!searchState) {
-                info = {
-                    searchState: false,
-                    data: null,
-                    searchBy: null,
-                }
-            }
-            else {
-                /*    if (searchBy === 'pizza') 
-                       data = await axios.get(`http://localhost:3004/products/${search}`)
-                   if(searchBy === 'restaurant') 
-                       data = await axios.get(`http://localhost:3004/products/${search}`)
-                    */
-                info = {
-                    searchState: true,
-                    data: null,
-                    searchBy: null,
-                }
-
-            }
-
-            return dispatch(
-                { type: SET_SEARCH, payload: info },
-            )
-        }
-        catch (error) {
-            return dispatch(
-                { type: ERROR, payload: error.message }
-            )
-        }
-
-    }
-}
