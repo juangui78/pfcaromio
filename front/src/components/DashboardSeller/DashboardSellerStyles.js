@@ -23,6 +23,7 @@ export const LinkA = styled(Link)`
             color: orange
         }
 `;
+
 export const Header = styled.header`
     position: sticky;
     top: 8rem;
@@ -43,12 +44,41 @@ export const ButtonsSection = styled.section`
     display: flex;
     gap: 1rem;
     button{
-        padding: 0.5rem 1rem;
+        padding: 0.6rem 1rem;
         &:hover{
             color: orange
         }
     }
- 
+`;
+
+export const Search = styled.div`
+    border: 0px dashed orange;
+    border-radius: 8px;
+    background-color: #EEE;
+    justify-content: center;
+    flex-wrap: nowrap;
+    display: flex;
+    
+    input {
+        flex-grow: 1;
+        background-color: transparent;
+        border: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        color:black;
+        font-size: 1rem;
+        outline: none;
+        color: gray;
+    }
+    div{
+        background-color: transparent;
+        border: 0px solid black;
+        border-radius: 0px 8px 8px 0px; 
+        color: #CCC;
+        display: flex;
+        align-items: center;
+        padding-right: 10px;
+    }
 `;
 
 export const ProductsTable = styled.section`
@@ -97,9 +127,8 @@ export const LastHead = styled.th`
     text-align: end;
 `;
 
-
 export const Head = styled.th`
-    padding: 0.3rem;
+    padding: 1.3rem;
     padding-left: 1rem;
 `;
 
@@ -129,6 +158,7 @@ export const FirstCell = styled.td`
     padding-right: 1rem;
     color: gray;
 `;
+
 export const HeadImg = styled.th`
     padding: 0.3rem;
     padding-left: 1rem;

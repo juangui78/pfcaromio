@@ -1,8 +1,8 @@
 import './CreateProduct.css'
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import validate from './validation'
-import CreatableSelect from 'react-select/creatable'
+//import CreatableSelect from 'react-select/creatable'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '@clerk/clerk-react'
@@ -12,12 +12,12 @@ import styled from 'styled-components';
 import cloudinary from '../../cloudinary/config.js'
 import { Name } from '../ProductDetails/ProductDetails'
 
-export default function CreateProduct({ visible, userData }) {
+export default function FormProduct({ visible, userData, product }) {
 
     const navigate = useNavigate()
     const { userId } = useAuth();
     const [image, setImage] = useState(null);
-
+    const action = visible === 'createProduct' ? 'crear' : visible === 'editProduct' ? 'editar' : '';
 
     // Obtengo valores del select y los seteo en ProductData
     const handleSelect = (newValue) => {
@@ -47,7 +47,8 @@ export default function CreateProduct({ visible, userData }) {
 
         // Se valida que no haya ningun error en el form
         if (!hasErrors) {
-            createProduct(productData)
+            action === 'crear' && createProduct(productData)
+            action === 'editar' && updateProduct(productData)
         } else {
             Swal.fire({
                 title: 'Error. Por favor rellena bien los campos de tu Pizza',
@@ -100,6 +101,16 @@ export default function CreateProduct({ visible, userData }) {
         }
     }
 
+    const updateProduct = async (productData) => {
+        try {
+            const update = await axios.put(`http://localhost:3004/products/${productData.id}`, productData)
+            console.log('Producto actualizado')
+            console.log(update);
+        } catch (error) {
+            Swal.fire({ title: 'Error. Por favor intenta de nuevo', icon: 'error' })
+        }
+    }
+
     //Parte de cloudinary
 
     //se crea el estado que tendrá la imagen temporalmente y el de la URL  
@@ -117,50 +128,68 @@ export default function CreateProduct({ visible, userData }) {
         axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response) => {
             console.log(response.data.secure_url)
         });
-        //setCurrentUrl(response.data.secure_url);
+        setCurrentUrl(response.data.secure_url);
         setProductData({ ...productData, [image]: response.data.secure_url })
     }
 
+    useEffect(() => {
+        action === 'editar' && setProductData(product)
+        action === 'crear' && setProductData(
+            {
+                UserStoreId: '',
+                name: '',
+                price: '',
+                description: '',
+                stock: '',
+                rating: '',
+                tags: [],
+                image: ''
+            }
+        )
+    }, [action])
+
+
+
     return (
         <>
-            <Container style={{ display: visible === 'createProduct' ? '' : 'none' }}>
+            <Container style={{ display: visible === 'createProduct' || visible === 'editProduct' ? '' : 'none' }}>
                 <header>
-                    <TitleL> {userData[0].username}, vamos a crear tu pizza</TitleL>
+                    <TitleL> {userData[0].username}, vamos a {action} tu pizza </TitleL>
                 </header>
                 <Form action="">
                     <FomrContent>
                         <Item>
                             <LabelHead className='labels'>Nombre de tu Pizza:</LabelHead>
                             <ColInputs>
-                                <input type="text" name='name' onChange={handleChange} />
+                                <input type="text" name='name' value={productData.name} onChange={handleChange} />
                                 <label className='warning-Text'>{errors.name}</label>
                             </ColInputs>
                         </Item>
                         <Item>
                             <LabelHead className='labels'>Describe tu Pizza:</LabelHead>
                             <ColInputs>
-                                <textarea rows="4" name='description' onChange={handleChange}></textarea>
+                                <textarea rows="4" name='description' value={productData.description} onChange={handleChange}></textarea>
                                 <label className='warning-Text'>{errors.description}</label>
                             </ColInputs>
                         </Item>
                         <Item>
                             <LabelHead className='labels'>Precio de tu Pizza (USD):</LabelHead>
                             <ColInputs>
-                                <input type="number" name='price' onChange={handleChange} />
+                                <input type="number" name='price' value={productData.price} onChange={handleChange} />
                                 <label className='warning-Text'>{errors.price}</label>
                             </ColInputs>
                         </Item>
                         <Item>
                             <LabelHead className='labels'>Stock:</LabelHead>
                             <ColInputs>
-                                <input type="number" name='stock' onChange={handleChange} />
+                                <input type="number" name='stock' value={productData.stock} onChange={handleChange} />
                                 <label className='warning-Text'>{errors.stock}</label>
                             </ColInputs>
                         </Item>
                         <Item>
                             <LabelHead className='labels'>Rating:</LabelHead>
                             <ColInputs>
-                                <input type="number" name='rating' onChange={handleChange} />
+                                <input type="number" name='rating' value={productData.rating} onChange={handleChange} />
                                 <label className='warning-Text'>{errors.rating}</label>
                             </ColInputs>
                         </Item>
@@ -186,7 +215,7 @@ export default function CreateProduct({ visible, userData }) {
                             <LabelHead className='labels'></LabelHead>
                             <ColInputs className='footer'>
                                 <input type='reset' value="Cancelar" />
-                                <input type='submit' value="Crear" onClick={handleSubmit} />
+                                <input type='submit' value="Guardar" onClick={handleSubmit} />
                             </ColInputs>
                         </Item>
 
@@ -320,7 +349,7 @@ const TitleName = styled.div`
 `;
 
 const TitleL = styled.div`
-    font-size: large;
+    font-size: x-large;
 `;
 
 const Item = styled.tr``;
