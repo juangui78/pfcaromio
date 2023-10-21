@@ -82,9 +82,11 @@ export default function CreateProduct({ visible, userData }) {
     });
 
     const createProduct = async (productData) => {
+        console.log(productData);
         try {
             subirImagen();
             productData.UserStoreId = userId
+            console.log(productData);
             const create = await axios.post('http://localhost:3004/products', productData)
             Swal.fire({
                 title: 'Producto Creado con Exito',

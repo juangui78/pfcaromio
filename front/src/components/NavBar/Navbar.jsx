@@ -94,6 +94,7 @@ const Navbar = (props) => {
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
+  console.log(typeUser);
 
   const applyRatingFilterButton = () => {
     dispatch(filterByRating(sliderValue));
