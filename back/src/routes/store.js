@@ -6,7 +6,8 @@ const {
     getStoresSortedByRating, 
     getStoreByIdOrName,
     getStoresByFilter,
-    createStore 
+    createStore,
+    getStoreByName
     } = require('../controllers/store');
 
 // Ruta para obtener todas las tiendas
@@ -60,6 +61,21 @@ router.get('/:storeIdOrName', async (req, res) => {
 
     try {
         const store = await getStoreByIdOrName(storeIdOrName);
+        if (!store) {
+            res.status(404).json({ error: 'Store not found' });
+        } else {
+            res.status(200).json(store);
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching store' });
+    }
+});
+
+router.get('/search/:storeName', async (req, res) => {
+    const storeName = req.params.storeName;
+
+    try {
+        const store = await getStoreByName(storeName);
         if (!store) {
             res.status(404).json({ error: 'Store not found' });
         } else {

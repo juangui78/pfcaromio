@@ -1,5 +1,6 @@
-import { setRestaurant } from "../../redux/actions";
+import { setRestaurant, onSearchData, getProducts } from "../../redux/actions";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
     CardContainer,
     Img,
@@ -16,9 +17,13 @@ import {
 function RestaurantCard(props) {
     const restaurant = props;
     const dispatch = useDispatch();
-    
+    let navigate = useNavigate();
+
     const selectStore = () => {
+        dispatch(onSearchData(false, null, null));
         dispatch(setRestaurant(restaurant));
+        dispatch(getProducts(restaurant.id));
+        navigate  (`/products/${restaurant.id}`)
     }
 
     return (
@@ -31,7 +36,7 @@ function RestaurantCard(props) {
                 <Details>
                     <Name>{restaurant.name}</Name>
                     <Address>{restaurant.address}</Address>
-                    <LinkCard to= {`/products/${restaurant.id}`} onClick={selectStore}> Productos</LinkCard>
+                    <LinkCard onClick={selectStore}> Productos</LinkCard>
                     <Score>⭐{restaurant.rating}</Score>
                 </Details>
             </RestaurantItem>

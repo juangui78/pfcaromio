@@ -85,7 +85,7 @@ router.get('/:productIdOrName', async (req, res) => {
 
 // Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
-    const { UserStoreId, name, price, rating, description,image, stock} = req.body;
+    const { UserStoreId, name, price, rating, description, image, stock} = req.body;
     
     try {
         const newProduct = await createProduct(UserStoreId, name, price, rating, description,image, stock);
@@ -113,9 +113,5 @@ router.put('/:productId', async (req, res) => {
     res.status(500).json({ error: 'Error al editar el producto' });
   }
 });
-
-module.exports = router;
-
-
 
 module.exports = router;

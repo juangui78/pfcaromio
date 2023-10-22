@@ -16,6 +16,7 @@ export default function FormProduct({ visible, userData, product }) {
 
     const navigate = useNavigate()
     const { userId } = useAuth();
+    console.log(userId);
     const [image, setImage] = useState(null);
     const action = visible === 'createProduct' ? 'crear' : visible === 'editProduct' ? 'editar' : '';
 
@@ -83,8 +84,11 @@ export default function FormProduct({ visible, userData, product }) {
     });
 
     const createProduct = async (productData) => {
+        console.log(productData);
         try {
-            subirImagen();
+            await subirImagen(currentImage, productData);
+            productData.image = currentURL
+            console.log('aqui espero url de cloudinary: ' + currentURL);
             productData.UserStoreId = userId
             const create = await axios.post('http://localhost:3004/products', productData)
             Swal.fire({
@@ -94,6 +98,7 @@ export default function FormProduct({ visible, userData, product }) {
             navigate('/home')
             console.log('Producto creado')
             console.log(productData);
+            // Aqui se cerraria el modal y volveriamos a el dashboard Wil
         } catch (error) {
             Swal.fire({ title: 'Error. Por favor intenta de nuevo', icon: 'error' })
         }
@@ -114,21 +119,29 @@ export default function FormProduct({ visible, userData, product }) {
     //se crea el estado que tendrá la imagen temporalmente y el de la URL  
 
     const [currentImage, setCurrentImage] = useState();
-    //const[currentURL, setCurrentUrl] = useState("");
+    const[currentURL, setCurrentUrl] = useState("");
     //Se crea una funcion
 
-    const subirImagen = (file) => {
+    const subirImagen = async (currentImage) => {
         console.log(currentImage);
 
         const formData = new FormData();
         formData.append("file", currentImage);
         formData.append("upload_preset", "vp72qx31");
-        axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response) => {
-            console.log(response.data.secure_url)
-        });
-        setCurrentUrl(response.data.secure_url);
-        setProductData({ ...productData, [image]: response.data.secure_url })
+        await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response) => {
+            // console.log('url de cloudinary: ' + response.data.secure_url)
+            // setCurrentUrl(response.data.secure_url);
+            // setProductData({ ...productData, [image]: response.data.secure_url })
+            setCurrentUrl(response.data.secure_url)
+        })
+        .catch((error) => {
+            console.log('No se pudo obtener el link de la imagen: ' + error)
+        })
+
     }
+        
+
+    
 
     useEffect(() => {
         action === 'editar' && setProductData(product)

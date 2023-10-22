@@ -42,7 +42,7 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
         Swal.fire({
             title: 'Está seguro?',
             text: `Se eliminará de la base de datos el producto ${name}!`,
-            icon: 'warning',
+            
             showCancelButton: true,
             confirmButtonColor: '#808080',
             cancelButtonColor: '#d33',
@@ -52,7 +52,7 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
                 popup: 'animate__animated animate__fadeInDown'
             },
             hideClass: {
-                popup: 'animate__animated animate__fadeOutUp'
+                popup: 'animate__animated animate__fadeOutUp animate__faster'
             },
         }).then((result) => {
             if (result.isConfirmed) {

@@ -15,7 +15,7 @@ const getStoresSortedByName = async (order) => {
     try {
         const sortOrder = order && (order.toLowerCase() === 'asc') ? 1 : -1;
         const stores = await Store.find().sort({ name: sortOrder });
- 
+
         return stores;
     } catch (err) {
         console.log(err);
@@ -37,19 +37,37 @@ const getStoresSortedByRating = async (order) => {
 // Obtener una tienda por su ID o por su nombre
 const getStoreByIdOrName = async (identifier) => {
     try {
-        const storeQuery = mongoose.isValidObjectId(identifier)
-            ? { _id: identifier }
-            : { name: { $regex: new RegExp(identifier, 'i') } };
-            
-        const store = await Store.findOne(storeQuery)
-            // .populate('reviews')
-            .populate('products');
-        
+
+        const store = await Store.findOne({
+            $or: [
+                { name: { $regex: new RegExp(name, 'i') } }, // Buscar por nombre (ignorando mayúsculas/minúsculas)
+                { userIdentifier: name }
+            ]
+        }).populate('products');
+
         return store;
     } catch (err) {
         console.log(err);
     }
 };
+
+
+const getStoreByName = async (name) => {
+    try {
+       const nameRegex = new RegExp(name, 'i');
+        const stores = await Store.find({
+            name: {$regex: nameRegex}
+        });
+        return stores;
+
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error al buscar la tienda por nombre.');
+    }
+};
+
+
+
 
 
 //Obtener tiendas filtradas por calificación
@@ -69,7 +87,7 @@ const getStoresByFilter = async (minRating) => {
 
 const createStore = async (userIdentifier, name, address, rating, revenue, image, products, description) => {
     // console.log(req.files);
-    
+
     try {
         const newStore = new Store({
             userIdentifier: userIdentifier,
@@ -97,5 +115,6 @@ module.exports = {
     getStoresSortedByRating,
     getStoreByIdOrName,
     getStoresByFilter,
-    createStore
+    createStore,
+    getStoreByName
 };
