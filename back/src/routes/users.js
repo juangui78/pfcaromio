@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUserById, createUser } = require('../controllers/users');
+const { getAllUsers, getUserById, createUser, getUserByStore } = require('../controllers/users');
 
 // Ruta para obtener todos los usuarios
 router.get('/', async (req, res) => {
@@ -28,16 +28,30 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
+// // Ruta para obtener usuario de Restaurante por ID
+// router.post('/', async (req, res) => {
+//     const storeId = req.query.storeId;
+//     console.log(storeId);
+//     try {
+//         const user = await getUserByStore(storeId);
+//         res.status(200).json(user); // Status 200 OK
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
+
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
-    const { name, phone, address, city, dob, role } = req.body;
-
+    const { username ,email ,age, role, userIdentifier} = req.body;
+    console.log('entro a la ruta');
     try {
-        const newUser = await createUser(name, phone, address, city, dob, role);
+        const newUser = await createUser(username ,email ,age, role, userIdentifier);
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the user' });
     }
 });
+
+
 
 module.exports = router;

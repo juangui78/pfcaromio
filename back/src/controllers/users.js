@@ -1,9 +1,10 @@
-const { Users } = require('../db');
+const {User}  = require('../models/user');
+const {Store} = require('../models/store');
 
 // Obtener todos los usuarios
 const getAllUsers = async () => {
     try {
-        return await Users.find();
+        return await User.find();
     } catch (err) {
         console.log(err);
     }
@@ -12,25 +13,32 @@ const getAllUsers = async () => {
 // Obtener un usuario por su ID
 const getUserById = async (userId) => {
     try {
-        return await Users.findById(userId).populate('reviews');
+        return await User.find({userIdentifier: userId});
     } catch (err) {
         console.log(err);
     }
 };
 
 // Crear un nuevo usuario
-const createUser = async (name, phone, address, city, dob, role) => {
+const createUser = async (username, email, age, role, userIdentifier) => {
     try {
-        const newUser = new Users({
-            name: name,
-            phone: phone,
-            address: address,
-            city: city,
-            dob: dob,
+        // console.log('id entrando + ' + idUser);
+        const newUser = new User({
+            
+            username: username,
+            email:email,
+            age: age,
             role: role,
+            userIdentifier: userIdentifier,
         });
-
-        await newUser.save();
+        console.log(newUser);
+        await newUser.save()
+            .then((result) => {
+                console.log('Usuario guardado con éxito:', result, 'usuario: ', newUser) ;
+            })
+            .catch((error) => {
+                console.error('Error al guardar el usuario:', error, 'usuario: ', newUser);
+            });
         return newUser;
         
     } catch (err) {
@@ -38,8 +46,25 @@ const createUser = async (name, phone, address, city, dob, role) => {
     }
 };
 
+// Obtener Usuario de Tienda 
+const getUserByStore = async (storeId) => {
+    try {
+        const storeUser = await Store.find({_id: storeId});
+
+        if (!storeUser) {
+            return 'No existe un usuario afiliado a una tienda'
+        }
+
+        return storeUser;
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = { 
     getAllUsers,
     getUserById,
-    createUser 
+    createUser,
+    getUserByStore
 };

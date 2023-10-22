@@ -1,0 +1,56 @@
+.main-container {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    height: 74vh;
+}
+
+.crearPizza {
+    background-color: #FFC000;
+    width: 150px;
+    height: 60px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    font-size: 18px;
+    border: solid black 2px;
+}
+
+.crearPizza:hover {
+   background-color: #ddaa13;
+   color: black;
+}
+
+.titleRestaurant {
+    display: flex;
+    justify-content: center;
+}
+
+.banner {
+    background-color: #FFC000;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.roundProfile {
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 240px;
+}
+
+.products {
+    display: flex;
+    gap: 20px;
+    padding: 30px;
+}

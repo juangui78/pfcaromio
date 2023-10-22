@@ -1,12 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react"
-
+import { SignIn, SignUp,useAuth } from "@clerk/clerk-react"
+import './Login.css'
 export default function LoginForm () {
 
-    const {loginWithRedirect} = useAuth0()
-
     return(
-        <button onClick={() => loginWithRedirect()}>
-            Iniciar Sesion
-        </button>
+        <section className="login-section">
+            <SignIn afterSignUpUrl='/registerForm'/>
+        </section>
+        
     )
 }

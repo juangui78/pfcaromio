@@ -1,0 +1,55 @@
+.container-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 10px;
+    padding: 40px 330px;
+    margin-bottom: 10px;
+    border: 2px solid #000000;
+    border-radius: 30px;
+    flex-direction: column;
+    width: 400px;
+    font-family: 'Secular One', sans-serif;
+    justify-content: center;
+}
+
+.warning-Text {
+    color: red;
+}
+
+h1 {
+    font-family: 'Secular One', sans-serif;
+}
+
+h2 {
+    font-family: 'Secular One', sans-serif;
+}
+
+.createSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px;
+}
+
+.cancelar-button {
+    padding: 10px 80px;
+    font-size: 1.3em;
+    font-family: 'Secular One', sans-serif;
+
+    background-color: #fa3535;
+    color: white;
+    border: 3px solid #000000;
+    border-radius: 20px;
+    margin-left: 20px;
+    margin-top: -160px;
+    cursor: pointer;
+    
+  }
+  
+  .cancelar-button:hover {
+    background-color: #ae1818e1;
+    border: 3px solid #000000;
+    color: white;
+  }
