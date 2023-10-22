@@ -5,7 +5,7 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
-
+axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import LoginForm from './components/Login/Login'
 import Slide from './components/Slide/Slide';
 import Logout from './components/Logout/Logout'
@@ -38,7 +38,7 @@ const App = () => {
   
   useEffect(() => {
  
-    axios.get(`http://localhost:3004/users/${userId}`)
+    axios.get(`users/${userId}`)
       .then((data) => {
         data && setUserData(data.data)
       })
