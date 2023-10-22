@@ -1,5 +1,6 @@
 import './CreateProduct.css'
 import axios from 'axios'
+axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import { useEffect, useState } from 'react'
 import validate from './validation'
 //import CreatableSelect from 'react-select/creatable'
@@ -90,7 +91,7 @@ export default function FormProduct({ visible, userData, product }) {
             productData.image = currentURL
             console.log('aqui espero url de cloudinary: ' + currentURL);
             productData.UserStoreId = userId
-            const create = await axios.post('http://localhost:3004/products', productData)
+            const create = await axios.post('products', productData)
             Swal.fire({
                 title: 'Producto Creado con Exito',
                 icon: 'success'
@@ -106,7 +107,7 @@ export default function FormProduct({ visible, userData, product }) {
 
     const updateProduct = async (productData) => {
         try {
-            const update = await axios.put(`http://localhost:3004/products/${productData.id}`, productData)
+            const update = await axios.put(`products/${productData.id}`, productData)
             console.log('Producto actualizado')
             console.log(update);
         } catch (error) {
