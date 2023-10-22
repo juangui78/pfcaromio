@@ -1,30 +1,38 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './LandingPage.css';
-import { useAuth0 } from '@auth0/auth0-react';
+import { BackgroundContainer, Button } from './LandingPageStayles';
 
 const LandingPage = () => {
-  const {isAuthenticated, isLoading} = useAuth0()
 
-  const redirectToHome = () => {
-    if (isAuthenticated) {
-      window.location.href = '/home'
-      return null
-    }
-  }
-  
+ 
   return (
-    isAuthenticated ? redirectToHome() :
-    <div className="landing-page">
-      <div className="left-half">
 
-      </div>
-      <div className="right-half">
-        <h2>¿Con ganas de una pizza?</h2>
-        <h3>¡Pide a domicilio las mejores pizzas de nuestro pais!</h3>
-        <Link className="cta-button" to="/home">Ingresar</Link>
-      </div>
-    </div>
+    <>
+      <BackgroundContainer >
+
+        <h2>CON HAMBRE DE</h2>
+        <div>
+          <span className='l-line'>
+            <svg >
+              <line x1="80" y1="10" x2="150" y2="10" stroke="white" strokeWidth="5" />
+              <line x1="0" y1="30" x2="150" y2="30" stroke="white" strokeWidth="5" />
+              <line x1="80" y1="50" x2="150" y2="50" stroke="white" strokeWidth="5" />
+            </svg>
+          </span>
+          <h1>PIZZA</h1>
+          <span className='r-line'>
+            <svg >
+              <line x1="0" y1="10" x2="70" y2="10" stroke="white" strokeWidth="5" />
+              <line x1="0" y1="30" x2="150" y2="30" stroke="white" strokeWidth="5" />
+              <line x1="0" y1="50" x2="70" y2="50" stroke="white" strokeWidth="5" />
+            </svg>
+          </span>
+        </div>
+        <span className='text'>Pídela ya del sabor que prefieras en tu restaurante favorito </span>
+        <Button className="button" to="/home">HACER PEDIDO</Button>
+      </BackgroundContainer>
+    </>
+
   );
 };
 

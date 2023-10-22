@@ -5,13 +5,15 @@
     align-items: center;
     border: 2px solid #000000;
     background-color: #FFC000;
-    padding: 20px 180px;
+    padding: 20px 195px;
     border-radius: 30px;
     text-align: left;
     width: 300px;
-    margin-top: 5px;
-    margin-left: 30px;
+    margin-top: 90px;
+    margin-bottom: 30px;
+    margin-left: -795px;
     box-shadow: 10px 11px 10px rgba(0, 0, 0, 0.1);
+    
   }
   
   .card-descuento h2 {
