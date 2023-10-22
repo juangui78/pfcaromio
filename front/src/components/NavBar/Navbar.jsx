@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
-import 'animate.css';
+// import 'animate.css';
 
 import './Navbar.css'
 import CartBtn from '../CartBtn/CartBtn';
@@ -102,6 +102,7 @@ const Navbar = (props) => {
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
+  console.log(typeUser);
 
   const applyRatingFilterButton = () => {
     dispatch(filterByRating(sliderValue));
