@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
+axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import ReviewsStore from '../ReviewsStore/ReviewsStore';
 
 import { setProductsList } from '../../redux/actions';
@@ -31,8 +31,8 @@ import {
     else {
 
       const rute = storeId
-        ? `http://localhost:3004/products/?storeid=${storeId}`
-        : `http://localhost:3004/products`;
+        ? `products/?storeid=${storeId}`
+        : `products`;
 
       axios
         .get(rute)

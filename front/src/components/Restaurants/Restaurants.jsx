@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SignIn, useAuth } from '@clerk/clerk-react';
 import emailjs from '@emailjs/browser';
 import axios from 'axios';
-
+axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import { getRestaurants, getEmailKeys, clearCart } from '../../redux/actions';
 
 import { RestaurantCard } from '../RestaurantCard/RestaurantCard';
@@ -100,7 +100,7 @@ export default function Restaurants() {
 
         const currentParams = Object.fromEntries([...searchParams]);
 
-        axios.get(`http://localhost:3004/users/${userId}`)
+        axios.get(`users/${userId}`)
             .then((data) => {
                 data && setUserData(data.data)
             })
