@@ -31,11 +31,13 @@ const getProductsSortedByRating = async (order, storeid) => {
         const productsQuery = storeid ? { store: storeid } : {};
 
         return Products.find(productsQuery).sort({ rating: sortOrder });
+
+        
+        
     } catch (err) {
         console.log(err);
     }
 };
-
 
 
 // Obtener productos por su ID o nombre
@@ -142,4 +144,5 @@ module.exports = {
     getProductsByFilter,
     createProduct,
     updateProduct
+    //getProductsByStore
 };

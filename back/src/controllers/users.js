@@ -1,5 +1,4 @@
 const {User}  = require('../models/user');
-const {Store} = require('../models/store');
 
 // Obtener todos los usuarios
 const getAllUsers = async () => {
@@ -13,7 +12,7 @@ const getAllUsers = async () => {
 // Obtener un usuario por su ID
 const getUserById = async (userId) => {
     try {
-        return await User.find({userIdentifier: userId});
+        return await User.findById(userId);
     } catch (err) {
         console.log(err);
     }
@@ -46,25 +45,8 @@ const createUser = async (username, email, age, role, userIdentifier) => {
     }
 };
 
-// Obtener Usuario de Tienda 
-const getUserByStore = async (storeId) => {
-    try {
-        const storeUser = await Store.find({_id: storeId});
-
-        if (!storeUser) {
-            return 'No existe un usuario afiliado a una tienda'
-        }
-
-        return storeUser;
-        
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 module.exports = { 
     getAllUsers,
     getUserById,
-    createUser,
-    getUserByStore
+    createUser 
 };
