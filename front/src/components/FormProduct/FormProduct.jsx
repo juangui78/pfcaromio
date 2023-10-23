@@ -16,48 +16,9 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
 
     const navigate = useNavigate()
     const { userId } = useAuth();
-    //console.log(userId);
+
     const [image, setImage] = useState(null);
     const action = visible === 'createProduct' ? 'crear' : visible === 'editProduct' ? 'editar' : '';
-
-    // Obtengo valores del select y los seteo en ProductData
-    const handleSelect = (newValue) => {
-        setSelectOptions(newValue)
-        setProductData({ ...productData, tags: newValue })
-    }
-    // Obtengo valores de los inputs
-    const handleChange = (event) => {
-        setProductData({ ...productData, [event.target.name]: event.target.value })
-        setErrors(
-            validate({ ...productData, [event.target.name]: event.target.value, image: event.target.value })
-        )
-    }
-
-    const handleChangeImage = (e) => {
-        if (e.target.files[0]) {
-            setCurrentImage(e.target.files[0])
-            setImage(URL.createObjectURL(e.target.files[0]));
-        }
-    }
-
-    // Se envia el POST con el submit
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        // Se itera por todos los posibles errores
-        const hasErrors = Object.values(errors).some((error) => error !== "")
-
-        // Se valida que no haya ningun error en el form
-        if (!hasErrors) {
-            action === 'crear' && createProduct(productData)
-            action === 'editar' && updateProduct(productData)
-        } else {
-            Swal.fire({
-                title: 'Error. Por favor rellena bien los campos de tu Pizza',
-                icon: 'error',
-            })
-        }
-
-    }
     const options = [{ value: 'pepperoni', label: 'pepperoni' }]
 
     const [selectOptions, setSelectOptions] = useState([options])
@@ -83,30 +44,89 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
         image: ''
     });
 
-    const createProduct = async (productData) => {
-        console.log(productData);
-        try {
-            await subirImagen(currentImage, productData);
-            productData.image = currentURL
-            console.log('aqui espero url de cloudinary: ' + currentURL);
-            productData.UserStoreId = userId
-            const create = await axios.post('http://localhost:3004/products', productData)
+    //se crea el estado que tendrá la imagen temporalmente y el de la URL  
+    const [currentImage, setCurrentImage] = useState();
+    const [currentURL, setCurrentUrl] = useState("");
+
+    // Obtengo valores del select y los seteo en ProductData
+    const handleSelect = (newValue) => {
+        setSelectOptions(newValue)
+        setProductData({ ...productData, tags: newValue })
+    }
+    // Obtengo valores de los inputs
+    const handleChange = (event) => {
+        setProductData({ ...productData, [event.target.name]: event.target.value })
+        setErrors(
+            validate({ ...productData, [event.target.name]: event.target.value, image: event.target.value })
+        )
+    }
+
+    const handleChangeImage = (e) => {
+
+        if (e.target.files[0]) {
+            setCurrentImage(e.target.files[0])
+            setImage(URL.createObjectURL(e.target.files[0]));
+            console.log(e.target.files[0])
+        }
+    }
+
+    // Se envia el POST con el submit
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        // Se itera por todos los posibles errores
+        const hasErrors = Object.values(errors).some((error) => error !== "")
+
+        // Se valida que no haya ningun error en el form
+        if (!hasErrors) {
+            action === 'crear' && createProduct(productData)
+            action === 'editar' && updateProduct(productData)
+        } else {
             Swal.fire({
-                title: 'Producto Creado con Exito',
+                title: 'Error. Por favor rellena bien los campos de tu Pizza',
+                icon: 'error',
+            })
+        }
+
+    }
+
+    const createProduct = async (productData) => {
+        try {
+            const newUrl = await subirImagen(currentImage)
+            console.log('currentURL:', newUrl);
+            productData.image = newUrl;
+            productData.UserStoreId = userId;
+
+            const newProduct = await axios.post('http://localhost:3004/products', productData)
+            Swal.fire({
+                title: `El producto ${newProduct.name} creado con éxito`,
                 icon: 'success'
             })
 
-            console.log('Producto creado')
-            console.log(productData);
+            console.log('Producto creado', newProduct);
 
             setActiveTab('dataTable');
-            updateList()
-            // Aqui se cerraria el modal y volveriamos a el dashboard Wil
+            updateList();
+
         } catch (error) {
             Swal.fire({ title: 'Error. Por favor intenta de nuevo', icon: 'error' })
         }
     }
+    // Función para subir imagen a cloudinary y obtener url para usar en el productData.
+    const subirImagen = async (currentImage) => {
+        try {
+            const formData = new FormData();
+            formData.append("file", currentImage);
+            formData.append("upload_preset", "vp72qx31");
+            Swal.showLoading();
+            const { data } = await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData);
+            setCurrentUrl(data.secure_url);
+            return data.secure_url;
 
+        } catch (error) {
+            console.log('No se pudo obtener el link de la imagen: ' + error)
+        }
+
+    }
     const updateList = () => {
         axios.get(`http://localhost:3004/users/${userId}`)
             .then(({ data }) => {
@@ -135,32 +155,8 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
         }
     }
 
-    //se crea el estado que tendrá la imagen temporalmente y el de la URL  
-
-    const [currentImage, setCurrentImage] = useState();
-    const [currentURL, setCurrentUrl] = useState("");
-    //Se crea una funcion
-
-    const subirImagen = async (currentImage) => {
-        console.log(currentImage);
-
-        const formData = new FormData();
-        formData.append("file", currentImage);
-        formData.append("upload_preset", "vp72qx31");
-        await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData).then((response) => {
-            // console.log('url de cloudinary: ' + response.data.secure_url)
-            // setCurrentUrl(response.data.secure_url);
-            // setProductData({ ...productData, [image]: response.data.secure_url })
-            setCurrentUrl(response.data.secure_url)
-
-        })
-            .catch((error) => {
-                console.log('No se pudo obtener el link de la imagen: ' + error)
-            })
-    }
-
     useEffect(() => {
-        console.log(product)
+
         if (action === 'editar') {
             setProductData(product)
             setImage(product.image)
