@@ -108,14 +108,14 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
 
     const updateList = () => {
         axios.get(`http://localhost:3004/users/${userId}`)
-        .then(({ data}) => {
-          if(data.length > 0) {
-            setUserData(data[0])
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+            .then(({ data }) => {
+                if (data.length > 0) {
+                    setUserData(data[0])
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     const updateProduct = async (productData) => {
@@ -137,7 +137,7 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
     //se crea el estado que tendrá la imagen temporalmente y el de la URL  
 
     const [currentImage, setCurrentImage] = useState();
-    const[currentURL, setCurrentUrl] = useState("");
+    const [currentURL, setCurrentUrl] = useState("");
     //Se crea una funcion
 
     const subirImagen = async (currentImage) => {
@@ -151,16 +151,16 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
             // setCurrentUrl(response.data.secure_url);
             // setProductData({ ...productData, [image]: response.data.secure_url })
             setCurrentUrl(response.data.secure_url)
-            
+
         })
-        .catch((error) => {
-            console.log('No se pudo obtener el link de la imagen: ' + error)
-        })
+            .catch((error) => {
+                console.log('No se pudo obtener el link de la imagen: ' + error)
+            })
     }
 
     useEffect(() => {
         console.log(product)
-        action === 'editar' && setProductData(product)
+        action === 'editar' && setProductData(product) &&  setImage(product.image)
         action === 'crear' && setProductData(
             {
                 UserStoreId: '',
@@ -172,7 +172,7 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
                 tags: [],
                 image: ''
             }
-        )
+        ) && setImage(null)
     }, [action])
 
     return (
@@ -183,66 +183,67 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
                 </header>
                 <Form action="">
                     <FomrContent>
-                        <Item>
-                            <LabelHead className='labels'>Nombre de tu Pizza:</LabelHead>
-                            <ColInputs>
-                                <input type="text" name='name' value={productData.name} onChange={handleChange} />
-                                <label className='warning-Text'>{errors.name}</label>
-                            </ColInputs>
-                        </Item>
-                        <Item>
-                            <LabelHead className='labels'>Describe tu Pizza:</LabelHead>
-                            <ColInputs>
-                                <textarea rows="4" name='description' value={productData.description} onChange={handleChange}></textarea>
-                                <label className='warning-Text'>{errors.description}</label>
-                            </ColInputs>
-                        </Item>
-                        <Item>
-                            <LabelHead className='labels'>Precio de tu Pizza (USD):</LabelHead>
-                            <ColInputs>
-                                <input type="number" name='price' value={productData.price} onChange={handleChange} />
-                                <label className='warning-Text'>{errors.price}</label>
-                            </ColInputs>
-                        </Item>
-                        <Item>
-                            <LabelHead className='labels'>Stock:</LabelHead>
-                            <ColInputs>
-                                <input type="number" name='stock' value={productData.stock} onChange={handleChange} />
-                                <label className='warning-Text'>{errors.stock}</label>
-                            </ColInputs>
-                        </Item>
-                        <Item>
-                            <LabelHead className='labels'>Rating:</LabelHead>
-                            <ColInputs>
-                                <input type="number" name='rating' value={productData.rating} onChange={handleChange} />
-                                <label className='warning-Text'>{errors.rating}</label>
-                            </ColInputs>
-                        </Item>
-                        <Item>
-                            <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
-                            <ColInputs>
-                                <input type="file" name='image' onChange={handleChangeImage} />
-                            </ColInputs>
-                        </Item>
-                        <Item>
-                            <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
-                            <ColInputs className='last'>
-                                {image && (
-                                    <img
-                                        src={image}
-                                        alt="Preview"
-                                    />
-                                )}
-                            </ColInputs>
-                        </Item>
+                        <tbody>
+                            <Item>
+                                <LabelHead className='labels'>Nombre de tu Pizza:</LabelHead>
+                                <ColInputs>
+                                    <input type="text" name='name' value={productData.name} onChange={handleChange} />
+                                    <label className='warning-Text'>{errors.name}</label>
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Describe tu Pizza:</LabelHead>
+                                <ColInputs>
+                                    <textarea rows="4" name='description' value={productData.description} onChange={handleChange}></textarea>
+                                    <label className='warning-Text'>{errors.description}</label>
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Precio de tu Pizza (USD):</LabelHead>
+                                <ColInputs>
+                                    <input type="number" name='price' value={productData.price} onChange={handleChange} />
+                                    <label className='warning-Text'>{errors.price}</label>
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Stock:</LabelHead>
+                                <ColInputs>
+                                    <input type="number" name='stock' value={productData.stock} onChange={handleChange} />
+                                    <label className='warning-Text'>{errors.stock}</label>
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Rating:</LabelHead>
+                                <ColInputs>
+                                    <input type="number" name='rating' value={productData.rating} onChange={handleChange} />
+                                    <label className='warning-Text'>{errors.rating}</label>
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
+                                <ColInputs>
+                                    <input type="file" name='image' onChange={handleChangeImage} />
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
+                                <ColInputs className='last'>
+                                    {image && (
+                                        <img
+                                            src={image}
+                                            alt="Preview"
+                                        />
+                                    )}
+                                </ColInputs>
+                            </Item>
 
-                        <Item>
-                            <LabelHead className='labels'></LabelHead>
-                            <ColInputs className='footer'>
-                                <input type='submit' title='guardar' value="Guardar" onClick={handleSubmit} />
-                            </ColInputs>
-                        </Item>
-
+                            <Item>
+                                <LabelHead className='labels'></LabelHead>
+                                <ColInputs className='footer'>
+                                    <input type='submit' title='guardar' value="Guardar" onClick={handleSubmit} />
+                                </ColInputs>
+                            </Item>
+                        </tbody>
                     </FomrContent>
                 </Form>
             </Container>
