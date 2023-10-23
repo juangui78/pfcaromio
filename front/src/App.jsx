@@ -20,31 +20,34 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
-import MyRestaurant from './components/MiRestaurante/MiRestaurante';
+//import MyRestaurant from './components/MiRestaurante/MiRestaurante';
 
 const App = () => {
 
   const { isSignedIn, userId } = useAuth()
   const { pathname } = useLocation();
-  const [userData, setUserData] = useState((null))
-
+  const [userData, setUserData] = useState(null)
+  const [typeUser, setTypeUser] = useState(null)
   const showProductDetails = useSelector((state) => state.modalProductDetails);
   const showCart = useSelector((state) => state.modalCart);
   const products = useSelector((state) => state.products);
   const searchState = useSelector((state) => state.search);
   const searchBy = useSelector((state) => state.searchBy);
   const showRestaurants = (!searchState || (searchState && searchBy) === 'restaurante') ? true : false;
-  const showProducts =  (searchState && searchBy === 'pizza') ? true : false;
-  
+  const showProducts = (searchState && searchBy === 'pizza') ? true : false;
+
   useEffect(() => {
- 
     axios.get(`http://localhost:3004/users/${userId}`)
-      .then((data) => {
-        data && setUserData(data.data)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          setUserData(data[0])
+          setTypeUser(data[0].role);
+        }
       })
       .catch((error) => {
         console.log(error)
       })
+
   }, [userId, searchState])
 
   return (
@@ -59,12 +62,12 @@ const App = () => {
         <Route
           path='/home'
           element={
-            userData?.[0]?.role === "Seller"
-              ? <DashboardSeller userData={userData} />
+            typeUser === "Seller"
+              ? <DashboardSeller userData={userData} setUserData={setUserData} />
               : <>
-                <Slide />
+                <Slide visible={typeUser !== "Seller"} />
                 {
-                 showProducts && <Products />
+                  showProducts && <Products />
                 }
                 {
                   showRestaurants && <Restaurants />

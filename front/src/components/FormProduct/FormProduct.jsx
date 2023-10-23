@@ -3,20 +3,20 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import validate from './validation'
 //import CreatableSelect from 'react-select/creatable'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '@clerk/clerk-react'
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
-
+/* 
 import cloudinary from '../../cloudinary/config.js'
 import { Name } from '../ProductDetails/ProductDetails'
-
-export default function FormProduct({ visible, userData, product }) {
+ */
+export default function FormProduct({ visible, userData, product, setActiveTab, setUserData }) {
 
     const navigate = useNavigate()
     const { userId } = useAuth();
-    console.log(userId);
+    //console.log(userId);
     const [image, setImage] = useState(null);
     const action = visible === 'createProduct' ? 'crear' : visible === 'editProduct' ? 'editar' : '';
 
@@ -66,8 +66,8 @@ export default function FormProduct({ visible, userData, product }) {
         name: '',
         price: '',
         description: '',
-        stock: '',
-        rating: '',
+        stock: 0,
+        rating: 0,
         tags: [],
         image: ''
     });
@@ -86,7 +86,6 @@ export default function FormProduct({ visible, userData, product }) {
     const createProduct = async (productData) => {
         console.log(productData);
         try {
-            await subirImagen(currentImage, productData);
             productData.image = currentURL
             console.log('aqui espero url de cloudinary: ' + currentURL);
             productData.UserStoreId = userId
@@ -95,26 +94,45 @@ export default function FormProduct({ visible, userData, product }) {
                 title: 'Producto Creado con Exito',
                 icon: 'success'
             })
-            navigate('/home')
+
             console.log('Producto creado')
             console.log(productData);
+
+            setActiveTab('dataTable');
+            updateList()
             // Aqui se cerraria el modal y volveriamos a el dashboard Wil
         } catch (error) {
             Swal.fire({ title: 'Error. Por favor intenta de nuevo', icon: 'error' })
         }
     }
 
+    const updateList = () => {
+        axios.get(`http://localhost:3004/users/${userId}`)
+        .then(({ data}) => {
+          if(data.length > 0) {
+            setUserData(data[0])
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
     const updateProduct = async (productData) => {
         try {
-            const update = await axios.put(`http://localhost:3004/products/${productData.id}`, productData)
+            const update = await axios.put(`http://localhost:3004/products/${productData._id}`, productData)
             console.log('Producto actualizado')
             console.log(update);
+            updateList()
+            Swal.fire({
+                title: 'Producto actualizado con Exito',
+                icon: 'success'
+            })
+            setActiveTab('dataTable');
         } catch (error) {
             Swal.fire({ title: 'Error. Por favor intenta de nuevo', icon: 'error' })
         }
     }
-
-    //Parte de cloudinary
 
     //se crea el estado que tendrá la imagen temporalmente y el de la URL  
 
@@ -133,17 +151,15 @@ export default function FormProduct({ visible, userData, product }) {
             // setCurrentUrl(response.data.secure_url);
             // setProductData({ ...productData, [image]: response.data.secure_url })
             setCurrentUrl(response.data.secure_url)
+            
         })
         .catch((error) => {
             console.log('No se pudo obtener el link de la imagen: ' + error)
         })
-
     }
-        
-
-    
 
     useEffect(() => {
+        console.log(product)
         action === 'editar' && setProductData(product)
         action === 'crear' && setProductData(
             {
@@ -159,13 +175,11 @@ export default function FormProduct({ visible, userData, product }) {
         )
     }, [action])
 
-
-
     return (
         <>
             <Container style={{ display: visible === 'createProduct' || visible === 'editProduct' ? '' : 'none' }}>
                 <header>
-                    <TitleL> {userData[0].username}, vamos a {action} tu pizza </TitleL>
+                    <TitleL> {userData.username}, vamos a {action} tu pizza </TitleL>
                 </header>
                 <Form action="">
                     <FomrContent>
@@ -207,7 +221,7 @@ export default function FormProduct({ visible, userData, product }) {
                         <Item>
                             <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
                             <ColInputs>
-                                <input type="file" name='stock' onChange={handleChangeImage} />
+                                <input type="file" name='image' onChange={handleChangeImage} />
                             </ColInputs>
                         </Item>
                         <Item>
@@ -225,8 +239,7 @@ export default function FormProduct({ visible, userData, product }) {
                         <Item>
                             <LabelHead className='labels'></LabelHead>
                             <ColInputs className='footer'>
-                                <input type='reset' value="Cancelar" />
-                                <input type='submit' value="Guardar" onClick={handleSubmit} />
+                                <input type='submit' title='guardar' value="Guardar" onClick={handleSubmit} />
                             </ColInputs>
                         </Item>
 
@@ -325,10 +338,11 @@ const Form = styled.form`
             cursor: pointer;
             transition: border-color 0.25s;
             width: fit-content;
-            color:white;
+            color:black;
             margin: 10px 10px;
             &:hover{
                 background-color: #474747;
+                color:white;
             }
         }
 

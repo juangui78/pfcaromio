@@ -31,7 +31,7 @@ import {
 
 } from './DashboardSellerStyles';
 
-export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab }) => {
+export const DataTable = ({ visible, productsData, setProductData, setActiveTab }) => {
 
     const setProduct = (item) => {
         setProductData(item);
@@ -82,7 +82,7 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
 
                 <Tbody>
                     {
-                        ProductsData.map((item, index) => (
+                        productsData.map((item, index) => (
 
                             <Row key={index + item.id} >
                                 <FirstCell style={{ height: '50px' }}>

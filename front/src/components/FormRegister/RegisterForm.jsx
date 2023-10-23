@@ -8,13 +8,13 @@ import validate from './validation';
 import Swal from 'sweetalert2'
 export default function RegisterForm() {
 
-  const {userId} = useAuth()
-  const {user} = useUser()
+  const { userId } = useAuth()
+  const { user } = useUser()
   const navigate = useNavigate()
 
   const options = [
-    {value: 'store', label: 'Restaurante'},
-    {value: 'user', label: 'Cliente'},
+    { value: 'store', label: 'Restaurante' },
+    { value: 'user', label: 'Cliente' },
   ]
 
   const [selectOption, setSelectOption] = useState(null)
@@ -37,9 +37,9 @@ export default function RegisterForm() {
   })
 
   const handleChange = (event) => {
-    setRegisterFormRestaurant({...registerFormRestaurant, [event.target.name]: event.target.value})
+    setRegisterFormRestaurant({ ...registerFormRestaurant, [event.target.name]: event.target.value })
     setErrors(
-        validate({...registerFormRestaurant, [event.target.name]: event.target.value})
+      validate({ ...registerFormRestaurant, [event.target.name]: event.target.value })
     )
   }
 
@@ -51,20 +51,20 @@ export default function RegisterForm() {
 
     // Se valida que no haya ningun error en el form
     if (!hasErrors) {
-        createStore(registerFormRestaurant)
-        navigate('/home')
-        
+      createStore(registerFormRestaurant)
+      navigate('/home')
+
     } else {
-        Swal.fire({title: 'Error. Por favor rellena bien los campos de tu Restaurante', icon: 'error'})
+      Swal.fire({ title: 'Error. Por favor rellena bien los campos de tu Restaurante', icon: 'error' })
     }
-    
+
   }
 
 
-  const createStore = async(registerFormRestaurant) => {
+  const createStore = async (registerFormRestaurant) => {
     try {
-      
-      
+
+
       const userInfo = {
         userIdentifier: userId,
         username: user.username ? user.username : user.firstName,
@@ -78,61 +78,68 @@ export default function RegisterForm() {
         console.log(userInfo);
         const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
         const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
-        Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
+        Swal.fire({ title: 'Tienda Creada con Exito', icon: 'success' })
         console.log('store creada')
         return
       }
 
       console.log(userInfo);
       const create = await axios.post('http://localhost:3004/users', userInfo)
-      Swal.fire({title: 'Usuario Creado con Exito', icon: 'success'})
-      
-      
+      Swal.fire({ title: 'Usuario Creado con Exito', icon: 'success' })
+
+
       console.log('usuario creado')
-     
-      
+
+
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-    
+
   }
 
-    return (
+  return (
     <div className='allSection'>
-        <h1>Crear tu Cuenta!</h1>
-        <form className='container-form-register'>
-          <div className='form-contain'>
-            <label>Que tipo de usuario eres?</label>
-            <Select options={options} value={selectOption} onChange={setSelectOption} placeholder='Selecciona uno...'/>
-            
-            {selectOption && selectOption.value === 'store' ? (
-              <div className='restaurant-form'>
+      <h1>Crear tu Cuenta!</h1>
+      <form className='container-form-register'>
+        <div className='form-contain'>
+          <label>Selecciona el tipo de usuario</label>
+          <Select options={options} value={selectOption} className='formSelect' onChange={setSelectOption} placeholder='Selecciona uno...' />
+
+          {selectOption && selectOption.value === 'store' ? (
+            <div className='restaurant-form'>
+              <div className='inputSection'>
                 <label>Nombre de tu Restaurante: </label>
-                <input type="text" name='name'onChange={handleChange}/>
+                <input type="text" name='name' className="formInput" onChange={handleChange} />
                 <label className='warning-Text'>{errors.name}</label>
-
-                <label>Descripcion de tu Restaurante: </label>
-                <input type="text" name='description'onChange={handleChange}/>
-                <label className='warning-Text'>{errors.description}</label>
-
-                <label>Direccion: </label>
-                <input type="text" name='address' onChange={handleChange}/>
-                <label className='warning-Text'>{errors.address}</label>
-
-                <label>Imagen de tu Restaurante: </label>
-                <input type="text" name='image' onChange={handleChange}/>
-
-                <label>Rating: </label>
-                <input type="text" name='rating' onChange={handleChange}/>
               </div>
-            ) : null}
-            
-           
+              <div className='inputSection'>
+                <label>Descripcion de tu Restaurante: </label>
+                <input type="text" name='description' className="formInput" onChange={handleChange} />
+                <label className='warning-Text'>{errors.description}</label>
+              </div>
+
+              <div className='inputSection'>
+                <label>Direccion: </label>
+                <input type="text" name='address' className="formInput" onChange={handleChange} />
+                <label className='warning-Text'>{errors.address}</label>
+              </div>
+
+              <div className='inputSection'>
+                <label>Imagen de tu Restaurante: </label>
+                <input type="text" name='image' className="formInput" onChange={handleChange} />
+              </div>
+
+              <div className='inputSection'>
+                <label>Rating: </label>
+                <input type="text" name='rating' className="formInput" onChange={handleChange} />
+              </div>
+            </div>
+          ) : null}
 
 
-            <button type='submit' onClick={handleSubmit}>Crear!</button>
-          </div>
-        </form>
+          <button type='submit' className="formButton" onClick={handleSubmit}>Crear!</button>
+        </div>
+      </form>
     </div>
   )
 
