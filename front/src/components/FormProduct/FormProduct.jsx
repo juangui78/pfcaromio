@@ -86,6 +86,7 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
     const createProduct = async (productData) => {
         console.log(productData);
         try {
+            await subirImagen(currentImage, productData);
             productData.image = currentURL
             console.log('aqui espero url de cloudinary: ' + currentURL);
             productData.UserStoreId = userId
@@ -160,19 +161,25 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
 
     useEffect(() => {
         console.log(product)
-        action === 'editar' && setProductData(product) &&  setImage(product.image)
-        action === 'crear' && setProductData(
-            {
-                UserStoreId: '',
-                name: '',
-                price: '',
-                description: '',
-                stock: '',
-                rating: '',
-                tags: [],
-                image: ''
-            }
-        ) && setImage(null)
+        if (action === 'editar') {
+            setProductData(product)
+            setImage(product.image)
+        }
+        if (action === 'crear') {
+            setProductData(
+                {
+                    UserStoreId: '',
+                    name: '',
+                    price: '',
+                    description: '',
+                    stock: '',
+                    rating: '',
+                    tags: [],
+                    image: ''
+                }
+            );
+            setImage(null)
+        }
     }, [action])
 
     return (
@@ -315,17 +322,17 @@ const Form = styled.form`
         border-spacing: 8px;
     }
 
-    table > tr > th {
+    table > tbody > tr > th {
         width: 25%;
         font-weight: 500;
         text-align: start;
     }
-    table > tr > td.last{
+    table > tbody > tr > td.last{
         border-bottom:3px solid #DDD;
         text-align: center;
     }
 
-    table > tr > td.footer {
+    table > tbody > tr > td.footer {
         text-align: center;
         
         input[type=submit]{
@@ -347,22 +354,6 @@ const Form = styled.form`
             }
         }
 
-        input[type=reset]{
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            border: 1px solid transparent;
-            padding: 0.6em 1.2em;
-            font-size: 1em;
-            font-weight: 500;
-            font-family: inherit;
-            cursor: pointer;
-            transition: border-color 0.25s;
-            width: fit-content;
-            color:white;
-            &:hover{
-                background-color: #474747;
-            }
-        }
     }
     img{
         max-width: 300px;
