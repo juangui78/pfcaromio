@@ -23,6 +23,7 @@ import {
     CREATE_CHECKOUT,
     GET_EMAIL_KEYS,
     SET_SEARCH,
+    GET_STORE,
     ERROR
 } from "./actionsTypes";
 
@@ -165,6 +166,23 @@ export const getStore = (id) => {
             const { data } = await axios.get(`stores/${id}`);
             return dispatch(
                 { type: GET_RESTAURANT, payload: data },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const getStoreByUser = (id) => {
+
+    return async function (dispatch) {
+        try {
+            const { data } = await axios.get(`http://localhost:3004/stores/getstore/${id}`);
+            return dispatch(
+                { type: GET_STORE, payload: data },
             )
         }
         catch (error) {

@@ -75,7 +75,7 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
 
 // Crear un nuevo producto
 
-const createProduct = async (UserStoreId, name, price, rating, description,image, stock) => {
+const createProduct = async (UserStoreId, name, price, rating, description, image, stock) => {
     try {
         console.log(UserStoreId);
         console.log(name);

@@ -25,7 +25,7 @@ const CartBtn = () => {
 
     return (
         <BtnContainer>
-            <Button onClick={() => dispatch(openCart())}>
+            <Button onClick={() => dispatch(openCart())} title='openCartBtn'>
                 <IconContext.Provider value={{ style: { color: 'gray', width: '25px', height: '25px', padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center'} }} >
                     <FaShoppingCart />
                     <Badge style={{ display: itemsCount ? 'flex' : 'none' }}>{itemsCount}</Badge>

@@ -1,9 +1,11 @@
 .allSection {
-    width: 100%;
+
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    color: #000000;
+    padding: 4rem;
 }
 
 .container-form-register {
@@ -12,24 +14,57 @@
     width: 100%;
     max-width: 800px;
     margin: 10px;
-    padding: 40px 330px;
+    padding: 40px 30px;
     margin-bottom: 10px;
-    border: 2px solid #000000;
-    border-radius: 30px;
+    border: 0px solid #000000;
+    border-radius: 10px;
     flex-direction: column;
-    width: 400px;
     font-family: 'Secular One', sans-serif;
-    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: white;
+    -webkit-box-shadow: 10px 10px 11px -3px rgba(0, 0, 0, 0.49);
+    -moz-box-shadow: 10px 10px 11px -3px rgba(0, 0, 0, 0.49);
+    box-shadow: 10px 10px 11px -3px rgba(0, 0, 0, 0.49);
 }
 
+.formSelect {
+    width: 300px;
+}
+
+.form-contain {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
 
 .restaurant-form {
     display: flex;
     flex-direction: column;
-    gap: 15px
+
+    width: 100%;
 }
 
 .warning-Text {
     color: red;
     font-style: italic;
+}
+
+.formInput {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 100;
+    border-radius: 8px;
+    color: black;
+    border: 1px solid #CCC;
+    background-color: #EEE;
+}
+
+.inputSection {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
