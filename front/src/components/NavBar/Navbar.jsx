@@ -103,8 +103,7 @@ const Navbar = (props) => {
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
-  console.log(typeUser);
-
+  
   const applyRatingFilterButton = () => {
     dispatch(filterByRating(sliderValue));
   };
@@ -341,7 +340,7 @@ const Navbar = (props) => {
                 <option value='pizza'>Burcar pizza</option>
               </select>
               <input ref={searchInputRef} value={search} type="search" name="searchInput" id="searchInput" placeholder='' onChange={handleChange} />
-              <button type="submit" ><FaSearch /></button>
+              <button type="submit" id="submitSearch" title="buscar"><FaSearch /></button>
             </div>
           </form>
 
@@ -396,10 +395,10 @@ const Navbar = (props) => {
           <div className='nav-btn-user-container'>
             {
               !isSignedIn ? (
-                <button className='nav-btn-user' onClick={() => handleLoginButton()}>
+                <button title='Ingresar' type='button' className='nav-btn-user' onClick={() => handleLoginButton()}>
                   <FaUser /><span>Ingresar</span>
                 </button>
-              ) : <UserButton className="userBtn" />
+              ) : <UserButton title='userBtn' type='button' className="userBtn" />
             }
           </div>
           {
@@ -435,28 +434,28 @@ const Navbar = (props) => {
             <FilterSection className="filterSection" action="">
               <FilterItem>
                 <label htmlFor="priceFilter">Precio menor a:</label>
-                <input type="number" name="priceFilter" id="priceFilter" value={priceFilter} onChange={handlePriceFilterChange} />
+                <input type="number" title='priceFilter' name="priceFilter" id="priceFilter" value={priceFilter} onChange={handlePriceFilterChange} />
               </FilterItem>
 
               <AlertContainer>
                 <FilterItem>
                   <label htmlFor="ratingFilter">Rating mayor a:</label>
-                  <input type="number" value={ratingFilter} ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
+                  <input type="number" title='ratingFilter' value={ratingFilter} ref={filterRatingInput} name="ratingFilter" id="ratingFilter" onChange={handleRatingFilterChange} />
                 </FilterItem>
               </AlertContainer>
               <FilterItem>
-                <button className='orderBtn' onClick={handleSortByRating}>  Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})</button>
+                <button  title='orderRatingBtn' type='button' className='orderBtn' onClick={handleSortByRating}>  Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})</button>
               </FilterItem>
               <FilterItem>
-                <button className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})</button>
+                <button  title='orderPriceBtn' type='button' className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})</button>
               </FilterItem>
 
             </FilterSection>
 
           </section>
           <menu>
-            <button type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
-            <button id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
+            <button  title='filterBtn' type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
+            <button  title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
           </menu>
         </form>
       </FilterModal>

@@ -31,7 +31,7 @@ import {
 
 } from './DashboardSellerStyles';
 
-export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab }) => {
+export const DataTable = ({ visible, productsData, setProductData, setActiveTab }) => {
 
     const setProduct = (item) => {
         setProductData(item);
@@ -42,7 +42,7 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
         Swal.fire({
             title: 'Está seguro?',
             text: `Se eliminará de la base de datos el producto ${name}!`,
-            
+
             showCancelButton: true,
             confirmButtonColor: '#808080',
             cancelButtonColor: '#d33',
@@ -64,9 +64,12 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
             }
         })
     }
+
+    const getRandomInt = () => {
+        return Math.floor(Math.random() * 10000);
+    }
     return (
         <>
-
             <Table style={{ display: visible === 'dataTable' ? '' : 'none' }}>
                 <TableHead>
                     <RowHead>
@@ -82,9 +85,9 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
 
                 <Tbody>
                     {
-                        ProductsData.map((item, index) => (
+                        productsData.map((item, index) => (
 
-                            <Row key={index + item.id} >
+                            <Row key={getRandomInt()} >
                                 <FirstCell style={{ height: '50px' }}>
                                     <img src={item.image} alt="product" width={80} />
                                 </FirstCell>
@@ -97,18 +100,18 @@ export const DataTable = ({ visible, ProductsData, setProductData, setActiveTab 
                                 <Cell>
 
                                     {item.rating}
-
+                                
                                     {
                                         function () {
                                             let oper = Number.parseInt(item.rating)
                                             let res = item.rating % oper;
                                             let stars = [];
                                             for (let i = 0; i < oper; i++) {
-                                                stars.push(<i style={{ color: 'orange' }}><FaStar /></i>)
+                                                stars.push(<i style={{ color: 'orange' }} key={getRandomInt() } ><FaStar /></i>)
                                             }
 
                                             for (let i = 0; i < res; i++) {
-                                                stars.push(<i style={{ color: 'orange' }}><FaStarHalfAlt /></i>)
+                                                stars.push(<i style={{ color: 'orange' }} key={getRandomInt() } ><FaStarHalfAlt /></i>)
                                             }
                                             return stars
                                         }()

@@ -8,8 +8,9 @@ const productSchema = new Schema({
     name: {type: String, required: true},
     price: {type: Number, required: true},
     rating: {type: Number, default: 0},
+    stock: {type: Number, default: 0},
     description: {type: String, minlength: 10, maxlength: 2000 },
-    image: {type: String, default: "https://cocina-casera.com/wp-content/uploads/2023/06/pizza-napolitana-770x485.jpeg"},
+    image: {type: String, required: false},
     created: {type: Date, default: Date.now},
     habilitado: {type: Boolean, default: true}
 });
