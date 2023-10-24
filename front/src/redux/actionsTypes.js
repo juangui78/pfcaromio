@@ -22,4 +22,5 @@ export const SET_RESTAURANT = 'SET_RESTAURANT';
 export const CREATE_CHECKOUT = 'CREATE_CHECKOUT';
 export const GET_EMAIL_KEYS = 'GET_EMAIL_KEYS';
 export const SET_SEARCH = 'SET_SEARCH';
+export const GET_STORE = 'GET_STORE';
 export const ERROR = 'ERROR';

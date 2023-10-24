@@ -52,7 +52,7 @@ const ProductDetails = ({ show }) => {
               <Description>
                 <Name>{product.name}</Name>
                 <Summary>{product.description}</Summary>
-                <Price>{product.price}$ Dólares</Price>
+                <Price>{product.price} USD</Price>
                 <Footer>
                   <Button onClick={handleAddItem}>Agregar al carrito</Button>
                 </Footer>
@@ -119,9 +119,9 @@ const CloseBtn = styled.button`
     right: 20px;
     background: red;
     color: white;
-    width: 20px;
+    width: 30px;
     height: 30px;
-    padding-left: 8px;
+    padding-left: 10px;
     padding-top: 3px;
     border: 1px solid;
     cursor: pointer;

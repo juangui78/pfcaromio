@@ -1,34 +1,23 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    flex-wrap: nowrap;
-    flex-direction: column;
-    width: 101%;
-    padding: 1rem 0;
-    background-repeat: no-repeat;
-    background-position: center center;
-    overflow-x: hidden; /* Evita el scroll horizontal */
+  
+`;
+export const CardsContainer = styled.div`
 
     @media (max-width: 800px) {
         padding: 1rem 0 10rem; /* Ajusta este valor según sea necesario */
     }
 
-    /* Limita el ancho de los elementos internos */
-    > * {
-        max-width: 100%;
-    }
 `;
 
 export const Title = styled.header`
     display: flex;
-    align-items: center;
     justify-content: center;
     background-color: black;
-    width: 100%;
     color: white;
-    margin-left: -7px;
     margin-top: -19px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     height: 200px;
     align-items: flex-end;
     h1{
@@ -41,14 +30,6 @@ export const Cards = styled.div`
     padding: 1rem 4rem 0rem 4rem;
     display: flex;
     justify-content: center;
-/*     margin-top: -30px;
-    margin-left: -12px;
-    margin-bottom: 10px; */
-/*     grid-template-columns: 
-        repeat(
-            auto-fit,
-            minmax(250px, 260px)
-        ); */
     flex-wrap: wrap;
     gap:1rem;
 `;

@@ -25,6 +25,7 @@ import {
     CREATE_CHECKOUT,
     GET_EMAIL_KEYS,
     SET_SEARCH,
+    GET_STORE,
 
 } from './actionsTypes';
 
@@ -38,6 +39,7 @@ const initialState = {
     modalCart: false,
     restaurants: [], // * stores
     restaurantSelected: {},
+    currentStore: {},
     paymentUrl: null,
     paymentData: null,
     emailKeys: {},
@@ -81,10 +83,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case GET_RESTAURANT:
-
             return {
                 ...state,
                 restaurantSelected: payload,
+            }
+
+        case GET_STORE:
+            return {
+                ...state,
+                currentStore: payload,
             }
 
         case FILTER_PRODUCTS_BY_NAME:

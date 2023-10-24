@@ -9,7 +9,7 @@ const promotions = [
   { id: 5, imageUrl: 'https://genovesapizza.cl/wp-content/uploads/2020/06/banner3.jpg' }
 ];
 
-const Slide = () => {
+const Slide = ({visible}) => {
   const [currentImage, setCurrentImage] = useState(0);
   const intervalRef = useRef(null);
 
@@ -37,7 +37,7 @@ const Slide = () => {
   }, []);
 
   return (
-    <div className="SliderContainer">
+    <div className="SliderContainer" style={{display: visible ? 'flex':'none'}}>
       <div className="ArrowsContainer">
         <div className="ArrowLeft" onClick={goToPrevImage}>&#10094;</div>
         <div className="ArrowRight" onClick={goToNextImage}>&#10095;</div>

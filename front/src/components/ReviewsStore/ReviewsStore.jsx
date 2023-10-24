@@ -19,10 +19,10 @@ const ReviewsStore = () => {
 
   return (
     <div className="ReviewsContainer">
-      <h1>¡Califica Nuestras Pizzerías!</h1>
-      <button onClick={handleSubmit}>Añadir Reseña</button>
+      <h1>¡Califica Nuestra Pizzería!</h1>
+     
       <div className='ratingSelect'>
-        <label htmlFor="rating" className='text'>Selecciona la calificación:</label>
+        <label htmlFor="rating" className='text'>Selecciona la calificación</label>
         {[1, 2, 3, 4, 5].map((value) => (
         <span
           key={value}
@@ -33,11 +33,14 @@ const ReviewsStore = () => {
           {value <= rating ? '★' : '☆'}
         </span>
       ))}
-      <span>{rating}</span>
+      <span className='rating'>{rating}</span>
       </div>
       <div className="commentContainer">
-        <label htmlFor="comment" className='text'>Añade un comentario:</label>
-        <textarea id="comment" value={comment} onChange={handleCommentChange}></textarea>
+        <label htmlFor="comment" className='text' >Deja un comentario</label>
+        <textarea id="comment" value={comment} rows="4" onChange={handleCommentChange}></textarea>
+      </div>
+      <div className='buttonContainer'>
+        <button onClick={handleSubmit}>Enviar Reseña</button>
       </div>
     </div>
   );

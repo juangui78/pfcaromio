@@ -1,4 +1,4 @@
-export const ProductsData = [
+export const productsData = [
     {
     "id": '6524b9cab192be660a643bb9',
     "storeId": '6524b72e8469ef30e6a9fa29',

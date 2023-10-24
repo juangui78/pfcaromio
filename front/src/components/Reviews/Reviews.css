@@ -1,13 +1,18 @@
-.ReviewsContainer {
+.ReviewsContainerProduct {
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 15px; /* Aumentamos el radio de borde */
-  margin-right: 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Incrementamos la intensidad de la sombra */
+  padding-top: 2px;
+  background-color: beige; /* Cambiado a un tono más claro */
+  border-radius: 12px; /* Ajustado el radio del borde */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid orange;
+
 }
 
-.ReviewsContainer button {
+.ReviewsContainerProduct button {
   background-color: #ff8c00; /* Un tono más naranja */
   color: #fff; /* Texto en blanco */
   padding: 12px 24px; /* Aumentamos el padding */
@@ -17,43 +22,48 @@
   transition: background-color 0.3s ease-in-out;
 }
 
-.ReviewsContainer button:hover {
+.ReviewsContainerProduct button:hover {
   background-color: #e07d00; /* Cambiamos el tono al pasar el ratón */
 }
 
-.ReviewsContainer label {
+.ReviewsContainerProduct label {
   display: block;
-  margin-top: 15px; /* Ajustamos el margen superior */
+  margin-top: 1px; /* Ajustamos el margen superior */
 }
 
-.ReviewsContainer select,
-.ReviewsContainer textarea {
+.ReviewsContainerProduct select,
+.ReviewsContainerProduct textarea {
   width: 100%;
   padding: 12px;
   margin-top: 10px; /* Ajustamos el margen superior */
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 16px; /* Incrementamos el tamaño de fuente */
+  box-sizing: border-box;
 }
 
-.ReviewsContainer .ratingSelect {
-  margin-top: 20px;
-  margin-left: 3px;
-}
-.ReviewsContainer .ratingSelect .text{
+.ReviewsContainerProduct .ratingSelect {
+  text-align: center;
   color: #000000;
 }
-
-.ReviewsContainer .commentContainer {
-  margin-top: 15px; /* Ajustamos el margen superior */
-  margin-left: 3px;
+.ReviewsContainerProduct .ratingSelect .text{
+  color: #000000;
+  font-weight: 500;
+  font-size: 16pt;
+  text-align: center;
 }
 
-.ReviewsContainer .commentContainer .text {
+.ReviewsContainerProduct .commentContainer {
+  margin-top: 1px; /* Ajustamos el margen superior */
+  margin-left: 0px;
+}
+
+.ReviewsContainerProduct .commentContainer .text {
   color: #333; /* Cambiamos el color del texto */
+  font-weight: 500;
 }
 
-.ReviewsContainer select option {
+.ReviewsContainerProduct select option {
   font-size: 16px; /* Incrementamos el tamaño de fuente */
 }
 

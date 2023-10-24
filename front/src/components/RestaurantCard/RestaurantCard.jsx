@@ -24,7 +24,6 @@ function RestaurantCard(props) {
         dispatch(setRestaurant(restaurant));
         dispatch(getProducts(restaurant.id));
         navigate  (`/products/${restaurant.id}`)
-        console.log(restaurant.id);
     }
 
     return (
