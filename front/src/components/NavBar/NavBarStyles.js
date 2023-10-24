@@ -504,3 +504,40 @@ export const FilterItem = styled.div`
         }
     }
 `;
+
+export const SuggestionsContainer = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 476px;
+  width: 38%;
+  background: #fff;
+  border: 1px solid #000;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10000;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 1px;
+  padding: 3px;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+  transition: max-height 0.3s ease-in-out;
+`;
+
+export const SuggestionItem = styled.li`
+  list-style-type: none;
+  padding: 8px;
+  margin-left: -30px;
+  margin-right: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  display: flex; /* Usamos flexbox para que el elemento abarque todo el ancho */
+  align-items: center; /* Centramos verticalmente el contenido */
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;

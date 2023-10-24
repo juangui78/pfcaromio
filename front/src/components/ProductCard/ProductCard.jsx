@@ -34,7 +34,7 @@ function ProductCard({ name, price, rating, image, id}) {
                 </ImgContainer>
                 <Details>
                     <Name>{name}</Name>
-                    <LinkCard onClick={() => dispatch(openProductDetails(id))}>Ver mas</LinkCard>
+                    <LinkCard onClick={() => dispatch(openProductDetails(id))}>Ver más</LinkCard>
                     <Score>⭐{rating}</Score>
                 </Details>
             </ProductItem>

@@ -3,6 +3,7 @@ import {
     SET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    GET_SUGGESTIONS,
     GET_RESTAURANTS_BY_NAME,
     FILTER_PRODUCTS_BY_NAME,
     FILTER_RESTAURANTS_BY_NAME,
@@ -175,6 +176,31 @@ export const getStore = (id) => {
         }
     }
 }
+
+export const getSuggestions = (search) => {
+    return async function (dispatch, getState) {
+      try {
+        // Recupera los restaurantes existentes desde tu estado de Redux o donde los tengas almacenados.
+        const existingRestaurants = getState().restaurants; // Asegúrate de ajustar esto según cómo almacenas los datos.
+  
+        // Filtra los restaurantes existentes que coincidan parcialmente con el término de búsqueda.
+        const suggestions = existingRestaurants.filter((restaurant) =>
+          restaurant.name.toLowerCase().includes(search.toLowerCase())
+        );
+  
+        console.log('Sugerencias:', suggestions); // Agrega un console.log para mostrar las sugerencias en la consola.
+  
+        return dispatch(
+          { type: GET_SUGGESTIONS, payload: suggestions },
+        );
+      } catch (error) {
+        return dispatch(
+          { type: ERROR, payload: error.message },
+        );
+      }
+    };
+  }
+  
 
 export const getStoreByUser = (id) => {
 
