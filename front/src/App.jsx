@@ -20,6 +20,9 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
+const BACKEND_URL_LOCAL = import.meta.env.VITE_BACKEND_URL;
+
+// REEMPLAZAR URL de VITE
 //import MyRestaurant from './components/MiRestaurante/MiRestaurante';
 
 const App = () => {
@@ -49,7 +52,7 @@ const App = () => {
       })
 
   }, [userId, searchState])
-
+  console.log('URL: ' + BACKEND_URL_LOCAL);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
