@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useAuth, useUser } from '@clerk/clerk-react'
 import validate from './validation';
 import Swal from 'sweetalert2'
+import styled from 'styled-components';
 export default function RegisterForm() {
 
   const { userId } = useAuth()
@@ -56,6 +57,22 @@ export default function RegisterForm() {
     )
   }
 
+  // Función para subir imagen a cloudinary y obtener url para usar en el productData.
+  const subirImagen = async (currentImage) => {
+    try {
+        const formData = new FormData();
+        formData.append("file", currentImage);
+        formData.append("upload_preset", "vp72qx31");
+        Swal.showLoading();
+        const { data } = await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData);
+        setCurrentUrl(data.secure_url);
+        return data.secure_url;
+
+    } catch (error) {
+        console.log('No se pudo obtener el link de la imagen: ' + error)
+    }
+
+}
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -137,10 +154,23 @@ export default function RegisterForm() {
                 <label className='warning-Text'>{errors.address}</label>
               </div>
 
-              <div className='inputSection'>
-                <label>Imagen de tu Restaurante: </label>
-                <input type="text" name='image' className="formInput" onChange={handleChange} />
-              </div>
+              <Item>
+                                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
+                                <ColInputs>
+                                    <input type="file" name='image' onChange={handleChangeImage} />
+                                </ColInputs>
+                            </Item>
+                            <Item>
+                                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
+                                <ColInputs className='last'>
+                                    {image && (
+                                        <img
+                                            src={image}
+                                            alt="Preview"
+                                        />
+                                    )}
+                                </ColInputs>
+              </Item>
 
               <div className='inputSection'>
                 <label>Rating: </label>
