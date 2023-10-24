@@ -301,6 +301,7 @@ const Navbar = (props) => {
     e.target.name === 'searchBy' && setSearchBy(e.target.value)
 
   }
+  
   const handleSearch = (e) => {
     e.preventDefault();
     if (search) {

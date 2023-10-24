@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { getStoreByUser } from '../../redux/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import {
@@ -64,7 +63,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
                             <div><FaSearch /></div>
                         </Search>
                         <button onClick={() => setActiveTab("dataTable")}>Mis Productos</button>
-                        <button onClick={() => setActiveTab("misDatos")}>Mis Datos</button>
+                      {/*   <button onClick={() => setActiveTab("misDatos")}>Mis Datos</button> */}
                         <button onClick={() => setActiveTab("createProduct")}>Crear Pizza</button>
                         {/* <LinkA to='/createProduct'>Crear Pizza</LinkA> */}
 
