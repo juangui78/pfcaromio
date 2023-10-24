@@ -11,7 +11,7 @@ const productSchema = new Schema({
     description: {type: String, minlength: 10, maxlength: 2000 },
     image: {type: String, default: "https://cocina-casera.com/wp-content/uploads/2023/06/pizza-napolitana-770x485.jpeg"},
     created: {type: Date, default: Date.now},
-    
+    habilitado: {type: Boolean, default: true}
 });
 
 const Products = mongoose.model('Product', productSchema);
