@@ -418,4 +418,20 @@ export const onSearchData = (searchState, searchBy, search) => {
     }
 }
 
+export const deleteProduct = (productId) => {
+    return async function (dispatch) {
+        try {
+            let response = null;
+            response = await axios.delete(`http://localhost:3004/products/${productId}`)
+            return response.data;
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+
 

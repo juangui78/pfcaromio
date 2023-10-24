@@ -44,9 +44,9 @@ export default function RegisterForm() {
   const handleChangeImage = (e) => {
 
     if (e.target.files[0]) {
-        setCurrentImage(e.target.files[0])
-        setImage(URL.createObjectURL(e.target.files[0]));
-        console.log(e.target.files[0])
+      setCurrentImage(e.target.files[0])
+      setImage(URL.createObjectURL(e.target.files[0]));
+      console.log(e.target.files[0])
     }
   }
 
@@ -60,19 +60,18 @@ export default function RegisterForm() {
   // Función para subir imagen a cloudinary y obtener url para usar en el productData.
   const subirImagen = async (currentImage) => {
     try {
-        const formData = new FormData();
-        formData.append("file", currentImage);
-        formData.append("upload_preset", "vp72qx31");
-        Swal.showLoading();
-        const { data } = await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData);
-        setCurrentUrl(data.secure_url);
-        return data.secure_url;
+      const formData = new FormData();
+      formData.append("file", currentImage);
+      formData.append("upload_preset", "vp72qx31");
+      Swal.showLoading();
+      const { data } = await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData);
+      setCurrentUrl(data.secure_url);
+      return data.secure_url;
 
     } catch (error) {
-        console.log('No se pudo obtener el link de la imagen: ' + error)
+      console.log('No se pudo obtener el link de la imagen: ' + error)
     }
-
-}
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -87,14 +86,10 @@ export default function RegisterForm() {
     } else {
       Swal.fire({ title: 'Error. Por favor rellena bien los campos de tu Restaurante', icon: 'error' })
     }
-
   }
-
 
   const createStore = async (registerFormRestaurant) => {
     try {
-
-
       const userInfo = {
         userIdentifier: userId,
         username: user.username ? user.username : user.firstName,
@@ -116,10 +111,6 @@ export default function RegisterForm() {
       console.log(userInfo);
       const create = await axios.post('http://localhost:3004/users', userInfo)
       Swal.fire({ title: 'Usuario Creado con Exito', icon: 'success' })
-
-
-      console.log('usuario creado')
-
 
     } catch (error) {
       console.log(error);
@@ -155,21 +146,21 @@ export default function RegisterForm() {
               </div>
 
               <Item>
-                                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
-                                <ColInputs>
-                                    <input type="file" name='image' onChange={handleChangeImage} />
-                                </ColInputs>
-                            </Item>
-                            <Item>
-                                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
-                                <ColInputs className='last'>
-                                    {image && (
-                                        <img
-                                            src={image}
-                                            alt="Preview"
-                                        />
-                                    )}
-                                </ColInputs>
+                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
+                <ColInputs>
+                  <input type="file" name='image' onChange={handleChangeImage} />
+                </ColInputs>
+              </Item>
+              <Item>
+                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
+                <ColInputs className='last'>
+                  {image && (
+                    <img
+                      src={image}
+                      alt="Preview"
+                    />
+                  )}
+                </ColInputs>
               </Item>
 
               <div className='inputSection'>
@@ -178,7 +169,6 @@ export default function RegisterForm() {
               </div>
             </div>
           ) : null}
-
 
           <button type='submit' className="formButton" onClick={handleSubmit}>Crear!</button>
         </div>

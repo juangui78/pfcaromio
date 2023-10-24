@@ -58,7 +58,6 @@ const App = () => {
 
       {
         (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />)
-
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>

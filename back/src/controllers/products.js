@@ -1,4 +1,4 @@
-const  {Products}  = require('../models/product');
+const { Products } = require('../models/product');
 const { Store } = require('../models/store');
 const mongoose = require('mongoose');
 
@@ -45,8 +45,8 @@ const getProductsByIdOrName = async (identifier, storeid) => {
         const nameRegex = new RegExp(identifier, 'i');
         const products = mongoose.Types.ObjectId.isValid(identifier)
             ? await Products.findById(identifier)
-            : await Products.find({ name: {$regex: nameRegex}, ...productsQuery });
-        
+            : await Products.find({ name: { $regex: nameRegex }, ...productsQuery });
+
         return products;
     } catch (err) {
         console.log(err);
@@ -63,7 +63,7 @@ const getProductsByFilter = async (minRating, maxPrice, storeid) => {
             ...(storeid ? { store: storeid } : {}),
             ...(maxPrice ? { price: { $lte: parseFloat(maxPrice) } } : {}),
         };
-       
+
         return await Products.find(filter);
 
     } catch (err) {
@@ -77,7 +77,7 @@ const createProduct = async (UserStoreId, name, price, rating, description, imag
     try {
         console.log(UserStoreId);
         console.log(name);
-        const store = await Store.findOne({userIdentifier: UserStoreId})
+        const store = await Store.findOne({ userIdentifier: UserStoreId })
         const newProduct = new Products({
             store: store._id,
             name: name,
@@ -97,7 +97,7 @@ const createProduct = async (UserStoreId, name, price, rating, description, imag
         store.products.push(newProduct);
         await store.save();
 
-        
+
         return newProduct;
 
     } catch (err) {
@@ -109,20 +109,20 @@ const createProduct = async (UserStoreId, name, price, rating, description, imag
 const updateProduct = async (productId, name, price, rating, description, image, stock) => {
     try {
         const product = await Products.findById(productId);
-    
+
         if (!product) return null;
-    
+
         if (name) product.name = name;
         if (price) product.price = price;
         if (rating) product.rating = rating;
         if (description) product.description = description;
         if (image) product.image = image;
         if (stock) product.stock = stock;
-    
+
         await product.save();
 
         const store = await Store.findById(product.store);
-        if (!store) console.log("No store found") ;
+        if (!store) console.log("No store found");
         const productIndex = store.products.findIndex(p => p._id.equals(product._id));
         if (productIndex !== -1) store.products[productIndex] = product;
         await store.save();
@@ -132,14 +132,37 @@ const updateProduct = async (productId, name, price, rating, description, image,
     } catch (error) {
         console.log(err);
     }
-  };
+};
 
-module.exports = { 
+const deleteProduct = async (productId) => {
+    try {
+        const product = await Products.findById(productId);
+        console.log('Prod:', product)
+
+        const store = await Store.findById(product.store);
+
+
+        if (!store) return console.log("No store found");
+        const productIndex = store.products.findIndex(p => p._id.equals(productId));
+        console.log('productIndex:', productIndex)
+        store.products.splice(productIndex, 1);
+        console.log('product list:', store.products)
+        //if (productIndex !== -1) store.products.splice(productIndex,0);
+        await store.save();
+        const deleted = await Products.deleteOne({ _id: productId });
+        return deleted;
+    } catch (error) {
+        console.log(err);
+    }
+}
+
+module.exports = {
     getAllProducts,
     getProductsSortedByPrice,
     getProductsSortedByRating,
     getProductsByIdOrName,
     getProductsByFilter,
     createProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };

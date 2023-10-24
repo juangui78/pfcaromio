@@ -51,11 +51,22 @@ const getStoreByIdOrName = async (name) => {
         throw new Error('Error al buscar la tienda por nombre.');
     }
 };
+
 const getStoreByUser = async (id) => {
     try {
 
         const store = await Store.findOne({userIdentifier: id }).populate('products');
 
+        return store;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error al buscar la tienda por userIdentifier.');
+    }
+};
+
+const getStoreById = async (id) => {
+    try {
+        const store = await Store.findOne({_id: id }).populate('products');
         return store;
     } catch (err) {
         console.log(err);
@@ -126,5 +137,6 @@ module.exports = {
     getStoresByFilter,
     createStore,
     getStoreByName, 
-    getStoreByUser
+    getStoreByUser,
+    getStoreById
 };
