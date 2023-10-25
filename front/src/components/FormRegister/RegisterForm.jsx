@@ -1,7 +1,7 @@
 import './RegisterForm.css'
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth, useUser } from '@clerk/clerk-react'
 import validate from './validation';
@@ -19,6 +19,7 @@ export default function RegisterForm() {
   ]
 
   const [selectOption, setSelectOption] = useState(null)
+  const [image, setImage] = useState(null);
   const [registerFormRestaurant, setRegisterFormRestaurant] = useState({
     userIdentifier: '',
     name: '',
@@ -26,7 +27,7 @@ export default function RegisterForm() {
     description: '',
     rating: '',
     revenue: '',
-
+    image: ''
   })
 
   const [errors, setErrors] = useState({
@@ -37,6 +38,9 @@ export default function RegisterForm() {
     revenue: '',
   })
 
+  useEffect(() => {
+    setImage(null)
+  }, [])
   //se crea el estado que tendrá la imagen temporalmente y el de la URL  
   const [currentImage, setCurrentImage] = useState();
   const [currentURL, setCurrentUrl] = useState("");
@@ -101,11 +105,15 @@ export default function RegisterForm() {
         email: user.primaryEmailAddress.emailAddress,
         role: 'Buyer'
       }
-
+      // montando cloudinary en form restaurante
       if (selectOption.value === 'store') {
+        const newUrl = await subirImagen(currentImage)
+        console.log('currentURL:', newUrl);
+        registerFormRestaurant.image = newUrl
         registerFormRestaurant.userIdentifier = userId
         userInfo.role = 'Seller'
         console.log(userInfo);
+        console.log(registerFormRestaurant);
         const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
         const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
         Swal.fire({ title: 'Tienda Creada con Exito', icon: 'success' })
@@ -154,23 +162,23 @@ export default function RegisterForm() {
                 <label className='warning-Text'>{errors.address}</label>
               </div>
 
-              <Item>
-                                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
-                                <ColInputs>
+              <div>
+                                <label className='labels'>Imagen de tu Restaurante:</label>
+                                {/* <ColInputs> */}
                                     <input type="file" name='image' onChange={handleChangeImage} />
-                                </ColInputs>
-                            </Item>
-                            <Item>
-                                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
-                                <ColInputs className='last'>
-                                    {image && (
+                                {/* </ColInputs> */}
+                            </div>
+                            <div>
+                                <label className='labels'>Tu Logo:</label>
+                                <div className='last'>
+                                    {registerFormRestaurant.image && (
                                         <img
-                                            src={image}
+                                            src={registerFormRestaurant.image}
                                             alt="Preview"
                                         />
                                     )}
-                                </ColInputs>
-              </Item>
+                                </div>
+              </div>
 
               <div className='inputSection'>
                 <label>Rating: </label>
@@ -187,3 +195,8 @@ export default function RegisterForm() {
   )
 
 }
+
+const Item = styled.tr``;
+const LabelHead = styled.th``;
+const FomrContent = styled.table``;
+const ColInputs = styled.td``;
