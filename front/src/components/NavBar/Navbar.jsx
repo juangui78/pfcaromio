@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
@@ -43,6 +44,8 @@ import {
 
 //import './Navbar.css';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Navbar = (props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -83,7 +86,7 @@ const Navbar = (props) => {
       setCurrentStore(JSON.parse(localStorage.getItem('restaurantSelected')));
     }
 
-    axios.get(`http://localhost:3004/products/?storeid=${currentStore?.id}`)
+    axios.get(`${BACKEND_URL}products/?storeid=${currentStore?.id}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -186,7 +189,7 @@ const Navbar = (props) => {
     //const { storeId } = useParams();
     const storeId = currentStore.id;
     let filteredProducts = axios
-      .get(`http://localhost:3004/products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+      .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
       .then((response) => {
         setProducts(response.data);
         dispatch(setProductsList(response.data));

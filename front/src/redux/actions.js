@@ -29,12 +29,13 @@ import {
 } from "./actionsTypes";
 
 import axios from 'axios';
-
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 export const getProducts = (storeId) => {
 
     return async function (dispatch) {
         try {
-            const { data } = await axios.get(`http://localhost:3004/products/?storeid=${storeId}`);
+            const { data } = await axios.get(`${BACKEND_URL}products/?storeid=${storeId}`);
 
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },
@@ -129,7 +130,7 @@ export const setRestaurant = (restaurant) => {
 export const getRestaurants = () => {
     return async function (dispatch) {
         try {
-            const { data } = await axios.get("http://localhost:3004/stores/");
+            const { data } = await axios.get(`${BACKEND_URL}stores/`);
 
             return dispatch(
                 { type: GET_RESTAURANTS, payload: data },
@@ -146,7 +147,7 @@ export const getRestaurants = () => {
 export const getRestaurantsByName = (search) => {
     return async function (dispatch) {
         try {
-            const { data } = await axios.get("http://localhost:3004/stores/");
+            const { data } = await axios.get(`${BACKEND_URL}stores/`);
 
             return dispatch(
                 { type: GET_RESTAURANTS_BY_NAME, payload: data },
@@ -164,7 +165,7 @@ export const getStore = (id) => {
 
     return async function (dispatch) {
         try {
-            const { data } = await axios.get(`http://localhost:3004/stores/${id}`);
+            const { data } = await axios.get(`${BACKEND_URL}stores/${id}`);
             return dispatch(
                 { type: GET_RESTAURANT, payload: data },
             )
@@ -220,7 +221,7 @@ export const getStoreByUser = (id) => {
 
     return async function (dispatch) {
         try {
-            const { data } = await axios.get(`http://localhost:3004/stores/getstore/${id}`);
+            const { data } = await axios.get(`${BACKEND_URL}/stores/getstore/${id}`);
             return dispatch(
                 { type: GET_STORE, payload: data },
             )
@@ -377,7 +378,7 @@ export const clearCart = () => {
 export const createCheckout = (cartDetails) => {
     return async function (dispatch) {
         try {
-            const { data } = await axios.post('http://localhost:3004/payment/create-checkout', cartDetails);
+            const { data } = await axios.post(`${BACKEND_URL}payment/create-checkout`, cartDetails);
             return dispatch(
                 { type: CREATE_CHECKOUT, payload: data },
             )
@@ -393,7 +394,7 @@ export const createCheckout = (cartDetails) => {
 export const getEmailKeys = () => {
     return async function (dispatch) {
         try {
-            const { data } = await axios.get('http://localhost:3004/payment/get-email-keys');
+            const { data } = await axios.get(`${BACKEND_URL}payment/get-email-keys`);
             return dispatch(
                 { type: GET_EMAIL_KEYS, payload: data },
             )
@@ -411,11 +412,11 @@ export const onSearchData = (searchState, searchBy, search) => {
         let searchInfo = { searchState, searchBy, search }
         let response = null;
         if (searchState && searchBy === 'pizza') {
-            response = await axios.get(`http://localhost:3004/products/${search}`)
+            response = await axios.get(`${BACKEND_URL}products/${search}`)
             searchInfo.data = response.data;
         }
         if (searchState && searchBy === 'restaurante') {
-            response = await axios.get(`http://localhost:3004/stores/search/${search}`)
+            response = await axios.get(`${BACKEND_URL}stores/search/${search}`)
             searchInfo.data = response.data;
         }
 

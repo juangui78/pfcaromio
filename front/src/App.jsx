@@ -5,7 +5,7 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
-
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import LoginForm from './components/Login/Login'
 import Slide from './components/Slide/Slide';
 import Logout from './components/Logout/Logout'
@@ -20,8 +20,10 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
+import DashExample from './components/DashExampleComponent/DashExample';
 import DashboardAdmin from './components/DashboardAdmin/DashboardAdmin';
-const BACKEND_URL_LOCAL = import.meta.env.VITE_BACKEND_URL;
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // REEMPLAZAR URL de VITE
 //import MyRestaurant from './components/MiRestaurante/MiRestaurante';
@@ -39,13 +41,14 @@ const App = () => {
   const searchBy = useSelector((state) => state.searchBy);
   const showRestaurants = (!searchState || (searchState && searchBy === 'restaurante')) ? true : false;
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
-
+  console.log(userId);
   useEffect(() => {
-    axios.get(`http://localhost:3004/users/${userId}`)
+    userId && axios.get(`${BACKEND_URL}users/${userId}`)
       .then(({ data }) => {
         if (data.length > 0) {
           setUserData(data[0])
           setTypeUser(data[0].role);
+          console.log(data);
         }
       })
       .catch((error) => {
@@ -53,7 +56,9 @@ const App = () => {
       })
 
   }, [userId, searchState])
-  console.log('URL: ' + BACKEND_URL_LOCAL);
+
+  console.log(typeUser);
+  console.log('info user: ' + userData);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
@@ -62,13 +67,15 @@ const App = () => {
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
-        {/*    <Route
-          path='/home'
+        <Route
+          path="/home"
           element={
-            typeUser === "Seller"
-              ? <DashboardSeller userData={userData} setUserData={setUserData} />
-              : <>
-                <Slide visible={typeUser !== "Seller"} />
+           
+              typeUser === 'Admin' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
+              typeUser === 'Seller' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
+              typeUser === 'Buyer' &&
+              <>
+                <Slide visible={true} />
                 {
                   showProducts && <Products />
                 }
@@ -76,24 +83,8 @@ const App = () => {
                   showRestaurants && <Restaurants />
                 }
               </>
-          } /> */}
-
-        <Route
-          path='/home'
-          element={
-            typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> || //! Intercanbiar por "Seller"
-            typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || //! Intercanbiar por "Admin"
-            typeUser === 'Buyer' &&
-            <>
-              <Slide visible={true} />
-              {
-                showProducts && <Products />
-              }
-              {
-                showRestaurants && <Restaurants />
-              }
-            </>
-
+  
+         
           }
         />
 

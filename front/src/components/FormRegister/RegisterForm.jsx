@@ -1,8 +1,10 @@
 import './RegisterForm.css'
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import { useAuth, useUser } from '@clerk/clerk-react'
 import validate from './validation';
 import Swal from 'sweetalert2'
@@ -19,6 +21,7 @@ export default function RegisterForm() {
   ]
 
   const [selectOption, setSelectOption] = useState(null)
+  const [image, setImage] = useState(null);
   const [registerFormRestaurant, setRegisterFormRestaurant] = useState({
     userIdentifier: '',
     name: '',
@@ -26,7 +29,7 @@ export default function RegisterForm() {
     description: '',
     rating: '',
     revenue: '',
-
+    image: ''
   })
 
   const [errors, setErrors] = useState({
@@ -37,6 +40,9 @@ export default function RegisterForm() {
     revenue: '',
   })
 
+  useEffect(() => {
+    setImage(null)
+  }, [])
   //se crea el estado que tendrá la imagen temporalmente y el de la URL  
   const [currentImage, setCurrentImage] = useState();
   const [currentURL, setCurrentUrl] = useState("");
@@ -96,21 +102,28 @@ export default function RegisterForm() {
         email: user.primaryEmailAddress.emailAddress,
         role: 'Buyer'
       }
-
+      // montando cloudinary en form restaurante
       if (selectOption.value === 'store') {
+        const newUrl = await subirImagen(currentImage)
+        console.log('currentURL:', newUrl);
+        registerFormRestaurant.image = newUrl
         registerFormRestaurant.userIdentifier = userId
         userInfo.role = 'Seller'
         console.log(userInfo);
-        const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
-        const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
-        Swal.fire({ title: 'Tienda Creada con Exito', icon: 'success' })
+        const create = await axios.post(`${BACKEND_URL}stores`, registerFormRestaurant)
+        const createRestaurantUser = await axios.post(`${BACKEND_URL}users`, userInfo)
+        Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
         console.log('store creada')
         return
       }
 
       console.log(userInfo);
-      const create = await axios.post('http://localhost:3004/users', userInfo)
-      Swal.fire({ title: 'Usuario Creado con Exito', icon: 'success' })
+      const create = await axios.post(`${BACKEND_URL}users`, userInfo)
+      Swal.fire({title: 'Usuario Creado con Exito', icon: 'success'})
+      
+      
+      console.log('usuario creado')
+
 
     } catch (error) {
       console.log(error);
@@ -145,23 +158,25 @@ export default function RegisterForm() {
                 <label className='warning-Text'>{errors.address}</label>
               </div>
 
-              <Item>
-                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
-                <ColInputs>
-                  <input type="file" name='image' onChange={handleChangeImage} />
-                </ColInputs>
-              </Item>
-              <Item>
-                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
-                <ColInputs className='last'>
-                  {image && (
-                    <img
-                      src={image}
-                      alt="Preview"
-                    />
-                  )}
-                </ColInputs>
-              </Item>
+
+              <div>
+                                <label className='labels'>Imagen de tu Restaurante:</label>
+                               
+                                    <input type="file" name='image' onChange={handleChangeImage} />
+                                
+                            </div>
+                            <div>
+                                <label className='labels'>Tu Logo:</label>
+                                <div className='last'>
+                                    {registerFormRestaurant.image && (
+                                        <img
+                                            src={registerFormRestaurant.image}
+                                            alt="Preview"
+                                        />
+                                    )}
+                                </div>
+              </div>
+
 
               <div className='inputSection'>
                 <label>Rating: </label>
@@ -177,3 +192,8 @@ export default function RegisterForm() {
   )
 
 }
+
+const Item = styled.tr``;
+const LabelHead = styled.th``;
+const FomrContent = styled.table``;
+const ColInputs = styled.td``;

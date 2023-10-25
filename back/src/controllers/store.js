@@ -36,7 +36,7 @@ const getStoresSortedByRating = async (order) => {
 };
 
 // Obtener una tienda por su ID o por su nombre
-const getStoreByIdOrName = async (name) => {
+const getStoreByIdOrName = async (identifier) => {
     try {
 
         const store = await Store.findOne({
@@ -52,7 +52,6 @@ const getStoreByIdOrName = async (name) => {
         return store;
     } catch (err) {
         console.log(err);
-        throw new Error('Error al buscar la tienda por nombre.');
     }
 };
 
@@ -93,6 +92,9 @@ const getStoreByName = async (name) => {
         throw new Error('Error al buscar la tienda por nombre.');
     }
 };
+
+
+
 
 
 //Obtener tiendas filtradas por calificación

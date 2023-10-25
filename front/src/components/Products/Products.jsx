@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import ReviewsStore from '../ReviewsStore/ReviewsStore';
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { setProductsList } from '../../redux/actions';
 
 import './Products.css'
@@ -31,8 +31,8 @@ import {
     else {
 
       const rute = storeId
-        ? `http://localhost:3004/products/?storeid=${storeId}`
-        : `http://localhost:3004/products`;
+        ? `${BACKEND_URL}products/?storeid=${storeId}`
+        : `${BACKEND_URL}products`;
 
       axios
         .get(rute)
