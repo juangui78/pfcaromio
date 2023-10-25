@@ -12,7 +12,7 @@ const productSchema = new Schema({
     description: {type: String, minlength: 10, maxlength: 2000 },
     image: {type: String, required: false},
     created: {type: Date, default: Date.now},
-    
+    enabled: { type: Boolean, default: true }
 });
 
 const Products = mongoose.model('Product', productSchema);
