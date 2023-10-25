@@ -5,7 +5,7 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
-axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import LoginForm from './components/Login/Login'
 import Slide from './components/Slide/Slide';
 import Logout from './components/Logout/Logout'
@@ -20,7 +20,7 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
-const BACKEND_URL_LOCAL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // REEMPLAZAR URL de VITE
 //import MyRestaurant from './components/MiRestaurante/MiRestaurante';
@@ -50,7 +50,7 @@ const App = () => {
       })
 
   }, [userId, searchState])
-  console.log('URL: ' + BACKEND_URL_LOCAL);
+  //console.log('URL: ' + BACKEND_URL);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 

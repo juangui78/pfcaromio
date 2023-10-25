@@ -1,8 +1,9 @@
 import './CreateProduct.css'
 import axios from 'axios'
-axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import { useEffect, useState } from 'react'
 import validate from './validation'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 //import CreatableSelect from 'react-select/creatable'
 import { useNavigate } from 'react-router-dom'
 
@@ -97,7 +98,7 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
             productData.image = newUrl;
             productData.UserStoreId = userId;
 
-            const newProduct = await axios.post('http://localhost:3004/products', productData)
+            const newProduct = await axios.post(`${BACKEND_URL}products`, productData)
             Swal.fire({
                 title: `El producto ${newProduct.name} creado con éxito`,
                 icon: 'success'
@@ -129,7 +130,7 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
 
     }
     const updateList = () => {
-        axios.get(`http://localhost:3004/users/${userId}`)
+        axios.get(`${BACKEND_URL}users/${userId}`)
             .then(({ data }) => {
                 if (data.length > 0) {
                     setUserData(data[0])
@@ -142,7 +143,7 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
 
     const updateProduct = async (productData) => {
         try {
-            const update = await axios.put(`http://localhost:3004/products/${productData._id}`, productData)
+            const update = await axios.put(`${BACKEND_URL}products/${productData._id}`, productData)
             console.log('Producto actualizado')
             console.log(update);
             updateList()
