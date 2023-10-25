@@ -5,17 +5,20 @@ const mongoose = require('mongoose');
 //Obtener todos los productos
 const getAllProducts = async (storeId) => {
     try {
-        return storeId ? await Products.find({ store: storeId }).exec() : await Products.find();
+        // await Products.updateMany({}, { $set: { enabled: true } }); // codigo para actualizar todos los productos a true.
+        const productsQuery = storeId ? { store: storeId, enabled: true} : { enabled: true };
+        console.log(productsQuery)
+        return await Products.find(productsQuery);
     } catch (err) {
         console.log(err);
     }
 };
 
 // Obtener todos los productos ordenados por su precio
-const getProductsSortedByPrice = async (order, storeid) => {
+const getProductsSortedByPrice = async (order, storeId) => {
     try {
         const sortOrder = order && order.toLowerCase() === 'asc' ? 1 : -1;
-        const productsQuery = storeid ? { store: storeid } : {};
+        const productsQuery = storeId ? { store: storeId, enabled: true } : { enabled: true };
 
         return await Products.find(productsQuery).sort({ price: sortOrder });
 
@@ -25,10 +28,10 @@ const getProductsSortedByPrice = async (order, storeid) => {
 };
 
 // Obtener todos los productos ordenados por su calificación
-const getProductsSortedByRating = async (order, storeid) => {
+const getProductsSortedByRating = async (order, storeId) => {
     try {
         const sortOrder = order && order.toLowerCase() === 'asc' ? 1 : -1;
-        const productsQuery = storeid ? { store: storeid } : {};
+        const productsQuery = storeId ? { store: storeId, enabled: true } : { enabled: true };
 
         return Products.find(productsQuery).sort({ rating: sortOrder });
     } catch (err) {
@@ -39,9 +42,9 @@ const getProductsSortedByRating = async (order, storeid) => {
 
 
 // Obtener productos por su ID o nombre
-const getProductsByIdOrName = async (identifier, storeid) => {
+const getProductsByIdOrName = async (identifier, storeId) => {
     try {
-        const productsQuery = storeid ? { store: storeid } : {};
+        const productsQuery = storeId ? { store: storeId, enabled: true } : { enabled: true };
         const nameRegex = new RegExp(identifier, 'i');
         const products = mongoose.Types.ObjectId.isValid(identifier)
             ? await Products.findById(identifier)
@@ -55,12 +58,12 @@ const getProductsByIdOrName = async (identifier, storeid) => {
 
 
 //Obtener productos filtrados por calificación y precio
-const getProductsByFilter = async (minRating, maxPrice, storeid) => {
+const getProductsByFilter = async (minRating, maxPrice, storeId) => {
     try {
 
         const filter = {
             ...(minRating ? { rating: { $gte: parseFloat(minRating) } } : {}),
-            ...(storeid ? { store: storeid } : {}),
+            ...(storeId ? { store: storeId, enabled: true } : { enabled: true }),
             ...(maxPrice ? { price: { $lte: parseFloat(maxPrice) } } : {}),
         };
 
@@ -156,6 +159,27 @@ const deleteProduct = async (productId) => {
     }
 }
 
+const toggleEnabled = async (productId) => {
+    try {
+        const product = await Products.findById(productId);
+        
+        if (!product) {
+            console.log("Producto no encontrado");
+            return;
+        }
+
+        product.enabled = !product.enabled;
+
+        await product.save();
+
+        console.log(`'enabled' para el producto ${productId} ha sido cambiado a ${product.enabled}`);
+        return product
+    } catch (error) {
+        console.error('Error al cambiar el estado de "enabled":', error);
+    }
+};
+
+
 module.exports = {
     getAllProducts,
     getProductsSortedByPrice,
@@ -164,5 +188,6 @@ module.exports = {
     getProductsByFilter,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    toggleEnabled
 };

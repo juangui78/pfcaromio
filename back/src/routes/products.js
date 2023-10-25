@@ -8,7 +8,8 @@ const {
     getProductsByFilter,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    toggleEnabled
 } = require('../controllers/products');
 
 // Ruta para obtener todos los productos
@@ -115,7 +116,7 @@ router.put('/:productId', async (req, res) => {
     }
 });
 
-// Ruta para editar un producto por su ID
+// Ruta para eliminar un producto por su ID
 router.delete('/:productId', async (req, res) => {
     const productId = req.params.productId;
 
@@ -128,6 +129,23 @@ router.delete('/:productId', async (req, res) => {
         res.status(200).json(deletedProduct);
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar el producto' });
+    }
+});
+
+// Ruta para alternar el estado "enabled" de un producto
+router.put('/toggle/:productId', async (req, res) => {
+    const productId = req.params.productId;
+
+    try {
+        const product = await toggleEnabled(productId);
+
+        if (!product) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al cambiar el estado "enabled" del producto' });
     }
 });
 
