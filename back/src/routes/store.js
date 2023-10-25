@@ -10,6 +10,7 @@ const {
     getStoreByName, 
     getStoreByUser,
     getStoreById,
+    toggleEnabled
     } = require('../controllers/store');
 
 // Ruta para obtener todas las tiendas
@@ -129,6 +130,23 @@ router.post('/', async (req, res) => {
         
     } catch (error) {
         res.status(500).json({ error: 'Error creating the store' });
+    }
+});
+
+// Ruta para alternar el estado "enabled" de una tienda
+router.put('/toggle/:storeId', async (req, res) => {
+    const storeId = req.params.storeId;
+
+    try {
+        const store = await toggleEnabled(storeId);
+
+        if (!store) {
+            return res.status(404).json({ error: 'Tienda no encontrada' });
+        }
+
+        res.status(200).json(store);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al cambiar el estado "enabled" de la tienda' });
     }
 });
 
