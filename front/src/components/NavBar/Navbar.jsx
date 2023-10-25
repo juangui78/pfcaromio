@@ -10,7 +10,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css'
 import CartBtn from '../CartBtn/CartBtn';
 //import SearchBar from '../SearchBar/SearchBar';
-import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData } from '../../redux/actions';
+import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData, getSuggestions } from '../../redux/actions';
 
 import { IconContext } from "react-icons";
 
@@ -31,6 +31,8 @@ import {
 
 import {
   NavBar,
+  SuggestionItem,
+  SuggestionsContainer,
   AlertContainer,
   FilterByBtn,
   FilterItem,
@@ -47,10 +49,11 @@ const Navbar = (props) => {
   const location = useLocation();
 
   const { isSignedIn, userId } = useAuth()
-  const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [sliderValue, setSliderValue] = useState(0);
+  const suggestions = useSelector((state) => state.suggestions);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   const [currentStore, setCurrentStore] = useState({});
   const [products, setProducts] = useState([])
@@ -61,10 +64,8 @@ const Navbar = (props) => {
   const searchInputRef = useRef(null);
   const searchSelectRef = useRef(null);
 
-  const showFiltersAndSearch = !location.pathname.startsWith('/products');
   const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
 
-  //const [userData, setUserData] = useState((null))
   const { userData } = props;
 
   const [sortOrder, setSortOrder] = useState('desc');
@@ -90,28 +91,10 @@ const Navbar = (props) => {
         console.error('Error fetching products:', error);
       });
 
-    /*   axios.get(`http://localhost:3004/users/${userId}`)
-        .then((data) => {
-          data && setUserData(data.data)
-        })
-        .catch((error) => {
-          console.log(error)
-        }) */
-
-
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
   
-  const applyRatingFilterButton = () => {
-    dispatch(filterByRating(sliderValue));
-  };
-
-  const handleRatingInputChange = (event) => {
-    const value = parseFloat(event.target.value);
-    setSliderValue(value);
-  };
-
   const handleSortByNameClick = (order) => {
     dispatch(orderByName(order)); // Donde order es 'asc' o 'desc'
   };
@@ -120,40 +103,6 @@ const Navbar = (props) => {
     dispatch(sortedByRating(order)); // Donde order es 'low' o 'high'
   };
 
-  const handlePriceInputChange = (event) => {
-    setPriceFilter(event.target.value);
-  };
-
-  const applyRatingFilter = () => {
-    console.log('Aplicar filtro con valor:', ratingFilter);
-    handleSortByRatingClick(ratingFilter);
-    setRatingFilter(''); // Limpiar el filtro después de aplicarlo
-  };
-
-  const applyPriceFilter = () => {
-    console.log('Aplicar filtro de precio con valor:', priceFilter);
-    setPriceFilter('');
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      applyRatingFilter();
-    }
-  };
-
-  const handlePriceKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      applyPriceFilter();
-    }
-  };
-
-  const toggleFiltersDropdown = () => {
-    setFiltersDropdownOpen(!filtersDropdownOpen);
-  };
-
-  const openFiltersDropdown = () => {
-    setFiltersDropdownOpen(true);
-  };
   const handleLoginButton = () => {
     navigate('/login')
   }
@@ -301,10 +250,10 @@ const Navbar = (props) => {
     e.preventDefault();
     if (search) {
       dispatch(onSearchData(true, searchBy, search));
-      setSearchBy('restaurante')
+      setSearchBy('restaurante');
       setSearch('');
-    }
-    else {
+      setSearchPerformed(true);
+    } else {
       Swal.fire({
         text: 'No hay parámetros de búsqueda, por favor escriba una palabra clave para buscar',
         confirmButtonColor: 'orange',
@@ -313,10 +262,24 @@ const Navbar = (props) => {
           backdrop: 'swal2-backdrop-show',
           icon: 'swal2-icon-show'
         }
-      })
+      });
     }
-  }
+  };
+  
+  
+  const handleSearchInputChange = (e) => {
+    const term = e.target.value;
+    setSearch(term);
+    dispatch(getSuggestions(term));
+  };
 
+  const handleSuggestionClick = (suggestion) => {
+    setSearch(suggestion.name);
+    dispatch(onSearchData(true, searchBy, suggestion.name));
+    setSearchBy('restaurante');
+    setSearch('');
+    setSearchPerformed(true);
+  }
   return (
     <NavBar>
       <div className='nav'>
@@ -332,16 +295,47 @@ const Navbar = (props) => {
         </Link>
 
         <div className='nav-input-search'>
-          <form onSubmit={handleSearch}>
-            <div className='search'>
-              <select ref={searchSelectRef} value={searchBy} name="searchBy" id="searchBy" onChange={handleChange}>
-                <option value='restaurante'>Burcar restaurante</option>
-                <option value='pizza'>Burcar pizza</option>
-              </select>
-              <input ref={searchInputRef} value={search} type="search" name="searchInput" id="searchInput" placeholder='' onChange={handleChange} />
-              <button type="submit" id="submitSearch" title="buscar"><FaSearch /></button>
-            </div>
-          </form>
+        <form onSubmit={handleSearch}>
+        <div className="search">
+          <select
+            ref={searchSelectRef}
+            value={searchBy}
+            name="searchBy"
+            id="searchBy"
+            onChange={handleChange}
+          >
+            <option value="restaurante">Buscar restaurante</option>
+            <option value="pizza">Buscar pizza</option>
+          </select>
+          <input
+            ref={searchInputRef}
+            value={search}
+            type="search"
+            name="searchInput"
+            id="searchInput"
+            placeholder=""
+            onChange={handleSearchInputChange}
+          />
+          <button type="submit" id="submitSearch" title="buscar">
+            <FaSearch />
+          </button>
+        </div>
+        {!searchPerformed && suggestions.length > 0 && (
+            <SuggestionsContainer>
+              <ul>
+                {suggestions.map((suggestion) => (
+                  <SuggestionItem
+                    key={suggestion.id}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion.name}
+                  </SuggestionItem>
+                ))}
+              </ul>
+            </SuggestionsContainer>
+          )}
+      </form>
+            
 
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>

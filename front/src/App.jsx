@@ -57,8 +57,7 @@ const App = () => {
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />)
-
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm" && pathname !== "/register") && (<NavBar userData={userData} />)
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>

@@ -5,6 +5,7 @@ import {
     SET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    GET_SUGGESTIONS,
     GET_RESTAURANTS_BY_NAME,
     FILTER_PRODUCTS_BY_NAME,
     FILTER_RESTAURANTS_BY_NAME,
@@ -30,6 +31,7 @@ import {
 } from './actionsTypes';
 
 const initialState = {
+    suggestions: [],
     filteredProducts: [], // Lista filtrada de productos
     filteredRestaurants: [], // Lista filtrada de restaurantes
     filterByRating: null,
@@ -87,7 +89,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurantSelected: payload,
             }
-
+        case GET_SUGGESTIONS:
+            return {
+                ...state,
+                suggestions: payload, // Almacena las sugerencias en el estado.
+            }
+            
         case GET_STORE:
             return {
                 ...state,

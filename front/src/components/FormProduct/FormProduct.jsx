@@ -1,20 +1,15 @@
 import './CreateProduct.css'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import validate from './validation'
-//import CreatableSelect from 'react-select/creatable'
-import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '@clerk/clerk-react'
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
-/* 
-import cloudinary from '../../cloudinary/config.js'
-import { Name } from '../ProductDetails/ProductDetails'
- */
+
+import validate from './validation'
+
 export default function FormProduct({ visible, userData, product, setActiveTab, setUserData }) {
 
-    const navigate = useNavigate()
     const { userId } = useAuth();
 
     const [image, setImage] = useState(null);
@@ -86,13 +81,11 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
                 icon: 'error',
             })
         }
-
     }
 
     const createProduct = async (productData) => {
         try {
             const newUrl = await subirImagen(currentImage)
-            console.log('currentURL:', newUrl);
             productData.image = newUrl;
             productData.UserStoreId = userId;
 
@@ -101,8 +94,6 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
                 title: `El producto ${newProduct.name} creado con éxito`,
                 icon: 'success'
             })
-
-            console.log('Producto creado', newProduct);
 
             setActiveTab('dataTable');
             updateList();
@@ -125,8 +116,8 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
         } catch (error) {
             console.log('No se pudo obtener el link de la imagen: ' + error)
         }
-
     }
+
     const updateList = () => {
         axios.get(`http://localhost:3004/users/${userId}`)
             .then(({ data }) => {
@@ -142,8 +133,6 @@ export default function FormProduct({ visible, userData, product, setActiveTab, 
     const updateProduct = async (productData) => {
         try {
             const update = await axios.put(`http://localhost:3004/products/${productData._id}`, productData)
-            console.log('Producto actualizado')
-            console.log(update);
             updateList()
             Swal.fire({
                 title: 'Producto actualizado con Exito',

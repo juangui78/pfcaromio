@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { 
-    getAllProducts, 
-    getProductsSortedByPrice, 
-    getProductsSortedByRating, 
-    getProductsByIdOrName, 
-    getProductsByFilter, 
+const {
+    getAllProducts,
+    getProductsSortedByPrice,
+    getProductsSortedByRating,
+    getProductsByIdOrName,
+    getProductsByFilter,
     createProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct,
+    toggleEnabled
 } = require('../controllers/products');
 
 // Ruta para obtener todos los productos
@@ -85,10 +87,10 @@ router.get('/:productIdOrName', async (req, res) => {
 
 // Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
-    const { UserStoreId, name, price, rating, description, image, stock} = req.body;
-    
+    const { UserStoreId, name, price, rating, description, image, stock } = req.body;
+
     try {
-        const newProduct = await createProduct(UserStoreId, name, price, rating, description,image, stock);
+        const newProduct = await createProduct(UserStoreId, name, price, rating, description, image, stock);
         res.status(201).json(newProduct);
         console.log("Se creó exitosamente");
     } catch (error) {
@@ -98,20 +100,53 @@ router.post('/', async (req, res) => {
 
 // Ruta para editar un producto por su ID
 router.put('/:productId', async (req, res) => {
-  const productId = req.params.productId;
-  const { name, price, rating, description, image, stock } = req.body;
+    const productId = req.params.productId;
+    const { name, price, rating, description, image, stock } = req.body;
 
-  try {
-    const updatedProduct = await updateProduct(productId, name, price, rating, description, image, stock);
+    try {
+        const updatedProduct = await updateProduct(productId, name, price, rating, description, image, stock);
 
-    if (!updatedProduct) {
-      return res.status(404).json({ error: 'Producto no encontrado' });
+        if (!updatedProduct) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+
+        res.status(200).json(updatedProduct);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al editar el producto' });
     }
+});
 
-    res.status(200).json(updatedProduct);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al editar el producto' });
-  }
+// Ruta para eliminar un producto por su ID
+router.delete('/:productId', async (req, res) => {
+    const productId = req.params.productId;
+
+    try {
+        const deletedProduct = await deleteProduct(productId);
+
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.status(200).json(deletedProduct);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar el producto' });
+    }
+});
+
+// Ruta para alternar el estado "enabled" de un producto
+router.put('/toggle/:productId', async (req, res) => {
+    const productId = req.params.productId;
+
+    try {
+        const product = await toggleEnabled(productId);
+
+        if (!product) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al cambiar el estado "enabled" del producto' });
+    }
 });
 
 module.exports = router;

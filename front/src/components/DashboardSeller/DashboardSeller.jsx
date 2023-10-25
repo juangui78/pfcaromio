@@ -23,7 +23,6 @@ const DashboardSeller = ({ userData, setUserData }) => {
 
     const dispatch = useDispatch();
 
-
     const [productsList, setProductsList] = useState([]);
     const [currentStore, setCurrentStore] = useState([]);
 
@@ -73,7 +72,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
                 </Header>
 
                 <DashboardContainer>
-                    <DataTable visible={activeTab} setActiveTab={setActiveTab} productsData={productsList} setProductData={setProductData} />
+                    <DataTable visible={activeTab} setActiveTab={setActiveTab} productsData={productsList} setProductData={setProductData} setProductsList={setProductsList} />
                     <FormProduct visible={activeTab} userData={userData} product={product} setActiveTab={setActiveTab} setUserData={setUserData} />
                 </DashboardContainer>
 

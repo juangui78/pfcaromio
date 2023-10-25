@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 // Obtener todas las tiendas de la base de datos
 const getStores = async () => {
     try {
-        return await Store.find();
+        // await Store.updateMany({}, { $set: { enabled: true } }); // codigo para actualizar todos los productos a true.
+        return await Store.find({ enabled: true });
     } catch (err) {
         console.log(err);
     }
@@ -14,7 +15,7 @@ const getStores = async () => {
 const getStoresSortedByName = async (order) => {
     try {
         const sortOrder = order && (order.toLowerCase() === 'asc') ? 1 : -1;
-        const stores = await Store.find().sort({ name: sortOrder });
+        const stores = await Store.find({ enabled: true }).sort({ name: sortOrder });
 
         return stores;
     } catch (err) {
@@ -26,7 +27,7 @@ const getStoresSortedByName = async (order) => {
 const getStoresSortedByRating = async (order) => {
     try {
         const sortOrder = order && (order.toLowerCase() === 'asc') ? 1 : -1;
-        const stores = await Store.find().sort({ rating: sortOrder });
+        const stores = await Store.find({ enabled: true }).sort({ rating: sortOrder });
 
         return stores;
     } catch (err) {
@@ -39,9 +40,12 @@ const getStoreByIdOrName = async (name) => {
     try {
 
         const store = await Store.findOne({
-            $or: [
-                { name: { $regex: new RegExp(name, 'i') } }, // Buscar por nombre (ignorando mayúsculas/minúsculas)
-                { userIdentifier: name }
+            $and: [
+                { $or: [
+                    { name: { $regex: new RegExp(name, 'i') } },
+                    { userIdentifier: name },
+                ]},
+                { enabled: true }
             ]
         }).populate('products');
 
@@ -51,11 +55,22 @@ const getStoreByIdOrName = async (name) => {
         throw new Error('Error al buscar la tienda por nombre.');
     }
 };
+
 const getStoreByUser = async (id) => {
     try {
 
-        const store = await Store.findOne({userIdentifier: id }).populate('products');
+        const store = await Store.findOne({userIdentifier: id , enabled: true }).populate('products');
 
+        return store;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error al buscar la tienda por userIdentifier.');
+    }
+};
+
+const getStoreById = async (id) => {
+    try {
+        const store = await Store.findOne({_id: id, enabled: true }).populate('products');
         return store;
     } catch (err) {
         console.log(err);
@@ -68,7 +83,8 @@ const getStoreByName = async (name) => {
     try {
        const nameRegex = new RegExp(name, 'i');
         const stores = await Store.find({
-            name: {$regex: nameRegex}
+            name: {$regex: nameRegex},
+            enabled: true 
         });
         return stores;
 
@@ -82,7 +98,7 @@ const getStoreByName = async (name) => {
 //Obtener tiendas filtradas por calificación
 const getStoresByFilter = async (minRating) => {
     try {
-        const filter = minRating ? { rating: { $gte: parseFloat(minRating) } } : {};
+        const filter = minRating ? { rating: { $gte: parseFloat(minRating) }, enabled: true } : {enabled: true};
         const stores = await Store.find(filter);
 
         return stores;
@@ -118,6 +134,26 @@ const createStore = async (userIdentifier, name, address, rating, revenue, image
     }
 };
 
+const toggleEnabled = async (StoreId) => {
+    try {
+        const store = await Store.findById(StoreId);
+        
+        if (!store) {
+            console.log("tienda no encontrada");
+            return;
+        }
+
+        store.enabled = !store.enabled;
+
+        await store.save();
+
+        console.log(`'enabled' para la Store ${StoreId} ha sido cambiado a ${store.enabled}`);
+        return store
+    } catch (error) {
+        console.error('Error al cambiar el estado de "enabled":', error);
+    }
+};
+
 module.exports = {
     getStores,
     getStoresSortedByName,
@@ -126,5 +162,7 @@ module.exports = {
     getStoresByFilter,
     createStore,
     getStoreByName, 
-    getStoreByUser
+    getStoreByUser,
+    getStoreById,
+    toggleEnabled
 };

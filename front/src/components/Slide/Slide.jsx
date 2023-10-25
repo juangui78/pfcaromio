@@ -6,7 +6,7 @@ const promotions = [
   { id: 2, imageUrl:  '../../public/promo2.jpg'},
   { id: 3, imageUrl: '../../public/promo3.jpg' },
   { id: 4, imageUrl: '../../public/promo4.jpg' },
-  { id: 5, imageUrl: 'https://genovesapizza.cl/wp-content/uploads/2020/06/banner3.jpg' }
+  { id: 5, imageUrl: '../../public/promo5.jpg' }
 ];
 
 const Slide = ({visible}) => {
