@@ -8,6 +8,7 @@ import emailjs from '@emailjs/browser';
 import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+//const BACKEND_URL = 'http://localhost:3004/';
 import { getRestaurants, getEmailKeys, clearCart } from '../../redux/actions';
 
 import { RestaurantCard } from '../RestaurantCard/RestaurantCard';
@@ -144,7 +145,7 @@ export default function Restaurants() {
                     restaurants.length === 0 &&
                     <NoFound>
                         <p>
-                            No se encontraron restuarantes con la palabra clave.
+                            No se encontraron restuarantes.
                         </p>
                         <p>
                             <ButtonBack onClick={handleLoadAll}>Volver</ButtonBack>

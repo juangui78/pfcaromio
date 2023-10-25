@@ -24,6 +24,7 @@ import DashboardSeller from './components/DashboardSeller/DashboardSeller';
 import DashboardAdmin from './components/DashboardAdmin/DashboardAdmin';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+//const BACKEND_URL = 'http://localhost:3004/';
 
 // REEMPLAZAR URL de VITE
 //import MyRestaurant from './components/MiRestaurante/MiRestaurante';
@@ -71,8 +72,8 @@ const App = () => {
           path="/home"
           element={
            
-              typeUser === 'Admin' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
-              typeUser === 'Seller' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
+              typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
+              typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
               typeUser === 'Buyer' || !typeUser &&
               <>
                 <Slide />

@@ -8,7 +8,7 @@ export const TableContainer = styled.div`
 
 export const Table = styled.table`
   box-sizing: border-box;
-  width: 75%;
+  width:  ${(props) => props.width};
   color:gray;
   text-align: left;
   font-size: 0.9rem;
@@ -26,28 +26,26 @@ export const Thead = styled.thead`
   background-color: orange;
   color:white;
 `;
-export const Tbody = styled.tbody`
-
-`;
+export const Tbody = styled.tbody``;
 
 export const Hrow = styled.tr` 
   th.name{
-    width: 25%;
-  }
-  th.address{
-    width: 25%;
-  }
-  th.rating{
-    width: 10%;
-  }
-  th.state{
-    width: 10%;
-  }
-  th.products{
     width: 20%;
   }
+  th.address{
+    width: ${(props) => props.width === '75%' ? '25%' : '40%' };
+  }
+  th.rating-th{
+    width: ${(props) => props.width === '75%' ? '10%' : '5%' };
+  }
+  th.state{
+    width: ${(props) => props.width === '75%' ? '10%' : '5%' };
+  }
+  th.products{
+    width: ${(props) => props.width === '75%' ? '20%' : '10%' };
+  }
   th.toogle{
-    width: 10%;
+    width: ${(props) => props.width === '75%' ? '10%' : '5%' };
   }
   th.text-center{
     text-align: center;
@@ -66,6 +64,18 @@ export const Row = styled.tr`
   td.text-center{
     text-align: center;
   }
+
+  td {
+    div.description{
+      max-width: 550px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:after {
+        content: "...";
+      }
+    }
+    }
 `;
 
 export const Th = styled.th`
@@ -73,7 +83,7 @@ export const Th = styled.th`
 `;
 
 export const Td = styled.td`
-  padding: 0.25rem 1rem;
+  padding: 1rem;
 `;
 export const ButtonToggle = styled.button`
   background-color: transparent;
@@ -86,13 +96,16 @@ export const ButtonToggle = styled.button`
 export const Logo = styled.div`
   border: 1px solid orange;
   border-radius:50%;
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
+  min-width: 4rem;
+  min-height: 4rem;
   img{
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     border-radius:50%;
+    object-fit: cover;
   }
 `;
 export const Name = styled.span``;

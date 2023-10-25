@@ -60,7 +60,8 @@ export const Search = styled.div`
     justify-content: center;
     flex-wrap: nowrap;
     display: flex;
-    
+    width: 500px;
+    min-width: 300px;
     span.label-search{
         line-height: 2;
         font-size: 0.95rem;

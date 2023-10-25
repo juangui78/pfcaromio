@@ -17,8 +17,7 @@ import {
   ButtonToggle
 } from './styles/tablesStyles';
 
-let prevStores=null;
-
+let prevStores = null;
 
 const StoresTable = ({ toggleStore, searchStore }) => {
   const dispatch = useDispatch();
@@ -49,20 +48,20 @@ const StoresTable = ({ toggleStore, searchStore }) => {
     });
 
     setStores(updatedStores);
-    setStoresCopy(updatedCopy);   
+    setStoresCopy(updatedCopy);
   }
 
   useEffect(() => {
-    
-    if(searchStore && (searchStore !== prevStores)) {  
+
+    if (searchStore && (searchStore !== prevStores)) {
       prevStores = searchStore;
       const found = storesCopy.filter(item => item.name.toLowerCase().includes(searchStore.toLowerCase()));
       setStores(found);
     }
-    else if(!searchStore && prevStores) {  
+    else if (!searchStore && prevStores) {
       setStores(storesCopy)
     }
-    else{
+    else {
       setStores(restaurants)
       setStoresCopy(restaurants)
     }
@@ -71,13 +70,13 @@ const StoresTable = ({ toggleStore, searchStore }) => {
   return (
     <>
       <TableContainer>
-        <Table>
-          <caption>Restaurantes {searchStore}</caption>
+        <Table width={'75%'}>
+          <caption>Restaurantes </caption>
           <Thead>
             <Hrow>
               <Th className='name'>Restaurante</Th>
               <Th className='address'>Direccion</Th>
-              <Th className='rating'>Rating</Th>
+              <Th className='rating-th'>Rating</Th>
               <Th className='products text-center'>Productos publicados</Th>
               <Th className='state'>Estado</Th>
               <Th className='toggle'></Th>

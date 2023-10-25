@@ -1,5 +1,4 @@
 import styled, {css} from 'styled-components';
-import { Link } from "react-router-dom";
 
 const formControl = css`
     background-color: transparent;
@@ -69,7 +68,7 @@ export const Nav = styled.nav`
                 width: 100%;
                 display: flex;
                 flex-grow: 12;
-                
+           
                 input {
                     flex-grow: 1;
                     ${formControl};
