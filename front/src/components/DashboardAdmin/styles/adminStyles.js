@@ -45,9 +45,8 @@ export const ButtonsSection = styled.section`
     
     gap: 1rem;
     button{
-        padding: 0.6rem 1rem;
         font-size: 11pt;
-        padding: 0.4rem 1rem 0.6rem 1rem;
+        padding: 0.1rem 1rem 0.2rem 1rem;
         &:hover{
             color: orange
         }

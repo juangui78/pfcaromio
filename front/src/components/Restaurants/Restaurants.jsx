@@ -96,6 +96,7 @@ export default function Restaurants() {
     const handleLoadAll = () => {
         dispatch(getRestaurants())
     }
+    
     useEffect(() => {
 
         const currentParams = Object.fromEntries([...searchParams]);

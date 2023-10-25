@@ -45,13 +45,14 @@ export const Nav = styled.nav`
             align-items: center;
             justify-items: center;
             height: 80px;
+            justify-content: space-evenly;
             img.img-logo{
                 width: 140px;
             }
-            a{
-                width: 110%;
-                display: flex;
-                justify-content: center;
+            div{
+                font-size: large;
+                font-weight: bold;
+                color: #555;
             }
         }
 
@@ -109,24 +110,7 @@ export const Nav = styled.nav`
                 margin-top: 0.5rem;
             }
             
-            div.buttonCreate{
-                padding-top: 0.3rem;
-                display: flex;
-                align-items: flex-start;
-                a{
-                    border: none;
-                    background-color: var(--orange);
-                    color: white;
-                    padding-left: 0.5rem;
-                    padding-right: 0.5rem;
-                    padding-top: 0.3rem;
-                    padding-bottom: 0.3rem;
-                    border-radius: 5px;
-                    &:hover{
-                        color:black;
-                    }
-                }
-            }
+        
 
             div.nav-btn-user-container{
 
@@ -145,40 +129,4 @@ export const Nav = styled.nav`
         }
     }
 
-    dialog{
-        position: fixed;
-        animation: linear 0.2s down;
-        box-shadow: #CCC;
-        border: 1px solid gray;
-        border-radius: 8px;
-        background-color: white;
-        color: black;
-
-        form > section > header {
-            font-size: 1.2em;
-            font-weight: 500;
-            padding-bottom:0.5rem ;
-            border-bottom: 1px solid gray;
-            display: flex;
-            justify-content: space-between;
-            span.btnClose{
-                cursor: pointer;
-            }
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        @keyframes down {
-            0% {
-                transform: translateY(-20rem);
-                //position:relative;  top: -20rem; 
-            }
-            100% {
-                transform: translateY(0);
-                 //position:relative;  top: 0rem; 
-            }
-        }
-    }
 `;

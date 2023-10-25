@@ -177,6 +177,20 @@ export const getStore = (id) => {
     }
 }
 
+export const toggleStore = (storeId) => {
+    return async function (dispatch) {
+        try {
+            const { data } = await axios.put(`http://localhost:3004/stores/toggle/${storeId}`);
+            return data
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
 export const getSuggestions = (search) => {
     return async function (dispatch, getState) {
       try {

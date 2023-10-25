@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getStoreByUser } from '../../redux/actions';
+import { getRestaurants, toggleStore } from '../../redux/actions';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import { useAuth, UserButton } from '@clerk/clerk-react';
 
 import {
     FaSearch,
@@ -21,17 +21,22 @@ import {
 } from './styles/navBarStyles';
 
 import ProductsTable from './ProductsTable';
-import UsersTable from './UsersTable';
+import StoresTable from './StoresTable';
 import FormProduct from '../FormProduct/FormProduct';
 
 const DashboardSeller = ({ userData, setUserData }) => {
 
     const dispatch = useDispatch();
+    
+    const restaurants = useSelector((state) => state.restaurants);
 
     const [product, setProduct] = useState({});
     const [productsList, setProductsList] = useState([]);
-    const [search, setSearch] = useState('');
-    const [searchBy, setSearchBy] = useState('usuario');
+    const [store, setStore] = useState({});
+    const [storesList, setStoresList] = useState([]);
+    const [searchStore, setSearchStore] = useState('');
+    const [searchProduct, setSearchProduct] = useState('');
+    const [searchBy, setSearchBy] = useState('restaurante');
 
     const searchInputRef = useRef(null);
 
@@ -44,15 +49,16 @@ const DashboardSeller = ({ userData, setUserData }) => {
     }
 
     const handleSearch = (event) => {
-        const found = currentStore.products.filter(item => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
-        setProductsList(found);
+        searchBy === 'restaurante' && setSearchStore(event.target.value.toLowerCase())
+        //const found = productsList.filter(item => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
+       // setProductsList(found);
     }
 
-    const [activeTab, setActiveTab] = useState('userstList');
+    const [activeTab, setActiveTab] = useState('storesList');
 
     useEffect(() => {
-
-    }, [])
+        dispatch(getRestaurants())
+    }, [dispatch])
 
     return (
         <>
@@ -61,7 +67,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
                 <div className='nav'>
                     <div className='nav-logo'>
                         <img className="img-logo" src="/LogoPizzeria.png" alt="Logo" />
-                        <div>Dassboard de administador</div>
+                        <div>Dashboard de administador</div>
                     </div>
 
                     <Search className='search'>
@@ -71,18 +77,18 @@ const DashboardSeller = ({ userData, setUserData }) => {
                     </Search>
 
                     <ButtonsSection>
-                        <button onClick={() => { setActiveTab("userstList"); setSearchBy("usuario") }}>Lista de usuarios</button>
+                        <button onClick={() => { setActiveTab("storesList"); setSearchBy("restaurante") }}>Lista de restaurantes</button>
                         <button onClick={() => { setActiveTab("productsList"); setSearchBy("producto") }}>Lista Productos</button>
-                        <button >user</button>
+                        <UserButton title='userBtn' type='button' className="userBtn" />
                     </ButtonsSection>
                 </div>
             </Nav>
            <Container>
             <DashboardContainer>
                 {
-                    searchBy === 'usuario' && <UsersTable usersList={[]} /> 
+                    searchBy === 'restaurante' && <StoresTable storesList={restaurants} searchStore ={searchStore} toggleStore={toggleStore} /> 
                     || 
-                    searchBy === 'producto' && <ProductsTable  productsList={[]} />
+                    searchBy === 'producto' && <ProductsTable  productsList={productsList} />
                 }
             </DashboardContainer>
            </Container>

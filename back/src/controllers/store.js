@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const getStores = async () => {
     try {
         // await Store.updateMany({}, { $set: { enabled: true } }); // codigo para actualizar todos los productos a true.
-        return await Store.find({ enabled: true });
+        return await Store.find();
     } catch (err) {
         console.log(err);
     }
