@@ -12,8 +12,8 @@ const storeSchema = new Schema({
     userIdentifier: {type: String, required: true},
     description: {type: String, required: true},
     //aqui se relacionan los productos
-    products: {type: Array},    
-    
+    products: {type: Array},
+    enabled: {type: Boolean, default: true}
 });
 
 const Store = mongoose.model('Store', storeSchema);

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IconContext } from "react-icons";
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+
+import { deleteProduct } from '../../redux/actions';
 
 import {
     FaPen,
@@ -10,10 +14,7 @@ import {
 } from 'react-icons/fa';
 
 import {
-    Header,
-    ButtonsSection,
-    Container,
-    ProductsTable,
+
     Table,
     Head,
     Tbody,
@@ -21,24 +22,37 @@ import {
     Cell,
     FirstCell,
     LastCell,
-    ActionButton, ActionButtonCell, RowGroup,
+    ActionButtonCell,
     RowHead,
     TableHead,
-    FirstHead,
     LastHead,
     HeadImg,
-    LinkA
 
 } from './DashboardSellerStyles';
 
-export const DataTable = ({ visible, productsData, setProductData, setActiveTab }) => {
+export const DataTable = ({ visible, productsData, setProductData, setActiveTab, setProductsList }) => {
+
+    const dispatch = useDispatch();
 
     const setProduct = (item) => {
         setProductData(item);
         setActiveTab("editProduct");
     }
 
-    const deleteItem = (id, name) => {
+    const updateList = async  (store) => {
+        await axios.get(`http://localhost:3004/stores/getstore-id/${store}`)
+            .then(({data} ) => { 
+                if (data) {
+                    setProductsList(data.products)
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const deleteItem = (id, name, store) => {
+        
         Swal.fire({
             title: 'Está seguro?',
             text: `Se eliminará de la base de datos el producto ${name}!`,
@@ -56,11 +70,18 @@ export const DataTable = ({ visible, productsData, setProductData, setActiveTab 
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    'Eliminado!',
-                    'El producto fue eliminado con éxito.',
-                    'success'
-                )
+                dispatch(deleteProduct(id))
+                    .then(() => {
+                        updateList(store)
+                        Swal.fire(
+                            'Eliminado!',
+                            'El producto fue eliminado con éxito.',
+                            'success'
+                        )
+                    }
+                    ).catch((error) => {
+                        console.log(error)
+                    })
             }
         })
     }
@@ -68,6 +89,7 @@ export const DataTable = ({ visible, productsData, setProductData, setActiveTab 
     const getRandomInt = () => {
         return Math.floor(Math.random() * 10000);
     }
+
     return (
         <>
             <Table style={{ display: visible === 'dataTable' ? '' : 'none' }}>
@@ -100,18 +122,18 @@ export const DataTable = ({ visible, productsData, setProductData, setActiveTab 
                                 <Cell>
 
                                     {item.rating}
-                                
+
                                     {
                                         function () {
                                             let oper = Number.parseInt(item.rating)
                                             let res = item.rating % oper;
                                             let stars = [];
                                             for (let i = 0; i < oper; i++) {
-                                                stars.push(<i style={{ color: 'orange' }} key={getRandomInt() } ><FaStar /></i>)
+                                                stars.push(<i style={{ color: 'orange' }} key={getRandomInt()} ><FaStar /></i>)
                                             }
 
                                             for (let i = 0; i < res; i++) {
-                                                stars.push(<i style={{ color: 'orange' }} key={getRandomInt() } ><FaStarHalfAlt /></i>)
+                                                stars.push(<i style={{ color: 'orange' }} key={getRandomInt()} ><FaStarHalfAlt /></i>)
                                             }
                                             return stars
                                         }()
@@ -128,7 +150,7 @@ export const DataTable = ({ visible, productsData, setProductData, setActiveTab 
                                                 <FaPen />
                                             </IconContext.Provider>
                                         </button>
-                                        <button onClick={() => deleteItem(item.id, item.name)}>
+                                        <button onClick={() => deleteItem(item._id, item.name, item.store)}>
                                             <IconContext.Provider value={{ style: { color: 'red', width: '20px', height: '20px' } }} >
                                                 <FaTrash />
                                             </IconContext.Provider>

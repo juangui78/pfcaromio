@@ -20,6 +20,7 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
+import DashExample from './components/DashExampleComponent/DashExample';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // REEMPLAZAR URL de VITE
@@ -38,43 +39,52 @@ const App = () => {
   const searchBy = useSelector((state) => state.searchBy);
   const showRestaurants = (!searchState || (searchState && searchBy) === 'restaurante') ? true : false;
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
-
+  console.log(userId);
   useEffect(() => {
- 
-    axios.get(`users/${userId}`)
-      .then((data) => {
-        data && setUserData(data.data)
+    userId && axios.get(`${BACKEND_URL}users/${userId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          setUserData(data[0])
+          setTypeUser(data[0].role);
+          console.log(data);
+        }
       })
       .catch((error) => {
         console.log(error)
       })
 
   }, [userId, searchState])
-  //console.log('URL: ' + BACKEND_URL);
+
+  console.log(typeUser);
+  console.log('info user: ' + userData);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />)
-
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm" && pathname !== "/register") && (<NavBar userData={userData} />)
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route
-          path='/home'
+          path="/home"
           element={
             typeUser === "Seller"
               ? <DashboardSeller userData={userData} setUserData={setUserData} />
-              : <>
-                <Slide visible={typeUser !== "Seller"} />
-                {
-                  showProducts && <Products />
-                }
-                {
-                  showRestaurants && <Restaurants />
-                }
-              </>
-          } />
+              : typeUser === "Admin" // Agregar la tercera opción para Admin
+                ? <DashExample /> // Reemplaza "AdminComponent" con el componente que deseas mostrar para los usuarios Admin
+                : (
+                  <>
+                    <Slide visible={typeUser !== "Seller"} />
+                    {
+                      showProducts && <Products />
+                    }
+                    {
+                      showRestaurants && <Restaurants />
+                    }
+                  </>
+                )
+          }
+        />
 
         <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />

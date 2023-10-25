@@ -1,7 +1,7 @@
 import './RegisterForm.css'
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
@@ -21,6 +21,7 @@ export default function RegisterForm() {
   ]
 
   const [selectOption, setSelectOption] = useState(null)
+  const [image, setImage] = useState(null);
   const [registerFormRestaurant, setRegisterFormRestaurant] = useState({
     userIdentifier: '',
     name: '',
@@ -28,7 +29,7 @@ export default function RegisterForm() {
     description: '',
     rating: '',
     revenue: '',
-
+    image: ''
   })
 
   const [errors, setErrors] = useState({
@@ -39,6 +40,9 @@ export default function RegisterForm() {
     revenue: '',
   })
 
+  useEffect(() => {
+    setImage(null)
+  }, [])
   //se crea el estado que tendrá la imagen temporalmente y el de la URL  
   const [currentImage, setCurrentImage] = useState();
   const [currentURL, setCurrentUrl] = useState("");
@@ -46,9 +50,9 @@ export default function RegisterForm() {
   const handleChangeImage = (e) => {
 
     if (e.target.files[0]) {
-        setCurrentImage(e.target.files[0])
-        setImage(URL.createObjectURL(e.target.files[0]));
-        console.log(e.target.files[0])
+      setCurrentImage(e.target.files[0])
+      setImage(URL.createObjectURL(e.target.files[0]));
+      console.log(e.target.files[0])
     }
   }
 
@@ -62,19 +66,18 @@ export default function RegisterForm() {
   // Función para subir imagen a cloudinary y obtener url para usar en el productData.
   const subirImagen = async (currentImage) => {
     try {
-        const formData = new FormData();
-        formData.append("file", currentImage);
-        formData.append("upload_preset", "vp72qx31");
-        Swal.showLoading();
-        const { data } = await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData);
-        setCurrentUrl(data.secure_url);
-        return data.secure_url;
+      const formData = new FormData();
+      formData.append("file", currentImage);
+      formData.append("upload_preset", "vp72qx31");
+      Swal.showLoading();
+      const { data } = await axios.post("https://api.cloudinary.com/v1_1/dfsjn09oo/image/upload", formData);
+      setCurrentUrl(data.secure_url);
+      return data.secure_url;
 
     } catch (error) {
-        console.log('No se pudo obtener el link de la imagen: ' + error)
+      console.log('No se pudo obtener el link de la imagen: ' + error)
     }
-
-}
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -89,22 +92,21 @@ export default function RegisterForm() {
     } else {
       Swal.fire({ title: 'Error. Por favor rellena bien los campos de tu Restaurante', icon: 'error' })
     }
-
   }
-
 
   const createStore = async (registerFormRestaurant) => {
     try {
-
-
       const userInfo = {
         userIdentifier: userId,
         username: user.username ? user.username : user.firstName,
         email: user.primaryEmailAddress.emailAddress,
         role: 'Buyer'
       }
-
+      // montando cloudinary en form restaurante
       if (selectOption.value === 'store') {
+        const newUrl = await subirImagen(currentImage)
+        console.log('currentURL:', newUrl);
+        registerFormRestaurant.image = newUrl
         registerFormRestaurant.userIdentifier = userId
         userInfo.role = 'Seller'
         console.log(userInfo);
@@ -156,23 +158,25 @@ export default function RegisterForm() {
                 <label className='warning-Text'>{errors.address}</label>
               </div>
 
-              <Item>
-                                <LabelHead className='labels'>Imagen de tu pizza:</LabelHead>
-                                <ColInputs>
+
+              <div>
+                                <label className='labels'>Imagen de tu Restaurante:</label>
+                               
                                     <input type="file" name='image' onChange={handleChangeImage} />
-                                </ColInputs>
-                            </Item>
-                            <Item>
-                                <LabelHead className='labels'>Así se vé tu pizza:</LabelHead>
-                                <ColInputs className='last'>
-                                    {image && (
+                                
+                            </div>
+                            <div>
+                                <label className='labels'>Tu Logo:</label>
+                                <div className='last'>
+                                    {registerFormRestaurant.image && (
                                         <img
-                                            src={image}
+                                            src={registerFormRestaurant.image}
                                             alt="Preview"
                                         />
                                     )}
-                                </ColInputs>
-              </Item>
+                                </div>
+              </div>
+
 
               <div className='inputSection'>
                 <label>Rating: </label>
@@ -181,7 +185,6 @@ export default function RegisterForm() {
             </div>
           ) : null}
 
-
           <button type='submit' className="formButton" onClick={handleSubmit}>Crear!</button>
         </div>
       </form>
@@ -189,3 +192,8 @@ export default function RegisterForm() {
   )
 
 }
+
+const Item = styled.tr``;
+const LabelHead = styled.th``;
+const FomrContent = styled.table``;
+const ColInputs = styled.td``;
