@@ -49,7 +49,6 @@ const Navbar = (props) => {
   const location = useLocation();
 
   const { isSignedIn, userId } = useAuth()
-  const [filtersDropdownOpen, setFiltersDropdownOpen] = useState(false);
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [sliderValue, setSliderValue] = useState(0);
@@ -65,10 +64,8 @@ const Navbar = (props) => {
   const searchInputRef = useRef(null);
   const searchSelectRef = useRef(null);
 
-  const showFiltersAndSearch = !location.pathname.startsWith('/products');
   const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
 
-  //const [userData, setUserData] = useState((null))
   const { userData } = props;
 
   const [sortOrder, setSortOrder] = useState('desc');
@@ -94,28 +91,10 @@ const Navbar = (props) => {
         console.error('Error fetching products:', error);
       });
 
-    /*   axios.get(`http://localhost:3004/users/${userId}`)
-        .then((data) => {
-          data && setUserData(data.data)
-        })
-        .catch((error) => {
-          console.log(error)
-        }) */
-
-
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
   
-  const applyRatingFilterButton = () => {
-    dispatch(filterByRating(sliderValue));
-  };
-
-  const handleRatingInputChange = (event) => {
-    const value = parseFloat(event.target.value);
-    setSliderValue(value);
-  };
-
   const handleSortByNameClick = (order) => {
     dispatch(orderByName(order)); // Donde order es 'asc' o 'desc'
   };
@@ -124,40 +103,6 @@ const Navbar = (props) => {
     dispatch(sortedByRating(order)); // Donde order es 'low' o 'high'
   };
 
-  const handlePriceInputChange = (event) => {
-    setPriceFilter(event.target.value);
-  };
-
-  const applyRatingFilter = () => {
-    console.log('Aplicar filtro con valor:', ratingFilter);
-    handleSortByRatingClick(ratingFilter);
-    setRatingFilter(''); // Limpiar el filtro después de aplicarlo
-  };
-
-  const applyPriceFilter = () => {
-    console.log('Aplicar filtro de precio con valor:', priceFilter);
-    setPriceFilter('');
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      applyRatingFilter();
-    }
-  };
-
-  const handlePriceKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      applyPriceFilter();
-    }
-  };
-
-  const toggleFiltersDropdown = () => {
-    setFiltersDropdownOpen(!filtersDropdownOpen);
-  };
-
-  const openFiltersDropdown = () => {
-    setFiltersDropdownOpen(true);
-  };
   const handleLoginButton = () => {
     navigate('/login')
   }
