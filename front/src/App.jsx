@@ -20,7 +20,7 @@ import Register from './components/Register/Register';
 import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
-import DashExample from './components/DashExampleComponent/DashExample';
+
 import DashboardAdmin from './components/DashboardAdmin/DashboardAdmin';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -73,9 +73,9 @@ const App = () => {
            
               typeUser === 'Admin' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
               typeUser === 'Seller' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
-              typeUser === 'Buyer' &&
+              typeUser === 'Buyer' || !typeUser &&
               <>
-                <Slide visible={true} />
+                <Slide />
                 {
                   showProducts && <Products />
                 }
@@ -94,10 +94,7 @@ const App = () => {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
-        {/* <Route path='/myRestaurant' element={<DashboardSeller userData={userData} />}></Route> */}
-        {/*   <Route path='/myRestaurant' element={<MyRestaurant />}></Route> */}
-        <Route path='/admin' element={<DashboardAdmin />}></Route>
-
+  
       </Routes>
 
       <ProductDetails show={showProductDetails} />
