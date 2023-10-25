@@ -11,7 +11,7 @@ import { useAuth } from '@clerk/clerk-react'
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
 
-import validate from './validation'
+//import validate from './validation'
 
 export default function FormProduct({ visible, userData, product, setActiveTab, setUserData }) {
 
