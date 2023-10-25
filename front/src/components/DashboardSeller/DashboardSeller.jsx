@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getStoreByUser } from '../../redux/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import {
     FaSearch,
 } from 'react-icons/fa';
@@ -40,7 +40,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
     const [activeTab, setActiveTab] = useState('dataTable');
 
     useEffect(() => {
-        axios.get(`http://localhost:3004/stores/getstore/${userData.userIdentifier}`)
+        axios.get(`${BACKEND_URL}${userData.userIdentifier}`)
             .then(({ data }) => {
                 if (data) {
                     setCurrentStore(data)

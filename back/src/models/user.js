@@ -36,7 +36,8 @@ const userSchema = new Schema({
       required: true,
     },
 
-    store: { type: Schema.Types.ObjectId, ref: 'Store'}
+    store: { type: Schema.Types.ObjectId, ref: 'Store'},
+    habilitado: {type: Boolean, default: true}
     
   });
 

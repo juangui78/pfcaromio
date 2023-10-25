@@ -34,11 +34,13 @@ const getProductsSortedByRating = async (order, storeId) => {
         const productsQuery = storeId ? { store: storeId, enabled: true } : { enabled: true };
 
         return Products.find(productsQuery).sort({ rating: sortOrder });
+
+        
+        
     } catch (err) {
         console.log(err);
     }
 };
-
 
 
 // Obtener productos por su ID o nombre

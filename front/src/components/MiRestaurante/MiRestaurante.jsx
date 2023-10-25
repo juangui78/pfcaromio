@@ -1,5 +1,7 @@
 import './MiRestaurante.css'
 import axios from "axios"
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useAuth} from '@clerk/clerk-react'
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react'
@@ -9,7 +11,7 @@ export default function MyRestaurant () {
     const navigate = useNavigate()
     const [userData, setUserData] = useState(null)
     useEffect(() => {
-        userId && axios.get(`http://localhost:3004/stores/${userId}`)
+        userId && axios.get(`${BACKEND_URL}stores/${userId}`)
             .then((response) => setUserData(response.data))
             .catch((error) => console.log('No se pudo recibir informacion del Restaurante', error))
     }, [userId])

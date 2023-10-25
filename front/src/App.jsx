@@ -5,7 +5,7 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
-
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import LoginForm from './components/Login/Login'
 import Slide from './components/Slide/Slide';
 import Logout from './components/Logout/Logout'
@@ -21,7 +21,7 @@ import RegisterForm from './components/FormRegister/RegisterForm';
 import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
 import DashExample from './components/DashExampleComponent/DashExample';
-const BACKEND_URL_LOCAL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // REEMPLAZAR URL de VITE
 //import MyRestaurant from './components/MiRestaurante/MiRestaurante';
@@ -41,7 +41,7 @@ const App = () => {
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
   console.log(userId);
   useEffect(() => {
-    userId && axios.get(`http://localhost:3004/users/${userId}`)
+    userId && axios.get(`${BACKEND_URL}users/${userId}`)
       .then(({ data }) => {
         if (data.length > 0) {
           setUserData(data[0])
@@ -54,7 +54,7 @@ const App = () => {
       })
 
   }, [userId, searchState])
-  console.log('URL: ' + BACKEND_URL_LOCAL);
+
   console.log(typeUser);
   console.log('info user: ' + userData);
   return (

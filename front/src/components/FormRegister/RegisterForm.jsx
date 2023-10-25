@@ -3,6 +3,8 @@ import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+//axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import { useAuth, useUser } from '@clerk/clerk-react'
 import validate from './validation';
 import Swal from 'sweetalert2'
@@ -108,17 +110,20 @@ export default function RegisterForm() {
         registerFormRestaurant.userIdentifier = userId
         userInfo.role = 'Seller'
         console.log(userInfo);
-        console.log(registerFormRestaurant);
-        const create = await axios.post('http://localhost:3004/stores', registerFormRestaurant)
-        const createRestaurantUser = await axios.post('http://localhost:3004/users', userInfo)
-        Swal.fire({ title: 'Tienda Creada con Exito', icon: 'success' })
+        const create = await axios.post(`${BACKEND_URL}stores`, registerFormRestaurant)
+        const createRestaurantUser = await axios.post(`${BACKEND_URL}users`, userInfo)
+        Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
         console.log('store creada')
         return
       }
 
       console.log(userInfo);
-      const create = await axios.post('http://localhost:3004/users', userInfo)
-      Swal.fire({ title: 'Usuario Creado con Exito', icon: 'success' })
+      const create = await axios.post(`${BACKEND_URL}users`, userInfo)
+      Swal.fire({title: 'Usuario Creado con Exito', icon: 'success'})
+      
+      
+      console.log('usuario creado')
+
 
     } catch (error) {
       console.log(error);
