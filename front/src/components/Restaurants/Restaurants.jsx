@@ -154,7 +154,8 @@ export default function Restaurants() {
                 }
                 <Cards id="cards">
                     {
-                        restaurants?.map((restaurant) => (
+                        restaurants?.map((restaurant) => (  
+                            
                             <RestaurantCard
                                 key={restaurant._id}
                                 id={restaurant._id}
@@ -162,7 +163,8 @@ export default function Restaurants() {
                                 name={restaurant.name}
                                 address={restaurant.address}
                                 rating={restaurant.rating}
-                                storeId={restaurant.userIdentifier}>
+                                storeId={restaurant.userIdentifier}
+                                enabled={restaurant.enabled}>
                             </RestaurantCard>
                         ))
                     }

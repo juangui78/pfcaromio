@@ -42,6 +42,7 @@ const App = () => {
   const searchBy = useSelector((state) => state.searchBy);
   const showRestaurants = (!searchState || (searchState && searchBy === 'restaurante')) ? true : false;
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
+  const show = typeUser === 'Buyer' || !typeUser
   console.log(userId);
   useEffect(() => {
     userId && axios.get(`${BACKEND_URL}users/${userId}`)
@@ -58,9 +59,12 @@ const App = () => {
 
   }, [userId, searchState])
 
-  console.log(typeUser);
+  
   console.log('url de axios: ' + BACKEND_URL);
   console.log('info user: ' + userData);
+
+  
+  console.log(show);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
@@ -75,7 +79,7 @@ const App = () => {
            
               typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
               typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
-              typeUser === 'Buyer' || !typeUser &&
+              show && 
               <>
                 <Slide />
                 {
@@ -85,11 +89,8 @@ const App = () => {
                   showRestaurants && <Restaurants />
                 }
               </>
-  
-         
           }
         />
-
         <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct userData={userData} />}></Route>
