@@ -56,12 +56,12 @@ export default function Restaurants({ userData }) {
     const sendPaymentEmail = (e) => {
 
         let table = '<table style="border:1px solid #EEE; border-collapse:collapse; text-align:left; width:500px"><tr><thead>';
-          table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px; width:50%">Item</th>'
-         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Cantidad</th>'
-         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Precio</th>';
-         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Subtotal</th></tr></thead><tbody>';
-         cartDetails.items.forEach(item => {
-             table += `
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px; width:50%">Item</th>'
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Cantidad</th>'
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Precio</th>';
+        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Subtotal</th></tr></thead><tbody>';
+        cartDetails.items.forEach(item => {
+            table += `
              <tr>
                <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.name}</td> 
                <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.quantity}</td> 
@@ -69,15 +69,15 @@ export default function Restaurants({ userData }) {
                <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price * item.quantity}</td>
              </tr>
            `;
-         });
-         table += `<tr> 
+        });
+        table += `<tr> 
                  <th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px"" colspan=3>Total:</th>
                  <td style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px""> ${cartDetails.total}</td>
              </tr><tbody>`;
-         table += '</table>';
- 
-        const {username, email } = JSON.parse(localStorage.getItem('dataUser'));
-         
+        table += '</table>';
+
+        const { username, email } = JSON.parse(localStorage.getItem('dataUser'));
+
         const emailParams = {
             from_name: "Caro Mio Pizza",
             to_name: username,
@@ -128,7 +128,7 @@ export default function Restaurants({ userData }) {
 
         dispatch(getRestaurants());
         dispatch(getEmailKeys());
-        
+
     }, [dispatch, searchParams])
 
     console.log('userData-rest:', JSON.stringify(userData));
@@ -155,19 +155,21 @@ export default function Restaurants({ userData }) {
                 }
                 <Cards id="cards">
                     {
-                        restaurants?.map((restaurant) => (
-
-                            <RestaurantCard
-                                key={restaurant._id}
-                                id={restaurant._id}
-                                image={restaurant.image}
-                                name={restaurant.name}
-                                address={restaurant.address}
-                                rating={restaurant.rating}
-                                storeId={restaurant.userIdentifier}
-                                enabled={restaurant.enabled}>
-                            </RestaurantCard>
-                        ))
+                        restaurants?.map((restaurant) => {
+                            if (restaurant.enabled) {
+                                return (
+                                    <RestaurantCard
+                                        key={restaurant._id}
+                                        id={restaurant._id}
+                                        image={restaurant.image}
+                                        name={restaurant.name}
+                                        address={restaurant.address}
+                                        rating={restaurant.rating}
+                                        storeId={restaurant.userIdentifier}
+                                        enabled={restaurant.enabled}>
+                                    </RestaurantCard>)
+                            }
+                        })
                     }
                 </Cards>
 
