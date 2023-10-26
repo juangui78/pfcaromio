@@ -42,6 +42,8 @@ const App = () => {
   const searchBy = useSelector((state) => state.searchBy);
   const showRestaurants = (!searchState || (searchState && searchBy === 'restaurante')) ? true : false;
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
+  const showByBuyer = typeUser === 'Buyer' || !typeUser;
+
   console.log(userId);
   useEffect(() => {
     userId && axios.get(`${BACKEND_URL}users/${userId}`)
@@ -74,7 +76,7 @@ const App = () => {
            
               typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
               typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
-              typeUser === 'Buyer' || !typeUser &&
+              showByBuyer &&
               <>
                 <Slide />
                 {
@@ -84,7 +86,6 @@ const App = () => {
                   showRestaurants && <Restaurants />
                 }
               </>
-  
          
           }
         />

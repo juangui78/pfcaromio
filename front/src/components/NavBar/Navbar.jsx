@@ -97,7 +97,7 @@ const Navbar = (props) => {
   }, [userId, store])
 
   const typeUser = userData?.[0]?.role
-  
+
   const handleSortByNameClick = (order) => {
     dispatch(orderByName(order)); // Donde order es 'asc' o 'desc'
   };
@@ -249,7 +249,7 @@ const Navbar = (props) => {
     e.target.name === 'searchBy' && setSearchBy(e.target.value)
 
   }
-  
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (search) {
@@ -269,8 +269,7 @@ const Navbar = (props) => {
       });
     }
   };
-  
-  
+
   const handleSearchInputChange = (e) => {
     const term = e.target.value;
     setSearch(term);
@@ -293,53 +292,53 @@ const Navbar = (props) => {
           </Link>
         </div>
         <Link to='/home' onClick={reset} className='homeBtn'>
-          <IconContext.Provider value={{ style: { color:'gray', width: '20px', height: '20px' } }} >
+          <IconContext.Provider value={{ style: { color: 'gray', width: '20px', height: '20px' } }} >
             <FaHome />
           </IconContext.Provider>
         </Link>
 
         <div className='nav-input-search'>
-        <form onSubmit={handleSearch}>
-        <div className="search">
-          <select
-            ref={searchSelectRef}
-            value={searchBy}
-            name="searchBy"
-            id="searchBy"
-            onChange={handleChange}
-          >
-            <option value="restaurante">Buscar restaurante</option>
-            <option value="pizza">Buscar pizza</option>
-          </select>
-          <input
-            ref={searchInputRef}
-            value={search}
-            type="search"
-            name="searchInput"
-            id="searchInput"
-            placeholder=""
-            onChange={handleSearchInputChange}
-          />
-          <button type="submit" id="submitSearch" title="buscar">
-            <FaSearch />
-          </button>
-        </div>
-        {!searchPerformed && suggestions.length > 0 && (
-            <SuggestionsContainer>
-              <ul>
-                {suggestions.map((suggestion) => (
-                  <SuggestionItem
-                    key={suggestion.id}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                  >
-                    {suggestion.name}
-                  </SuggestionItem>
-                ))}
-              </ul>
-            </SuggestionsContainer>
-          )}
-      </form>
-            
+          <form onSubmit={handleSearch}>
+            <div className="search">
+              <select
+                ref={searchSelectRef}
+                value={searchBy}
+                name="searchBy"
+                id="searchBy"
+                onChange={handleChange}
+              >
+                <option value="restaurante">Buscar restaurante</option>
+                <option value="pizza">Buscar pizza</option>
+              </select>
+              <input
+                ref={searchInputRef}
+                value={search}
+                type="search"
+                name="searchInput"
+                id="searchInput"
+                placeholder=""
+                onChange={handleSearchInputChange}
+              />
+              <button type="submit" id="submitSearch" title="buscar">
+                <FaSearch />
+              </button>
+            </div>
+            {!searchPerformed && suggestions.length > 0 && (
+              <SuggestionsContainer>
+                <ul>
+                  {suggestions.map((suggestion) => (
+                    <SuggestionItem
+                      key={suggestion._id}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      {suggestion.name}
+                    </SuggestionItem>
+                  ))}
+                </ul>
+              </SuggestionsContainer>
+            )}
+          </form>
+
 
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
@@ -441,18 +440,18 @@ const Navbar = (props) => {
                 </FilterItem>
               </AlertContainer>
               <FilterItem>
-                <button  title='orderRatingBtn' type='button' className='orderBtn' onClick={handleSortByRating}>  Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})</button>
+                <button title='orderRatingBtn' type='button' className='orderBtn' onClick={handleSortByRating}>  Ordenar por Rating ({sortOrder === 'asc' ? 'menor calificación' : 'mayor calificación'})</button>
               </FilterItem>
               <FilterItem>
-                <button  title='orderPriceBtn' type='button' className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})</button>
+                <button title='orderPriceBtn' type='button' className='orderBtn' onClick={handlePriceSort}> Ordenar por Precio ({priceSortOrder === 'asc' ? 'menor precio' : 'mayor precio'})</button>
               </FilterItem>
 
             </FilterSection>
 
           </section>
           <menu>
-            <button  title='filterBtn' type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
-            <button  title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
+            <button title='filterBtn' type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
+            <button title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
           </menu>
         </form>
       </FilterModal>

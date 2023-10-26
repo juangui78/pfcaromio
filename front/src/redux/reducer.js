@@ -378,6 +378,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 return {
                     ...state,
                     search: false,
+                    restaurants: data,
                 }
 
         default:

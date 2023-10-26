@@ -434,6 +434,11 @@ export const onSearchData = (searchState, searchBy, search) => {
             response = await axios.get(`${BACKEND_URL}stores/search/${search}`)
             searchInfo.data = response.data;
         }
+        if(!searchState) {
+            response = await axios.get(`${BACKEND_URL}stores`)
+            searchInfo.data = response.data
+            searchInfo.searchBy = 'restaurante'
+        }
 
         try {
             return dispatch(
