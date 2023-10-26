@@ -30,16 +30,17 @@ const DashboardSeller = ({ userData, setUserData }) => {
     const setProductData = (item) => {
         setProduct({ ...item });
     }
-
+    console.log('productos: ' + BACKEND_URL);
     const handleSearch = (event) => {
         const found = currentStore.products.filter(item => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
         setProductsList(found);
     }
 
     const [activeTab, setActiveTab] = useState('dataTable');
-
+    console.log(userData.userIdentifier);
     useEffect(() => {
-        axios.get(`${BACKEND_URL}${userData.userIdentifier}`)
+
+        userData && axios.get(`${BACKEND_URL}stores/getstore/${userData.userIdentifier}`)
             .then(({ data }) => {
                 if (data) {
                     setCurrentStore(data)
@@ -47,7 +48,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
                 }
             })
             .catch((error) => {
-                console.log(error)
+                console.log('falló en traer productos y user:' + error)
             })
     }, [userData])
 
@@ -63,10 +64,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
                             <div><FaSearch /></div>
                         </Search>
                         <button onClick={() => setActiveTab("dataTable")}>Mis Productos</button>
-                      {/*   <button onClick={() => setActiveTab("misDatos")}>Mis Datos</button> */}
                         <button onClick={() => setActiveTab("createProduct")}>Crear Pizza</button>
-                        {/* <LinkA to='/createProduct'>Crear Pizza</LinkA> */}
-
                     </ButtonsSection>
                 </Header>
 

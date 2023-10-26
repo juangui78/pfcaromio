@@ -37,7 +37,8 @@ const userSchema = new Schema({
     },
 
     store: { type: Schema.Types.ObjectId, ref: 'Store'},
-    habilitado: {type: Boolean, default: true}
+    enabled: {type: Boolean, default: true},
+    orders: {type: Array},
     
   });
 

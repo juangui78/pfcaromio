@@ -214,6 +214,8 @@ const Navbar = (props) => {
     dispatch(setProductsList(sortedProducts));
     setProducts(sortedProducts);
     setPriceSortOrder(priceSortOrder === 'asc' ? 'desc' : 'asc');
+    filtersRef.current.close();
+
   };
 
   const handleSortByRating = () => {
@@ -228,6 +230,8 @@ const Navbar = (props) => {
     dispatch(setProductsList(sortedProducts));
     setProducts(sortedProducts);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    filtersRef.current.close();
+
   };
 
   const showFilters = () => {
@@ -363,8 +367,8 @@ const Navbar = (props) => {
                 </label>
 
                 <div className="section-dropdown">
-                  <a href="#" onClick={() => handleSortByRatingClick('low')}>Peor Rating <FaThumbsDown /></a>
-                  <a href="#" onClick={() => handleSortByRatingClick('high')}>Mejor Rating <FaThumbsUp /></a>
+                  <a href="#" onClick={() => handleSortByRatingClick('low')}>Mayor Rating <FaThumbsDown /></a>
+                  <a href="#" onClick={() => handleSortByRatingClick('high')}>Menor Rating <FaThumbsUp /></a>
 
                   <input className="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub" />
                   <label className="for-dropdown-sub" htmlFor="dropdown-sub">Orden Alfabético <FaSortDown /></label>
