@@ -11,7 +11,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css'
 import CartBtn from '../CartBtn/CartBtn';
 //import SearchBar from '../SearchBar/SearchBar';
-import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData, getSuggestions } from '../../redux/actions';
+import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData, getSuggestions, searchProductsByStore} from '../../redux/actions';
 
 import { IconContext } from "react-icons";
 
@@ -44,7 +44,7 @@ import {
 
 //import './Navbar.css';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = 'http://localhost:3004/';
 
 const Navbar = (props) => {
   const dispatch = useDispatch()
@@ -256,7 +256,15 @@ const Navbar = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search) {
+    if (location.pathname.startsWith('/products/') && search) {
+      // Lógica para buscar productos de la pizzería específica usando el storeId
+      // Puedes acceder al storeId desde la URL. Ejemplo: /products/1234
+      const storeId = location.pathname.split('/').pop(); // Obtiene el último segmento de la URL
+      dispatch(searchProductsByStore(storeId, search));
+      setSearch('');
+      setSearchPerformed(true);
+    } else if (search) {
+      // Lógica para buscar restaurantes
       dispatch(onSearchData(true, searchBy, search));
       setSearchBy('restaurante');
       setSearch('');
@@ -268,8 +276,8 @@ const Navbar = (props) => {
         showClass: {
           popup: 'animate__animated animate__fadeInDown animate__faster',
           backdrop: 'swal2-backdrop-show',
-          icon: 'swal2-icon-show'
-        }
+          icon: 'swal2-icon-show',
+        },
       });
     }
   };
@@ -287,6 +295,8 @@ const Navbar = (props) => {
     setSearch('');
     setSearchPerformed(true);
   }
+
+
   return (
     <NavBar>
       <div className='nav'>
@@ -302,7 +312,7 @@ const Navbar = (props) => {
         </Link>
 
         <div className='nav-input-search'>
-          <form onSubmit={handleSearch}>
+        <form onSubmit={handleSearch}>
             <div className="search">
               <select
                 ref={searchSelectRef}
@@ -311,8 +321,11 @@ const Navbar = (props) => {
                 id="searchBy"
                 onChange={handleChange}
               >
-                <option value="restaurante">Buscar restaurante</option>
-                <option value="pizza">Buscar pizza</option>
+                {location.pathname === '/home' ? (
+                  <option value="restaurante">Buscar restaurantes</option>
+                ) : (
+                  <option value="pizza">Buscar pizza</option>
+                )}
               </select>
               <input
                 ref={searchInputRef}
@@ -342,8 +355,6 @@ const Navbar = (props) => {
               </SuggestionsContainer>
             )}
           </form>
-
-
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
               <span>Filtrar por: </span>

@@ -6,6 +6,7 @@ import {
     GET_RESTAURANTS,
     GET_RESTAURANT,
     GET_SUGGESTIONS,
+    SEARCH_PRODUCTS_BY_STORE,
     GET_RESTAURANTS_BY_NAME,
     FILTER_PRODUCTS_BY_NAME,
     FILTER_RESTAURANTS_BY_NAME,
@@ -39,6 +40,7 @@ const initialState = {
     product: {},
     modalProductDetails: false,
     modalCart: false,
+    productsByStoreID: [],
     restaurants: [], // * stores
     restaurantSelected: {},
     currentStore: {},
@@ -89,6 +91,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 restaurantSelected: payload,
             }
+        case SEARCH_PRODUCTS_BY_STORE:
+        const storeID = payload; 
+        const productsByStoreID = state.products.filter(product => product.storeID === storeID);
+        return {
+            ...state,
+            productsByStoreID: productsByStoreID,
+        };
         case GET_SUGGESTIONS:
             return {
                 ...state,
