@@ -10,13 +10,23 @@ const {
     getStoreByName, 
     getStoreByUser,
     getStoreById,
-    toggleEnabled
+    toggleEnabled,
+    getStoresEnabled
     } = require('../controllers/store');
 
 // Ruta para obtener todas las tiendas
 router.get('/', async (req, res) => {
     try {
         const stores = await getStores();
+        res.status(200).json(stores);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching stores' });
+    }
+});
+
+router.get('/enabled', async (req, res) => {
+    try {
+        const stores = await getStoresEnabled();
         res.status(200).json(stores);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching stores' });

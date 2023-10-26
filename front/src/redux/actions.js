@@ -145,6 +145,23 @@ export const getRestaurants = () => {
     }
 }
 
+export const getRestaurantsEnabled = () => {
+    return async function (dispatch) {
+        try {
+            const { data } = await axios.get(`${BACKEND_URL}stores/enabled`);
+
+            return dispatch(
+                { type: GET_RESTAURANTS, payload: data },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
 export const getRestaurantsByName = (search) => {
     return async function (dispatch) {
         try {

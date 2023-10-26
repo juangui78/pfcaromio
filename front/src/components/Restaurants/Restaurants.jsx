@@ -9,7 +9,7 @@ import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 //const BACKEND_URL = 'http://localhost:3004/';
-import { getRestaurants, getEmailKeys, clearCart } from '../../redux/actions';
+import { getRestaurants, getRestaurantsEnabled, getEmailKeys, clearCart } from '../../redux/actions';
 
 import { RestaurantCard } from '../RestaurantCard/RestaurantCard';
 import CardDescuento from '../CardDescuento/CardDescuento';
@@ -95,7 +95,7 @@ export default function Restaurants({ userData }) {
     }
 
     const handleLoadAll = () => {
-        dispatch(getRestaurants())
+        dispatch(getRestaurantsEnabled())
     }
 
     useEffect(() => {
@@ -126,7 +126,7 @@ export default function Restaurants({ userData }) {
             setModalType("cancel");
         }
 
-        dispatch(getRestaurants());
+        dispatch(getRestaurantsEnabled());
         dispatch(getEmailKeys());
 
     }, [dispatch, searchParams])

@@ -1,11 +1,20 @@
 //importamos el modelo directamente 
 const { Store } = require('../models/store');
 const mongoose = require('mongoose');
+
 // Obtener todas las tiendas de la base de datos
 const getStores = async () => {
     try {
         // await Store.updateMany({}, { $set: { enabled: true } }); // codigo para actualizar todos los productos a true.
         return await Store.find();
+    } catch (err) {
+        console.log(err);
+    }
+};
+// Obtener todas las tiendas de la base de datos
+const getStoresEnabled = async () => {
+    try {
+        return await Store.find({enabled:true});
     } catch (err) {
         console.log(err);
     }
@@ -41,10 +50,12 @@ const getStoreByIdOrName = async (identifier) => {
 
         const store = await Store.findOne({
             $and: [
-                { $or: [
-                    { name: { $regex: new RegExp(name, 'i') } },
-                    { userIdentifier: name },
-                ]},
+                {
+                    $or: [
+                        { name: { $regex: new RegExp(name, 'i') } },
+                        { userIdentifier: name },
+                    ]
+                },
                 { enabled: true }
             ]
         }).populate('products');
@@ -58,7 +69,7 @@ const getStoreByIdOrName = async (identifier) => {
 const getStoreByUser = async (id) => {
     try {
 
-        const store = await Store.findOne({userIdentifier: id , enabled: true }).populate('products');
+        const store = await Store.findOne({ userIdentifier: id, enabled: true }).populate('products');
 
         return store;
     } catch (err) {
@@ -69,7 +80,7 @@ const getStoreByUser = async (id) => {
 
 const getStoreById = async (id) => {
     try {
-        const store = await Store.findOne({_id: id, enabled: true }).populate('products');
+        const store = await Store.findOne({ _id: id, enabled: true }).populate('products');
         return store;
     } catch (err) {
         console.log(err);
@@ -80,10 +91,10 @@ const getStoreById = async (id) => {
 
 const getStoreByName = async (name) => {
     try {
-       const nameRegex = new RegExp(name, 'i');
+        const nameRegex = new RegExp(name, 'i');
         const stores = await Store.find({
-            name: {$regex: nameRegex},
-            enabled: true 
+            name: { $regex: nameRegex },
+            enabled: true
         });
         return stores;
 
@@ -93,14 +104,10 @@ const getStoreByName = async (name) => {
     }
 };
 
-
-
-
-
 //Obtener tiendas filtradas por calificación
 const getStoresByFilter = async (minRating) => {
     try {
-        const filter = minRating ? { rating: { $gte: parseFloat(minRating) }, enabled: true } : {enabled: true};
+        const filter = minRating ? { rating: { $gte: parseFloat(minRating) }, enabled: true } : { enabled: true };
         const stores = await Store.find(filter);
 
         return stores;
@@ -108,7 +115,6 @@ const getStoresByFilter = async (minRating) => {
         console.log(err);
     }
 };
-
 
 // Crear una nueva tienda
 
@@ -139,7 +145,7 @@ const createStore = async (userIdentifier, name, address, rating, revenue, image
 const toggleEnabled = async (StoreId) => {
     try {
         const store = await Store.findById(StoreId);
-        
+
         if (!store) {
             console.log("tienda no encontrada");
             return;
@@ -163,8 +169,9 @@ module.exports = {
     getStoreByIdOrName,
     getStoresByFilter,
     createStore,
-    getStoreByName, 
+    getStoreByName,
     getStoreByUser,
     getStoreById,
-    toggleEnabled
+    toggleEnabled, 
+    getStoresEnabled
 };
