@@ -56,6 +56,7 @@ const App = () => {
   }, [userId, searchState])
 
   console.log(typeUser);
+  console.log('url de axios: ' + BACKEND_URL);
   console.log('info user: ' + userData);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
