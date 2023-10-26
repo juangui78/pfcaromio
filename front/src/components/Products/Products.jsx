@@ -30,9 +30,10 @@ import {
     }
     else {
 
-      const rute = storeId
-        ? `${BACKEND_URL}products/?storeid=${storeId}`
-        : `${BACKEND_URL}products`;
+      const rute = storeId === undefined
+        ? `${BACKEND_URL}products`
+        : `${BACKEND_URL}products/?storeid=${storeId}`
+        // : `${BACKEND_URL}products`;
 
       axios
         .get(rute)
@@ -46,6 +47,7 @@ import {
     }
   }, [dispatch, storeId, productsFromState]);
 
+  
   return (
     <Container>
       <CardsContainer>
