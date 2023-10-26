@@ -11,9 +11,10 @@ const getAllUsers = async () => {
 
 // Obtener un usuario por su ID
 const getUserById = async (userId) => {
+  
     try {
-        //return await User.findById(userId);
-        return await User.find({userIdentifier: userId});
+        if (userId.startsWith("user_")) return await User.findOne({userIdentifier: userId});
+        else return await User.findById(userId);
     } catch (err) {
         console.log(err);
     }

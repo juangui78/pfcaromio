@@ -29,7 +29,7 @@ import {
 } from './RestaurantsStyles'
 
 
-export default function Restaurants() {
+export default function Restaurants({ userData }) {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -42,7 +42,7 @@ export default function Restaurants() {
     const emailKeys = JSON.parse(localStorage.getItem('emailKeys'));
     const paymentData = JSON.parse(localStorage.getItem('paymentData'));
 
-    const [userData, setUserData] = useState(null);
+    // const [userData, setUserData] = useState(null);
     const [message, setMessage] = useState("");
     const [modalType, setModalType] = useState();
     const [keys, setKeys] = useState(emailKeys);
@@ -53,40 +53,39 @@ export default function Restaurants() {
         dialogRef.current.close();
     }
 
-
     const sendPaymentEmail = (e) => {
 
         let table = '<table style="border:1px solid #EEE; border-collapse:collapse; text-align:left; width:500px"><tr><thead>';
-        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px; width:50%">Item</th>'
-        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Cantidad</th>'
-        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Precio</th>';
-        table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Subtotal</th></tr></thead><tbody>';
-        cartDetails.items.forEach(item => {
-            table += `
-            <tr>
-              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.name}</td> 
-              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.quantity}</td> 
-              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price}</td>
-              <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price * item.quantity}</td>
-            </tr>
-          `;
-        });
-        table += `<tr> 
-                <th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px"" colspan=3>Total:</th>
-                <td style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px""> ${cartDetails.total}</td>
-            </tr><tbody>`;
-        table += '</table>';
-
-        const userName = userData ? userData.username : 'Apreciado cliente';
+          table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px; width:50%">Item</th>'
+         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Cantidad</th>'
+         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Precio</th>';
+         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Subtotal</th></tr></thead><tbody>';
+         cartDetails.items.forEach(item => {
+             table += `
+             <tr>
+               <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.name}</td> 
+               <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.quantity}</td> 
+               <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price}</td>
+               <td style="border:0px solid black; padding-left:10px; padding-right:10px">${item.price * item.quantity}</td>
+             </tr>
+           `;
+         });
+         table += `<tr> 
+                 <th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px"" colspan=3>Total:</th>
+                 <td style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px""> ${cartDetails.total}</td>
+             </tr><tbody>`;
+         table += '</table>';
+ 
+        const {username, email } = JSON.parse(localStorage.getItem('dataUser'));
+         
         const emailParams = {
             from_name: "Caro Mio Pizza",
-            to_name: userName,
+            to_name: username,
             message: "Te estamos enviando los detalles de la compra que realizaste.",
-
-            message_html: table
-
+            to: email,
+            message_html: table,
         }
-        console.log(emailParams);
+
         emailjs.send(emailKeys.EMAILJS_SERVICE_ID, emailKeys.EMAILJS_TEMPLATE_ID, emailParams, emailKeys.EMAILJS_PUBLIC_KEY)
             .then((result) => {
                 console.log(result.text);
@@ -98,18 +97,18 @@ export default function Restaurants() {
     const handleLoadAll = () => {
         dispatch(getRestaurants())
     }
-    
-    useEffect(() => {
 
+    useEffect(() => {
+        console.log('dataUser', userData);
         const currentParams = Object.fromEntries([...searchParams]);
 
-        axios.get(`${BACKEND_URL}users/${userId}`)
-            .then((data) => {
-                data && setUserData(data.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+        /*     axios.get(`${BACKEND_URL}users/${userId}`)
+               .then((data) => {
+                   data && setUserData(data.data)
+               })
+               .catch((error) => {
+                   console.log(error)
+               }); */
 
         if (currentParams.success) {
             dialogRef.current.showModal()
@@ -129,8 +128,10 @@ export default function Restaurants() {
 
         dispatch(getRestaurants());
         dispatch(getEmailKeys());
-
+        
     }, [dispatch, searchParams])
+
+    console.log('userData-rest:', JSON.stringify(userData));
 
     return (
         <>
@@ -154,8 +155,8 @@ export default function Restaurants() {
                 }
                 <Cards id="cards">
                     {
-                        restaurants?.map((restaurant) => (  
-                            
+                        restaurants?.map((restaurant) => (
+
                             <RestaurantCard
                                 key={restaurant._id}
                                 id={restaurant._id}

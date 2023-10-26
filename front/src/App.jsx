@@ -33,7 +33,7 @@ const App = () => {
 
   const { isSignedIn, userId } = useAuth()
   const { pathname } = useLocation();
-  const [userData, setUserData] = useState(null)
+  const [userData, setUserData] = useState({})
   const [typeUser, setTypeUser] = useState(null)
   const showProductDetails = useSelector((state) => state.modalProductDetails);
   const showCart = useSelector((state) => state.modalCart);
@@ -45,48 +45,53 @@ const App = () => {
   const showByBuyer = typeUser === 'Buyer' || !typeUser
 
   useEffect(() => {
-    userId && axios.get(`${BACKEND_URL}users/${userId}`)
-      .then(({ data }) => {
-        if (data.length > 0) {
-          setUserData(data[0])
-          setTypeUser(data[0].role);
-          console.log(data);
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
+    console.log('user Id:', userId);
+    if (userId) {
+      axios.get(`${BACKEND_URL}users/${userId}`)
+        .then(({ data }) => {
+            setUserData(data)
+            setTypeUser(data.role);
+            renderRestaurants()
+            localStorage.setItem('dataUser', JSON.stringify(data));
+        })
+        .catch((error) => {
+          console.log('Error:', error.message)
+        })
+    }
   }, [userId, searchState])
-  
-/*   console.log('url de axios: ' + BACKEND_URL);
-  console.log('info user: ' + userData);
 
- */
+  function renderRestaurants() {
+    if(showRestaurants) {
+      console.log(userData)
+      return <Restaurants userData={userData} />
+    }
+  }
+
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") &&  (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route
           path="/home"
           element={
-           
-              typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
-              typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
-              showByBuyer && 
-              <>
-                <Slide />
-                {
-                  showProducts && <Products />
-                }
-                {
-                  showRestaurants && <Restaurants />
-                }
-              </>
+
+            typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> ||
+            typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> ||
+            showByBuyer &&
+            <>
+              <Slide />
+              {
+                showProducts && <Products />
+              }
+              {
+               /*  showRestaurants && <Restaurants userData={userData}/> */
+               renderRestaurants()
+              }
+            </>
           }
         />
         <Route path="/products" element={<Products />} />
@@ -95,7 +100,7 @@ const App = () => {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
-  
+
       </Routes>
 
       <ProductDetails show={showProductDetails} />
