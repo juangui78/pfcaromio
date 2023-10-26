@@ -165,17 +165,7 @@ export default function RegisterForm() {
                                     <input type="file" name='image' onChange={handleChangeImage} />
                                 
                             </div>
-                            <div>
-                                <label className='labels'>Tu Logo:</label>
-                                <div className='last'>
-                                    {registerFormRestaurant.image && (
-                                        <img
-                                            src={registerFormRestaurant.image}
-                                            alt="Preview"
-                                        />
-                                    )}
-                                </div>
-              </div>
+                            
 
 
               <div className='inputSection'>
