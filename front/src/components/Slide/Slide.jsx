@@ -12,7 +12,7 @@ const promotions = [
   {id: 8, imageUrl: 'https://res.cloudinary.com/dfsjn09oo/image/upload/v1698018850/ulceceuehs40bq648jri.jpg'}
 ];
 
-const Slide = ({visible}) => {
+const Slide = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const intervalRef = useRef(null);
 
@@ -40,7 +40,7 @@ const Slide = ({visible}) => {
   }, []);
 
   return (
-    <div className="SliderContainer" style={{display: visible ? 'flex':'none'}}>
+    <div className="SliderContainer" >
       <div className="ArrowsContainer">
         <div className="ArrowLeft" onClick={goToPrevImage}>&#10094;</div>
         <div className="ArrowRight" onClick={goToNextImage}>&#10095;</div>

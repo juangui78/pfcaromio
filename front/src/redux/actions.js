@@ -31,8 +31,9 @@ import {
 import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-export const getProducts = (storeId) => {
-
+//const BACKEND_URL = 'http://localhost:3004/';
+export const getProducts = (id) => {
+    const storeId = id === undefined ? '' : id;
     return async function (dispatch) {
         try {
             const { data } = await axios.get(`${BACKEND_URL}products/?storeid=${storeId}`);
@@ -169,6 +170,34 @@ export const getStore = (id) => {
             return dispatch(
                 { type: GET_RESTAURANT, payload: data },
             )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const toggleStore = (storeId) => {
+    return async function (dispatch) {
+        try {
+            const { data } = await axios.put(`http://localhost:3004/stores/toggle/${storeId}`);
+            return data
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const toggleProduct = (productId) => {
+    return async function (dispatch) {
+        try {
+            const { data } = await axios.put(`http://localhost:3004/products/toggle/${productId}`);
+            return data
         }
         catch (error) {
             return dispatch(
