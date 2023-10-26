@@ -84,11 +84,8 @@ const App = () => {
                   showRestaurants && <Restaurants />
                 }
               </>
-  
-         
           }
         />
-
         <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct userData={userData} />}></Route>

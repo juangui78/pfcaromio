@@ -39,7 +39,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
     const [activeTab, setActiveTab] = useState('dataTable');
 
     useEffect(() => {
-        axios.get(`${BACKEND_URL}${userData.userIdentifier}`)
+        axios.get(`${BACKEND_URL}/stores/getstore/${userData.userIdentifier}`)
             .then(({ data }) => {
                 if (data) {
                     setCurrentStore(data)
@@ -63,10 +63,7 @@ const DashboardSeller = ({ userData, setUserData }) => {
                             <div><FaSearch /></div>
                         </Search>
                         <button onClick={() => setActiveTab("dataTable")}>Mis Productos</button>
-                      {/*   <button onClick={() => setActiveTab("misDatos")}>Mis Datos</button> */}
                         <button onClick={() => setActiveTab("createProduct")}>Crear Pizza</button>
-                        {/* <LinkA to='/createProduct'>Crear Pizza</LinkA> */}
-
                     </ButtonsSection>
                 </Header>
 

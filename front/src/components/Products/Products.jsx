@@ -16,7 +16,7 @@ import {
   Cards,
 } from './ProductsStyles';
 
-  const Products = () => {
+const Products = () => {
   const dispatch = useDispatch();
   const { storeId } = useParams();
   const productsFromState = useSelector((state) => state.products);
@@ -29,45 +29,45 @@ import {
       setProducts(productsFromState);
     }
     else {
+      console.log(storeId);
+      const rute = storeId === undefined
+        ? `${BACKEND_URL}products`
+        : `${BACKEND_URL}products/?storeid=${storeId}`
 
-      const rute = storeId
-        ? `${BACKEND_URL}products/?storeid=${storeId}`
-        : `${BACKEND_URL}products`;
-
-      axios
-        .get(rute)
-        .then((response) => {
-          setProducts(response.data);
-          dispatch(setProductsList(response.data));
-        })
-        .catch((error) => {
-          console.error('Error fetching products:', error);
-        });
+axios
+  .get(rute)
+  .then((response) => {
+    setProducts(response.data);
+    dispatch(setProductsList(response.data));
+  })
+  .catch((error) => {
+    console.error('Error fetching products:', error);
+  });
     }
   }, [dispatch, storeId, productsFromState]);
 
-  return (
-    <Container>
-      <CardsContainer>
-        <Title>
-          <h1>Lista de productos</h1>
-        </Title>
-        <Cards id="cards">
-          {products?.map((product) => (
-            <ProductCard
-              name={product.name}
-              price={product.price}
-              rating={product.rating}
-              image={product.image}
-              key={product._id}
-              id={product._id}
-            />
-          ))}
-        </Cards>
-      </CardsContainer>
-      <ReviewsStore />
-    </Container>
-  );
+return (
+  <Container>
+    <CardsContainer>
+      <Title>
+        <h1>Lista de productos</h1>
+      </Title>
+      <Cards id="cards">
+        {products?.map((product) => (
+          <ProductCard
+            name={product.name}
+            price={product.price}
+            rating={product.rating}
+            image={product.image}
+            key={product._id}
+            id={product._id}
+          />
+        ))}
+      </Cards>
+    </CardsContainer>
+    <ReviewsStore />
+  </Container>
+);
 };
 
 export default Products;
