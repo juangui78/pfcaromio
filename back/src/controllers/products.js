@@ -14,6 +14,17 @@ const getAllProducts = async (storeId) => {
     }
 };
 
+const getAllProductsEnabled = async (storeId) => {
+    try {
+        // await Products.updateMany({}, { $set: { enabled: true } }); // codigo para actualizar todos los productos a true.
+        const productsQuery = await storeId ? {$and: [{store: storeId}, {enabled: true}]} : { };
+        console.log(productsQuery)
+        return await Products.find(productsQuery);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 // Obtener todos los productos ordenados por su precio
 const getProductsSortedByPrice = async (order, storeId) => {
     try {
@@ -191,5 +202,6 @@ module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
-    toggleEnabled
+    toggleEnabled, 
+    getAllProductsEnabled
 };

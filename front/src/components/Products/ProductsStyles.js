@@ -14,8 +14,8 @@ export const CardsContainer = styled.div`
 export const Title = styled.header`
     display: flex;
     justify-content: center;
-    background-color: black;
-    color: white;
+   // background-color: black;
+    color: #333;
     margin-top: -19px;
     margin-bottom: 20px;
     height: 200px;

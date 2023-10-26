@@ -20,6 +20,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const { storeId } = useParams();
   const productsFromState = useSelector((state) => state.products);
+  const store = useSelector((state) => state.restaurantSelected);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -30,8 +31,8 @@ const Products = () => {
     else {
 
       const rute = storeId
-        ? `${BACKEND_URL}products/?storeid=${storeId}`
-        : `${BACKEND_URL}products`
+        ? `${BACKEND_URL}products/enabled/?storeid=${storeId}`
+        : `${BACKEND_URL}products/enabled`
 
       axios
         .get(rute)
@@ -44,24 +45,25 @@ const Products = () => {
         });
     }
   }, [dispatch, storeId, productsFromState]);
-  
+
   return (
     <Container>
       <CardsContainer>
         <Title>
-          <h1>Lista de productos</h1>
+          <h1>Lista de productos {store.name ? `de ${store.name}` : ''}</h1>
         </Title>
         <Cards id="cards">
-          {products?.map((product) => (
-            <ProductCard
-              name={product.name}
-              price={product.price}
-              rating={product.rating}
-              image={product.image}
-              key={product._id}
-              id={product._id}
-            />
-          ))}
+          {products?.map((product) => {
+            if (product.enabled) return (
+              <ProductCard
+                name={product.name}
+                price={product.price}
+                rating={product.rating}
+                image={product.image}
+                key={product._id}
+                id={product._id}
+              />)
+          })}
         </Cards>
       </CardsContainer>
       <ReviewsStore />

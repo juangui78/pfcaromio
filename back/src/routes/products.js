@@ -9,7 +9,8 @@ const {
     createProduct,
     updateProduct,
     deleteProduct,
-    toggleEnabled
+    toggleEnabled, 
+    getAllProductsEnabled
 } = require('../controllers/products');
 
 // Ruta para obtener todos los productos
@@ -19,6 +20,19 @@ router.get('/', async (req, res) => {
     try {
         console.log("Intenta traerlos")
         const products = await getAllProducts(storeId);
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching products' });
+    }
+});
+
+router.get('/enabled/', async (req, res) => {
+    const storeId = req.query.storeid;
+
+    try {
+        console.log("Intenta traerlos")
+        const products = await getAllProductsEnabled(storeId);
 
         res.status(200).json(products);
     } catch (error) {

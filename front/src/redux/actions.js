@@ -32,11 +32,30 @@ import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 //const BACKEND_URL = 'http://localhost:3004/';
+
 export const getProducts = (id) => {
     const storeId = id === undefined ? '' : id;
     return async function (dispatch) {
         try {
             const { data } = await axios.get(`${BACKEND_URL}products/?storeid=${storeId}`);
+
+            return dispatch(
+                { type: GET_PRODUCTS, payload: data },
+            )
+        }
+        catch (error) {
+            return dispatch(
+                { type: ERROR, payload: error.message }
+            )
+        }
+    }
+}
+
+export const getProductsEnabled = (id) => {
+    const storeId = id === undefined ? '' : id;
+    return async function (dispatch) {
+        try {
+            const { data } = await axios.get(`${BACKEND_URL}products/enabled/?storeid=${storeId}`);
 
             return dispatch(
                 { type: GET_PRODUCTS, payload: data },
