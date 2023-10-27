@@ -29,6 +29,18 @@ router.get('/get-email-keys', async (req, res) => {
     }
 });
 
+// Ruta para agregar una factura a los pedidos de un usuario y una tienda
+router.post('/add-invoice', async (req, res) => {
+    const { userIdentifier, storeId, invoice } = req.body;
+
+    try {
+        await addInvoiceToOrders(userIdentifier, storeId, invoice);
+        res.status(201).json({ message: 'Invoice added to user and store orders.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error adding the invoice to orders.' });
+    }
+});
+
 router.get('/successPayment', successPayment);
 
 module.exports = router;

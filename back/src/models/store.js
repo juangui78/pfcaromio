@@ -14,7 +14,8 @@ const storeSchema = new Schema({
     //aqui se relacionan los productos
     products: {type: Array},
     enabled: {type: Boolean, default: true},
-    reviews: {type: Array}
+    reviews: {type: Array},
+    orders: {type: Array},
 });
 
 const Store = mongoose.model('Store', storeSchema);
