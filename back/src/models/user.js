@@ -38,6 +38,7 @@ const userSchema = new Schema({
 
     store: { type: Schema.Types.ObjectId, ref: 'Store'},
     enabled: {type: Boolean, default: true},
+    reviews: {type: Array},
     orders: {type: Array},
     
   });
