@@ -4,7 +4,7 @@ import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth, UserButton } from '@clerk/clerk-react';
+import { useAuth, UserButton, useClerk } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
 // import 'animate.css';
 
@@ -41,6 +41,7 @@ import {
   FilterSection,
   FilterModal,
 } from './NavBarStyles';
+import LoginForm from '../Login/Login';
 
 //import './Navbar.css';
 
@@ -50,7 +51,7 @@ const Navbar = (props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { signOut } = useClerk();
   const { isSignedIn, userId } = useAuth()
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
@@ -75,7 +76,7 @@ const Navbar = (props) => {
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
   const [searchBy, setSearchBy] = useState('restaurante');
   const [search, setSearch] = useState('');
-
+  const [availabity, setAvailability] = useState('enabled')
   const store = useSelector(state => state.restaurantSelected);
 
   useEffect(() => {
@@ -287,6 +288,30 @@ const Navbar = (props) => {
     setSearch('');
     setSearchPerformed(true);
   }
+
+  // //se valida si esta inhabilitado para redireccionarlo
+  // const verifyStoreAvailibility = (userIdentifier) => {
+  //   axios(`${BACKEND_URL}getstore/${userIdentifier}`)
+  //     .then(({ data }) => {
+  //       const { enabled } = data;
+  //       setAvailability(enabled)
+  //     })
+  //     .catch((error) => {console.log('error al obtener estado de restaurante ' + error);})
+  // }
+
+  // verifyStoreAvailibility(userData?.userIdentifier)
+  // console.log(availabity);
+  // if (availabity === false) {
+  //   signOut(() => navigate('/home'))
+  //   Swal.fire({
+  //     title: 'Tu cuenta se encuentra inhabilitada por favor contacta a nuestro soporte. caromiopizza@gmail.com',
+  //     icon: 'warning',
+  //   })
+    
+  // }
+
+  console.log(userData);
+
   return (
     <NavBar>
       <div className='nav'>

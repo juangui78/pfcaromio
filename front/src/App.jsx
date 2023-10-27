@@ -71,7 +71,7 @@ const App = () => {
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/register") && (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") && (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>

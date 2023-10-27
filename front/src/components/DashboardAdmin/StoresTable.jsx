@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { IconContext } from "react-icons";
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import {
   TableContainer,
   Table,
@@ -16,6 +16,7 @@ import {
   Name,
   ButtonToggle
 } from './styles/tablesStyles';
+import axios from 'axios';
 
 let prevStores = null;
 
@@ -49,6 +50,12 @@ const StoresTable = ({ toggleStore, searchStore }) => {
 
     setStores(updatedStores);
     setStoresCopy(updatedCopy);
+  }
+
+  const handleToggleUsers = (userIdentifier) => {
+    axios.put(`http://localhost:3004/users/toggle/${userIdentifier}`)
+      .then(() => console.log('toggle user realizado'))
+      .catch(err => console.log('toggle no realizado' + err))
   }
 
   useEffect(() => {
@@ -99,7 +106,8 @@ const StoresTable = ({ toggleStore, searchStore }) => {
                     {store.enabled ? 'Activo' : 'Inactivo'}
                   </Td>
                   <Td>
-                    <ButtonToggle onClick={() => { handleToggle(store._id) }}>
+                    <ButtonToggle onClick={() => { handleToggle(store._id) 
+                      handleToggleUsers(store.userIdentifier)}}>
                       {store.enabled ?
                         <IconContext.Provider value={{ style: { color: 'green', width: '32px', height: '24px', strokeWidth: '1' } }} >
                           <FaToggleOn />
