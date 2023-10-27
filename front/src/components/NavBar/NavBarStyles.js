@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const formControl = css`
     background-color: transparent;
@@ -205,7 +205,7 @@ export const AlertContainer = styled.div`
 
 export const FilterByBtn = styled.button`
     background-color: transparent;
-    color:  ${(props) => props.disabled ? '#DDD': 'black'};
+    color:  ${(props) => props.disabled ? '#DDD' : 'black'};
     border: none;
     display: flex;
     align-items: center;
@@ -266,7 +266,7 @@ export const OrderByBtn = styled.div`
         text-align: center;
         background-color: transparent;
         cursor: pointer;
-        color:  ${(props) => props.disabled ? 'black': '#DDD'};
+        color:  ${(props) => props.disabled ? 'black' : '#DDD'};
 
     }
 
@@ -453,6 +453,19 @@ export const FilterModal = styled.dialog`
       }
       
       button.filterBtn {
+        background-color: green; 
+        color: white; 
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        &:hover {
+            background-color: #005400; 
+        }
+      }
+    
+      button.noFilterBtn {
         background-color: #808080; 
         color: white; 
         padding: 10px 20px;
@@ -460,10 +473,9 @@ export const FilterModal = styled.dialog`
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
-      }
-    
-      button.filterBtn:hover {
-        background-color: #555555; 
+        &:hover {
+            background-color: #555555; 
+        }
       }
 `;
 

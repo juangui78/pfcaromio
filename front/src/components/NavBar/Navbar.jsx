@@ -47,6 +47,8 @@ import {
 const BACKEND_URL = 'http://localhost:3004/';
 
 const Navbar = (props) => {
+  const { userData } = props;
+
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const location = useLocation();
@@ -67,16 +69,17 @@ const Navbar = (props) => {
   const searchInputRef = useRef(null);
   const searchSelectRef = useRef(null);
 
-  const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
-
-  const { userData } = props;
-
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
   const [searchBy, setSearchBy] = useState('restaurante');
   const [search, setSearch] = useState('');
 
+  const searchState = useSelector((state) => state.search);
+  //const searchBy = useSelector((state) => state.searchBy);
+  const showProducts = (searchState && searchBy === 'pizza') ? true : false;
+
   const store = useSelector(state => state.restaurantSelected);
+  const disableFilterBtn = location.pathname.startsWith('/products') || searchBy === 'pizza' || searchState;
 
   useEffect(() => {
     if (store.id) {
@@ -186,20 +189,36 @@ const Navbar = (props) => {
   };
 
   const applyFilters = () => {
-    //const { storeId } = useParams();
     const storeId = currentStore.id;
-    let filteredProducts = axios
-      .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
-      .then((response) => {
-        setProducts(response.data);
-        dispatch(setProductsList(response.data));
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
 
+      let filteredProducts = axios
+        .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data));
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+    
     setRatingFilter('');
     setPriceFilter('');
+    filtersRef.current.close();
+  }
+
+  const deleteFilters = () => {
+    const storeId = currentStore.id;
+
+      let filteredProducts = axios
+        .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data));
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+
     filtersRef.current.close();
   }
 
@@ -466,7 +485,8 @@ const Navbar = (props) => {
           </section>
           <menu>
             <button title='filterBtn' type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
-            <button title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
+            <button title='filterBtn' type="button" onClick={deleteFilters} className='noFilterBtn'>Quitar filtros</button>
+            <button title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cerrar</button>
           </menu>
         </form>
       </FilterModal>
