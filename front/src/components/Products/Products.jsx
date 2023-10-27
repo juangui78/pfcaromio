@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -18,6 +18,7 @@ import {
 } from './ProductsStyles';
 
 const Products = () => {
+  const topRef = useRef(null);
   const dispatch = useDispatch();
   const { storeId } = useParams();
   const productsFromState = useSelector((state) => state.products);
@@ -47,6 +48,12 @@ const Products = () => {
         });
     }
   }, [dispatch, storeId, productsFromState]);
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
   
   const handleSearch = (e) => {
     e.preventDefault();
@@ -58,7 +65,7 @@ const Products = () => {
 
   
   return (
-      <Container>
+      <Container ref={topRef}>
         <CardsContainer>
           <Title>
             <h1>Lista de productos {store.name ? `de ${store.name}` : ''}</h1>

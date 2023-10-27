@@ -333,48 +333,43 @@ const Navbar = (props) => {
 
         <div className='nav-input-search'>
         <form onSubmit={handleSearch}>
-            <div className="search">
-              <select
-                ref={searchSelectRef}
-                value={searchBy}
-                name="searchBy"
-                id="searchBy"
-                onChange={handleChange}
-              >
-                {location.pathname === '/home' ? (
-                  <option value="restaurante">Buscar restaurantes</option>
-                ) : (
-                  <option value="pizza">Buscar pizza</option>
-                )}
-              </select>
-              <input
-                ref={searchInputRef}
-                value={search}
-                type="search"
-                name="searchInput"
-                id="searchInput"
-                placeholder=""
-                onChange={handleSearchInputChange}
-              />
-              <button type="submit" id="submitSearch" title="buscar">
-                <FaSearch />
-              </button>
-            </div>
-            {!searchPerformed && suggestions.length > 0 && (
-              <SuggestionsContainer>
-                <ul>
-                  {suggestions.map((suggestion) => (
-                    <SuggestionItem
-                      key={suggestion._id}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                    >
-                      {suggestion.name}
-                    </SuggestionItem>
-                  ))}
-                </ul>
-              </SuggestionsContainer>
-            )}
-          </form>
+    <div className="search">
+      <div className="custom-select">
+        <p
+          className={location.pathname === '/home' ? 'selected' : ''}
+          onClick={() => setSearchBy('restaurante')}
+        >
+          Buscar restaurantes
+        </p>
+      </div>
+      <input
+        ref={searchInputRef}
+        value={search}
+        type="search"
+        name="searchInput"
+        id="searchInput"
+        placeholder=""
+        onChange={handleSearchInputChange}
+      />
+      <button type="submit" id="submitSearch" title="buscar">
+        <FaSearch />
+      </button>
+    </div>
+    {!searchPerformed && suggestions.length > 0 && (
+      <SuggestionsContainer>
+        <ul>
+          {suggestions.map((suggestion) => (
+            <SuggestionItem
+              key={suggestion._id}
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              {suggestion.name}
+            </SuggestionItem>
+          ))}
+        </ul>
+      </SuggestionsContainer>
+    )}
+  </form>
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
               <span>Filtrar por: </span>
