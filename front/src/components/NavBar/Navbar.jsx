@@ -314,7 +314,6 @@ const Navbar = (props) => {
     setSearchPerformed(true);
   }
 
-  console.log(userData);
   if (userData?.enabled === false) {
     signOut().then(() => {
       // La sesión se ha cerrado correctamente
