@@ -1,4 +1,45 @@
+
 import styled from 'styled-components';
+
+export const SearchBarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 40px;
+
+  input {
+    padding: 8px;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-left: 90px;
+    font-size: 16px;
+    outline: none;
+    background-color: #EEE;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #aaa;
+    }
+  }
+
+  button {
+    margin-top: 0px;
+    position: absolute;
+    padding: 7px 21px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 0px;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #999;
+    }
+  }
+`;
 
 export const Container = styled.div`
   
@@ -14,8 +55,8 @@ export const CardsContainer = styled.div`
 export const Title = styled.header`
     display: flex;
     justify-content: center;
-   // background-color: black;
-    color: #333;
+   background-color: black;
+    color: white;
     margin-top: -19px;
     margin-bottom: 20px;
     height: 200px;
@@ -99,8 +140,3 @@ export const SortButton = styled.button`
     background-color: #b98c02;
   }
 `;
-
-
-
-
-
