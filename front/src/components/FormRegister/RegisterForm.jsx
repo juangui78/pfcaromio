@@ -9,11 +9,18 @@ import { useAuth, useUser } from '@clerk/clerk-react'
 import validate from './validation';
 import Swal from 'sweetalert2'
 import styled from 'styled-components';
+import emailjs from '@emailjs/browser';
 export default function RegisterForm() {
 
   const { userId } = useAuth()
   const { user } = useUser()
   const navigate = useNavigate()
+  console.log(user);
+  
+  const username = user?.firstName;
+  const email = user?.primaryEmailAddress.emailAddress;
+  console.log(email);
+  const emailKeys = JSON.parse(localStorage.getItem('emailKeys'));
 
   const options = [
     { value: 'store', label: 'Restaurante' },
@@ -94,6 +101,24 @@ export default function RegisterForm() {
     }
   }
 
+  const sendWelcomeEmail = (e) => {
+
+    const emailParams = {
+        from_name: "Caro Mio Pizza",
+        to_name: username,
+        message: "Te damos la bienvenida a Caro mio Pizza!",
+        to: email,
+        message_html: ''
+    }
+
+    emailjs.send(emailKeys.EMAILJS_SERVICE_ID, emailKeys.EMAILJS_TEMPLATE_ID, emailParams, emailKeys.EMAILJS_PUBLIC_KEY)
+        .then((result) => {
+            console.log(result.text);
+        }, (error) => {
+            console.log(error.text);
+        });
+  }
+
   const createStore = async (registerFormRestaurant) => {
     try {
       const userInfo = {
@@ -114,13 +139,14 @@ export default function RegisterForm() {
         const createRestaurantUser = await axios.post(`${BACKEND_URL}users`, userInfo)
         Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
         console.log('store creada')
+        sendWelcomeEmail(true)
         return
       }
 
       console.log(userInfo);
       const create = await axios.post(`${BACKEND_URL}users`, userInfo)
       Swal.fire({title: 'Usuario Creado con Exito', icon: 'success'})
-      
+      sendWelcomeEmail(true)
       
       console.log('usuario creado')
 

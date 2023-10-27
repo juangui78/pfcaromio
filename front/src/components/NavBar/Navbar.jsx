@@ -4,7 +4,7 @@ import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth, UserButton } from '@clerk/clerk-react';
+import { useAuth, UserButton, useClerk } from '@clerk/clerk-react';
 import { Link, useLocation } from 'react-router-dom';
 // import 'animate.css';
 
@@ -41,6 +41,7 @@ import {
   FilterSection,
   FilterModal,
 } from './NavBarStyles';
+import LoginForm from '../Login/Login';
 
 //import './Navbar.css';
 
@@ -52,7 +53,7 @@ const Navbar = (props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { signOut } = useClerk();
   const { isSignedIn, userId } = useAuth()
   const [ratingFilter, setRatingFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
