@@ -8,6 +8,7 @@ const productSchema = new Schema({
     name: {type: String, required: true},
     price: {type: Number, required: true},
     rating: {type: Number, default: 0},
+    reviews: {type: Array},
     stock: {type: Number, default: 0},
     description: {type: String, minlength: 10, maxlength: 2000 },
     image: {type: String, required: false},

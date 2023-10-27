@@ -1,13 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const { createReview } = require('../controllers/reviews');
+const { 
+    createProductsReview,
+    createStoreReview 
+} = require('../controllers/reviews');
 
-// Ruta para crear una nueva review
-router.post('/', async (req, res) => {
-    const { description, rating, userId, storeId } = req.body;
+// Ruta para crear una nueva review de un producto
+router.post('/product', async (req, res) => {
+    const { userIdentifier, productId, rating, comment } = req.body;
 
     try {
-        const newReview = await createReview(description, rating, userId, storeId);
+        const newReview = await createProductsReview(userIdentifier, productId, rating, comment);
+        res.status(201).json(newReview);
+    } catch (error) {
+        res.status(500).json({ error: 'Error creating the review' });
+    }
+});
+
+// Ruta para crear una nueva review de una tienda
+router.post('/store', async (req, res) => {
+    const { userIdentifier, StoreId, rating, comment } = req.body;
+
+    try {
+        const newReview = await createStoreReview(userIdentifier, StoreId, rating, comment);
         res.status(201).json(newReview);
     } catch (error) {
         res.status(500).json({ error: 'Error creating the review' });

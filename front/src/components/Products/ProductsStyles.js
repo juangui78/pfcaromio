@@ -39,7 +39,24 @@ export const SearchBarContainer = styled.div`
       background-color: #999;
     }
   }
+  input[type='text'] {
+    width: 300px;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 7px 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #EEE;
+    color: black;
+  }
+  
 `;
+
 
 export const Container = styled.div`
   
@@ -140,3 +157,41 @@ export const SortButton = styled.button`
     background-color: #b98c02;
   }
 `;
+
+export const SuggestionsContainer = styled.div`
+  position: absolute;
+  top: 275px;
+  left: 90px;
+  width: 27%;
+  background: #fff;
+  border: 1px solid #000;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 1px;
+  padding: 3px;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+  transition: max-height 0.3s ease-in-out;
+`;
+
+export const SuggestionItem = styled.li`
+  list-style-type: none;
+  padding: 8px;
+  margin-left: -30px;
+  margin-right: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  display: flex; /* Usamos flexbox para que el elemento abarque todo el ancho */
+  align-items: center; /* Centramos verticalmente el contenido */
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+

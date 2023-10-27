@@ -74,6 +74,7 @@ const Navbar = (props) => {
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
   const [searchBy, setSearchBy] = useState('restaurante');
   const [search, setSearch] = useState('');
+  const disableSearch = location.pathname.startsWith('/products');
 
   const searchState = useSelector((state) => state.search);
   //const searchBy = useSelector((state) => state.searchBy);
@@ -276,15 +277,12 @@ const Navbar = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (location.pathname.startsWith('/products/') && search) {
-      // Lógica para buscar productos de la pizzería específica usando el storeId
-      // Puedes acceder al storeId desde la URL. Ejemplo: /products/1234
-      const storeId = location.pathname.split('/').pop(); // Obtiene el último segmento de la URL
+    if (location.pathname.startsWith('/products') && search) {
+      const storeId = location.pathname.split('/').pop();
       dispatch(searchProductsByStore(storeId, search));
       setSearch('');
       setSearchPerformed(true);
     } else if (search) {
-      // Lógica para buscar restaurantes
       dispatch(onSearchData(true, searchBy, search));
       setSearchBy('restaurante');
       setSearch('');
@@ -333,48 +331,44 @@ const Navbar = (props) => {
 
         <div className='nav-input-search'>
         <form onSubmit={handleSearch}>
-            <div className="search">
-              <select
-                ref={searchSelectRef}
-                value={searchBy}
-                name="searchBy"
-                id="searchBy"
-                onChange={handleChange}
-              >
-                {location.pathname === '/home' ? (
-                  <option value="restaurante">Buscar restaurantes</option>
-                ) : (
-                  <option value="pizza">Buscar pizza</option>
-                )}
-              </select>
-              <input
-                ref={searchInputRef}
-                value={search}
-                type="search"
-                name="searchInput"
-                id="searchInput"
-                placeholder=""
-                onChange={handleSearchInputChange}
-              />
-              <button type="submit" id="submitSearch" title="buscar">
-                <FaSearch />
-              </button>
-            </div>
-            {!searchPerformed && suggestions.length > 0 && (
-              <SuggestionsContainer>
-                <ul>
-                  {suggestions.map((suggestion) => (
-                    <SuggestionItem
-                      key={suggestion._id}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                    >
-                      {suggestion.name}
-                    </SuggestionItem>
-                  ))}
-                </ul>
-              </SuggestionsContainer>
-            )}
-          </form>
+    <div className="search">
+      <div className="custom-select">
+        <p
+          className={location.pathname === '/home' ? 'selected' : ''}
+          onClick={() => setSearchBy('restaurante')}
+        >
+          Buscar restaurantes
+        </p>
+      </div>
+      <input
+        ref={searchInputRef}
+        value={search}
+        type="search"
+        name="searchInput"
+        id="searchInput"
+        placeholder=""
+        onChange={handleSearchInputChange}
+        disabled={disableSearch} 
+      />
+      <button type="submit" id="submitSearch" title="buscar">
+        <FaSearch />
+      </button>
+    </div>
+    {!searchPerformed && suggestions.length > 0 && (
+      <SuggestionsContainer>
+        <ul>
+          {suggestions.map((suggestion) => (
+            <SuggestionItem
+              key={suggestion._id}
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              {suggestion.name}
+            </SuggestionItem>
+          ))}
+        </ul>
+      </SuggestionsContainer>
+    )}
+  </form>
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
               <span>Filtrar por: </span>
