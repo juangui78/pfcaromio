@@ -74,6 +74,7 @@ const Navbar = (props) => {
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
   const [searchBy, setSearchBy] = useState('restaurante');
   const [search, setSearch] = useState('');
+  const disableSearch = location.pathname.startsWith('/products');
 
   const searchState = useSelector((state) => state.search);
   //const searchBy = useSelector((state) => state.searchBy);
@@ -276,15 +277,12 @@ const Navbar = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (location.pathname.startsWith('/products/') && search) {
-      // Lógica para buscar productos de la pizzería específica usando el storeId
-      // Puedes acceder al storeId desde la URL. Ejemplo: /products/1234
-      const storeId = location.pathname.split('/').pop(); // Obtiene el último segmento de la URL
+    if (location.pathname.startsWith('/products') && search) {
+      const storeId = location.pathname.split('/').pop();
       dispatch(searchProductsByStore(storeId, search));
       setSearch('');
       setSearchPerformed(true);
     } else if (search) {
-      // Lógica para buscar restaurantes
       dispatch(onSearchData(true, searchBy, search));
       setSearchBy('restaurante');
       setSearch('');
@@ -350,6 +348,7 @@ const Navbar = (props) => {
         id="searchInput"
         placeholder=""
         onChange={handleSearchInputChange}
+        disabled={disableSearch} 
       />
       <button type="submit" id="submitSearch" title="buscar">
         <FaSearch />
