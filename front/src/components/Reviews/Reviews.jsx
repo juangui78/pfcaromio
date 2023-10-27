@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import './Reviews.css'
 import { Form } from 'react-router-dom';
 import Swal from 'sweetalert2';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import axios from 'axios';
-const { userId } = useAuth();
-const { storeId } = useParams();
+import { useAuth } from '@clerk/clerk-react'
+
 
 const Reviews = () => {
+  const { userId } = useAuth();
+  //console.log(userId);
+  const product = useSelector((state) => state.product);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
 
@@ -19,12 +23,21 @@ const Reviews = () => {
     setComment(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     // backend
     event.preventDefault()
     console.log(comment);
-    const { userId } = useAuth();
+    //const { userId } = useAuth();
     if (comment.length != 0) {
+      let reviewData = {
+
+        rating: rating,
+        comment: comment,
+        userIdentifier: userId,
+        productId: product._id
+      }
+      console.log(reviewData);
+      const newReview = await axios.post(`${BACKEND_URL}reviews/product`, reviewData);
       Swal.fire({
         title: 'Enviado.',
         icon: 'success'
