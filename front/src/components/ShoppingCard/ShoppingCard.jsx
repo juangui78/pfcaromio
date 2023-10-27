@@ -2,6 +2,7 @@ import { IconContext } from "react-icons";
 import { FaTimesCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { React, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import ItemCart from '../ItemCart/ItemCart';
 
@@ -20,7 +21,19 @@ const Message = ({ message }) => (
     </section>
 );
 
-const ShoppingCard = () => {
+
+const ShoppingCard = ({ show, userData }) => {
+
+    const navigate = useNavigate();
+
+    const handleLogin = () => {
+        navigate('/login')
+        dispatch(closeCart())
+    }
+    const handleRegister = () => {
+        navigate('/register')
+        dispatch(closeCart())
+    }
 
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
@@ -49,6 +62,7 @@ const ShoppingCard = () => {
 
         if (paymentUrl) {
             window.location.replace(paymentUrl);
+
         }
     }, [paymentUrl])
 
@@ -58,7 +72,7 @@ const ShoppingCard = () => {
             <Container $right={showCart ? "0%" : "-35%"}>
 
                 <Header>
-                    <Title>Tu carrito</Title>
+                    <Title>Tu carrito </Title>
                     <CloseButton onClick={() => dispatch(closeCart())}>
                         <IconContext.Provider value={{ style: { color: 'black', width: '24px', height: '24px', padding: '0' } }} >
                             <FaTimesCircle />
@@ -90,9 +104,8 @@ const ShoppingCard = () => {
 
                 <Totales style={{ display: itemsCount ? '' : 'none' }}>
                     {
-                        cartDetails && 
+                        cartDetails &&
                         <>
-                            {/* <li>{`Subtotal: $ ${parseFloat(cartDetails.subtotal).toFixed(2)}`} </li> */}
                             <Total><strong>{`Total a pagar: $ ${parseFloat(cartDetails.total).toFixed(2)}`}</strong></Total>
                         </>
                     }
@@ -100,8 +113,29 @@ const ShoppingCard = () => {
 
                 <Footer style={{ display: itemsCount ? 'flex' : 'none' }}>
                     <ButtonClear onClick={() => dispatch(clearCart())}> Vaciar carrito</ButtonClear>
-                    <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
+                    {
+                        userData?._id && <ButtonPay onClick={handlePayment}> Ir a pagar</ButtonPay>
+                    }
                 </Footer>
+                {
+                    !userData?._id &&
+                    <NoLoging>
+                        <CardWarning>
+                            <span>
+                                Debes estar logeado o registrado para hacer una compra.
+                            </span>
+                            <span>
+                                Que quieres hacer?
+                            </span>
+                            <Footer style={{ background: 'transparent', borderTop: '0px' }}>
+                                <ButtonPay onClick={() => handleLogin()}> Ingresar </ButtonPay>
+                                <ButtonStart onClick={() => handleRegister()}> Registrame</ButtonStart>
+                            </Footer>
+
+                        </CardWarning>
+
+                    </NoLoging>
+                }
 
             </Container>
 
@@ -110,6 +144,26 @@ const ShoppingCard = () => {
 }
 
 export default ShoppingCard
+
+const NoLoging = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+`;
+
+const CardWarning = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #fbe3e3c6;
+    border: 1px solid red;
+    border-radius: 8px;
+    padding: 0.5rem;
+    color:red;
+    font-weight: bold;
+`;
 
 const Body = styled.div`
     background-color: white;

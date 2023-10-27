@@ -11,8 +11,10 @@ const getAllUsers = async () => {
 
 // Obtener un usuario por su ID
 const getUserById = async (userId) => {
+  
     try {
-        return await User.findById(userId);
+        if (userId.startsWith("user_")) return await User.findOne({userIdentifier: userId});
+        else return await User.findById(userId);
     } catch (err) {
         console.log(err);
     }
@@ -45,8 +47,29 @@ const createUser = async (username, email, age, role, userIdentifier) => {
     }
 };
 
+const toggleEnabled = async (userIdentifier) => {
+    try {
+        const user = await User.findOne({ userIdentifier: userIdentifier })
+
+        if (!user) {
+            console.log("usuario no encontrado");
+            return;
+        }
+
+        user.enabled = !user.enabled;
+
+        await user.save();
+
+        console.log(`'enabled' para el usuario ${userIdentifier} ha sido cambiado a ${user.enabled}`);
+        return user
+    } catch (error) {
+        console.error('Error al cambiar el estado de "enabled":', error);
+    }
+};
+
 module.exports = { 
     getAllUsers,
     getUserById,
-    createUser 
+    createUser,
+    toggleEnabled 
 };

@@ -28,7 +28,7 @@ import {
     LastHead,
     HeadImg,
 
-} from './DashboardSellerStyles';
+} from './styles/adminStyles';
 
 export const DataTable = ({ visible, productsData, setProductData, setActiveTab, setProductsList }) => {
 

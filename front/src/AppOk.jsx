@@ -5,8 +5,6 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
-
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import LoginForm from './components/Login/Login'
 import Slide from './components/Slide/Slide';
@@ -26,7 +24,6 @@ import DashboardSeller from './components/DashboardSeller/DashboardSeller';
 import DashboardAdmin from './components/DashboardAdmin/DashboardAdmin';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-//const BACKEND_URL = 'http://localhost:3004/';
 
 // REEMPLAZAR URL de VITE
 //import MyRestaurant from './components/MiRestaurante/MiRestaurante';
@@ -35,7 +32,7 @@ const App = () => {
 
   const { isSignedIn, userId } = useAuth()
   const { pathname } = useLocation();
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState(null)
   const [typeUser, setTypeUser] = useState(null)
   const showProductDetails = useSelector((state) => state.modalProductDetails);
   const showCart = useSelector((state) => state.modalCart);
@@ -44,79 +41,64 @@ const App = () => {
   const searchBy = useSelector((state) => state.searchBy);
   const showRestaurants = (!searchState || (searchState && searchBy === 'restaurante')) ? true : false;
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
-  const showByBuyer = typeUser === 'Buyer' || !typeUser
-  const [searchParams, setSearchParams] = useSearchParams();
-  
+  console.log(userId);
   useEffect(() => {
-    const currentParams = Object.fromEntries([...searchParams]);
-   
-    if(currentParams.update) {
-      setSearchParams();
-      window.location.reload()
-    }
+    userId && axios.get(`${BACKEND_URL}users/${userId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          setUserData(data[0])
+          setTypeUser(data[0].role);
+          console.log(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
-    //console.log('user Id:', userId);
-    if (userId) {
-      
-      axios.get(`${BACKEND_URL}users/${userId}`)
-        .then(({ data }) => {
-          setUserData(data)
-          setTypeUser(data.role);
-          renderRestaurants()
-          localStorage.setItem('dataUser', JSON.stringify(data));
-        })
-        .catch((error) => {
-          console.log('Error:', error.message)
-        })
-    }
   }, [userId, searchState])
 
- // localStorage.getItem('dataUser');
-
-  function renderRestaurants() {
-    if (showRestaurants) {
-      //console.log(userData)
-      return <Restaurants userData={userData} />
-    }
-  }
-
+  console.log(typeUser);
+  console.log('info user: ' + userData);
   return (
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/register" && pathname !== "/registerForm") && (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/registerForm") &&  (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route
           path="/home"
           element={
-
-            typeUser === 'Seller' && <DashboardSeller userData={userData} setUserData={setUserData} /> ||
-            typeUser === 'Admin' && <DashboardAdmin userData={userData} setUserData={setUserData} /> ||
-            showByBuyer &&
-            <>
-              <Slide />
-              {
-                showProducts && <Products />
-              }
-              {
-                renderRestaurants()
-              }
-            </>
+           
+              typeUser === 'Admin' && <DashboardSeller userData={userData} setUserData={setUserData} /> || 
+              typeUser === 'Seller' && <DashboardAdmin userData={userData} setUserData={setUserData} /> || 
+              typeUser === 'Buyer' || !typeUser &&
+              <>
+                <Slide />
+                {
+                  showProducts && <Products />
+                }
+                {
+                  showRestaurants && <Restaurants />
+                }
+              </>
+  
+         
           }
         />
+
         <Route path="/products" element={<Products />} />
         <Route path="/products/:storeId" element={<Products />} />
         <Route path='/createproduct' element={<CreateProduct userData={userData} />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/registerForm' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
-
+  
       </Routes>
 
       <ProductDetails show={showProductDetails} />
-      <ShoppingCard show={showCart} userData={userData} />
+      <ShoppingCard show={showCart} />
 
     </div>
   );
