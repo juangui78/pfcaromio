@@ -45,7 +45,7 @@ export default function Restaurants({ userData }) {
     // const [userData, setUserData] = useState(null);
     const [message, setMessage] = useState("");
     const [modalType, setModalType] = useState();
-    const [keys, setKeys] = useState(emailKeys);
+    //const [keys, setKeys] = useState(emailKeys);
     const dialogRef = useRef(null);
 
     const closeDialog = () => {
@@ -102,7 +102,7 @@ export default function Restaurants({ userData }) {
     }
 
     useEffect(() => {
-        console.log('dataUser', userData);
+       // console.log('dataUser', userData);
         const currentParams = Object.fromEntries([...searchParams]);
 
         /*     axios.get(`${BACKEND_URL}users/${userId}`)
@@ -133,8 +133,6 @@ export default function Restaurants({ userData }) {
         dispatch(getEmailKeys());
 
     }, [dispatch, searchParams])
-
-    console.log('userData-rest:', JSON.stringify(userData));
 
     return (
         <>
