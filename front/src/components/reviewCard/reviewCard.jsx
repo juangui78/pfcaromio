@@ -2,7 +2,7 @@ import React from 'react';
 import style from "./rCard.module.css";
 
 
-const rCard = (nombre, rating, comentario) => {
+const ReviewCard = (nombre, calificacion, comentario) => {
     
     // Se muestra nombre,calificacion y comentario
     return (
@@ -11,8 +11,8 @@ const rCard = (nombre, rating, comentario) => {
             <ReviewItem>
                 <Details>
                     <Name>{nombre}</Name>
-                    <Rating>⭐{rating}</Rating>
-                    <Comment>{{comentario}}</Comment>
+                    <Rating>⭐{calificacion}</Rating>
+                    <Comment>{comentario}</Comment>
                 </Details>
             </ReviewItem>
         </CardContainer>
@@ -24,4 +24,4 @@ const rCard = (nombre, rating, comentario) => {
 
 }
 
-export default rCard;
+export default ReviewCard;
