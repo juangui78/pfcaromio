@@ -41,7 +41,7 @@ export default function RegisterForm() {
   })
 
   useEffect(() => {
-    setImage(null)
+    setImage(null)  
   }, [])
   //se crea el estado que tendrá la imagen temporalmente y el de la URL  
   const [currentImage, setCurrentImage] = useState();
@@ -87,7 +87,7 @@ export default function RegisterForm() {
     // Se valida que no haya ningun error en el form
     if (!hasErrors) {
       createStore(registerFormRestaurant)
-      navigate('/home')
+      navigate('/home/update')
 
     } else {
       Swal.fire({ title: 'Error. Por favor rellena bien los campos de tu Restaurante', icon: 'error' })
@@ -112,16 +112,16 @@ export default function RegisterForm() {
         console.log(userInfo);
         const create = await axios.post(`${BACKEND_URL}stores`, registerFormRestaurant)
         const createRestaurantUser = await axios.post(`${BACKEND_URL}users`, userInfo)
-        Swal.fire({title: 'Tienda Creada con Exito', icon: 'success'})
+        Swal.fire({ title: 'Tienda Creada con Exito', icon: 'success' })
         console.log('store creada')
         return
       }
 
       console.log(userInfo);
       const create = await axios.post(`${BACKEND_URL}users`, userInfo)
-      Swal.fire({title: 'Usuario Creado con Exito', icon: 'success'})
-      
-      
+      Swal.fire({ title: 'Usuario Creado con Exito', icon: 'success' })
+
+
       console.log('usuario creado')
 
 
@@ -160,13 +160,9 @@ export default function RegisterForm() {
 
 
               <div>
-                                <label className='labels'>Imagen de tu Restaurante:</label>
-                               
-                                    <input type="file" name='image' onChange={handleChangeImage} />
-                                
-                            </div>
-                            
-
+                <label className='labels'>Imagen de tu Restaurante:</label>
+                <input type="file" name='image' onChange={handleChangeImage} />
+              </div>
 
               <div className='inputSection'>
                 <label>Rating: </label>

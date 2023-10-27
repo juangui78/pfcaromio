@@ -69,7 +69,8 @@ const getStoreByIdOrName = async (identifier) => {
 const getStoreByUser = async (id) => {
     try {
 
-        const store = await Store.findOne({ userIdentifier: id, enabled: true }).populate('products');
+        //const store = await Store.findOne({ userIdentifier: id, enabled: true }).populate('products');
+        const store = await Store.findOne({ userIdentifier: id }).populate('products');
 
         return store;
     } catch (err) {

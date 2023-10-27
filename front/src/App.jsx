@@ -5,6 +5,8 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuth, UserButton } from '@clerk/clerk-react';
 import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/"
 import LoginForm from './components/Login/Login'
 import Slide from './components/Slide/Slide';
@@ -43,10 +45,19 @@ const App = () => {
   const showRestaurants = (!searchState || (searchState && searchBy === 'restaurante')) ? true : false;
   const showProducts = (searchState && searchBy === 'pizza') ? true : false;
   const showByBuyer = typeUser === 'Buyer' || !typeUser
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   useEffect(() => {
+    const currentParams = Object.fromEntries([...searchParams]);
+   
+    if(currentParams.update) {
+      setSearchParams();
+      window.location.reload()
+    }
+
     console.log('user Id:', userId);
     if (userId) {
+      
       axios.get(`${BACKEND_URL}users/${userId}`)
         .then(({ data }) => {
           setUserData(data)
@@ -60,6 +71,8 @@ const App = () => {
     }
   }, [userId, searchState])
 
+ // localStorage.getItem('dataUser');
+
   function renderRestaurants() {
     if (showRestaurants) {
       console.log(userData)
@@ -71,7 +84,7 @@ const App = () => {
     <div id="app" className='home-container' style={{ height: '100vh' }}>
 
       {
-        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/register") && (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
+        (pathname !== "/" && pathname !== "/createProduct" && pathname !== "/login" && pathname !== "/register" && pathname !== "/registerForm") && (<NavBar userData={userData} />) // ! Cambiar typeUser, comparar con "Admin"
       }
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
