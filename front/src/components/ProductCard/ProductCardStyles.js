@@ -119,7 +119,7 @@ export const LinkCard = styled.button`
     margin-top: 0.3rem;
     &:hover{
         color: white;
-        background-color: #333;
+        background-color: #731602;
 
     }
 `;

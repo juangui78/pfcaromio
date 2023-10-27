@@ -36,7 +36,10 @@ const userSchema = new Schema({
       required: true,
     },
 
-    store: { type: Schema.Types.ObjectId, ref: 'Store'}
+    store: { type: Schema.Types.ObjectId, ref: 'Store'},
+    enabled: {type: Boolean, default: true},
+    reviews: {type: Array},
+    orders: {type: Array},
     
   });
 

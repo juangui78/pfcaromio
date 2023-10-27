@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUserById, createUser } = require('../controllers/users');
+const { getAllUsers, getUserById, createUser, toggleEnabled } = require('../controllers/users');
 
 // Ruta para obtener todos los usuarios
 router.get('/', async (req, res) => {
@@ -40,6 +40,21 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Ruta para alternar el estado "enabled" de un usuario
+router.put('/toggle/:userIdentifier', async (req, res) => {
+    const userIdentifier = req.params.userIdentifier;
+    console.log('entro');
+    try {
+        const user = await toggleEnabled(userIdentifier);
 
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al cambiar el estado "enabled" del usuario' });
+    }
+});
 
 module.exports = router;

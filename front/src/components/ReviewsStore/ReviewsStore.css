@@ -8,14 +8,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid orange;
-
+  border: 1px solid rgb(255, 255, 255);
 }
 
+
 .ReviewsContainer h1{
-  font-size: 28px;
+  font-size: 38px;
   color:orange;
-  text-align: center;
+  text-align: left;
 }
 
 .ReviewsContainer button {
@@ -44,11 +44,16 @@
   border-radius: 8px; /* Ajustado el radio del borde */
   border: 1px solid #ccc;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .ReviewsContainer .ratingSelect {
-  margin-top: 20px;
-  margin-left: 3px;
+  margin-top: 2px;
+  width: 100%;
+  text-align: left;
+  font-weight: 500;
+  margin-left: 5px;
+  font-size: 18px;
 }
 
 .ReviewsContainer .ratingSelect .text {
@@ -56,12 +61,16 @@
 }
 
 .ReviewsContainer .commentContainer {
-  margin-top: 10px;
-  margin-left: 3px;
+  margin-top: 1px;
 }
 
 .ReviewsContainer .commentContainer .text {
   color: #000000;
+  text-align: left;
+  margin-left: 5px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .star {
@@ -75,8 +84,11 @@
 .rating{
   color: black;
 }
+
 .buttonContainer{
+  margin-left: -15px;
   padding: 1rem;
   width: 100%;
-  text-align: center;
+  text-align: left;
+  box-sizing: border-box;
 }

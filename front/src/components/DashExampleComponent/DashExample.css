@@ -1,7 +1,7 @@
-.login-section {
+.downText {
     display: flex;
-    width: 100%;
     justify-content: center;
     align-items: center;
+    padding: 40px;
     height: 100vh;
 }

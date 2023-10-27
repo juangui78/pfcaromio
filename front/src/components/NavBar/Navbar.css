@@ -1,6 +1,21 @@
 .swal-overlay {
   z-index: 19999;
-  margin-top: 138px;
+  margin-top: 143px;
   margin-left: 370px;
+}
+
+/* .nav-btn-user-container {
+  padding-top: 6px;
+} */
+
+.custom-select {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.custom-select p {
+  margin-left: 20px; 
+  font-size: 14px;
+  cursor: pointer;
 }
 

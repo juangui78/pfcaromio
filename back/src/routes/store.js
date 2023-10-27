@@ -7,13 +7,26 @@ const {
     getStoreByIdOrName,
     getStoresByFilter,
     createStore,
-    getStoreByName
+    getStoreByName, 
+    getStoreByUser,
+    getStoreById,
+    toggleEnabled,
+    getStoresEnabled
     } = require('../controllers/store');
 
 // Ruta para obtener todas las tiendas
 router.get('/', async (req, res) => {
     try {
         const stores = await getStores();
+        res.status(200).json(stores);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching stores' });
+    }
+});
+
+router.get('/enabled', async (req, res) => {
+    try {
+        const stores = await getStoresEnabled();
         res.status(200).json(stores);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching stores' });
@@ -71,6 +84,35 @@ router.get('/:storeIdOrName', async (req, res) => {
     }
 });
 
+router.get('/getstore/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const store = await getStoreByUser(id);
+        if (!store) {
+            res.status(404).json({ error: 'Store not found' });
+        } else {
+            res.status(200).json(store);
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching store' });
+    }
+});
+
+router.get('/getstore-id/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const store = await getStoreById(id);
+        if (!store) {
+            res.status(404).json({ error: 'Store not found' });
+        } else {
+            res.status(200).json(store);
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching store' });
+    }
+});
+
 router.get('/search/:storeName', async (req, res) => {
     const storeName = req.params.storeName;
 
@@ -98,6 +140,23 @@ router.post('/', async (req, res) => {
         
     } catch (error) {
         res.status(500).json({ error: 'Error creating the store' });
+    }
+});
+
+// Ruta para alternar el estado "enabled" de una tienda
+router.put('/toggle/:storeId', async (req, res) => {
+    const storeId = req.params.storeId;
+
+    try {
+        const store = await toggleEnabled(storeId);
+
+        if (!store) {
+            return res.status(404).json({ error: 'Tienda no encontrada' });
+        }
+
+        res.status(200).json(store);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al cambiar el estado "enabled" de la tienda' });
     }
 });
 

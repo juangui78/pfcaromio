@@ -52,7 +52,7 @@ const ProductDetails = ({ show }) => {
               <Description>
                 <Name>{product.name}</Name>
                 <Summary>{product.description}</Summary>
-                <Price>{product.price}$ Dólares</Price>
+                <Price>{product.price}$ USD</Price>
                 <Footer>
                   <Button onClick={handleAddItem}>Agregar al carrito</Button>
                 </Footer>

@@ -5,6 +5,8 @@ import {
     SET_PRODUCTS,
     GET_RESTAURANTS,
     GET_RESTAURANT,
+    GET_SUGGESTIONS,
+    SEARCH_PRODUCTS_BY_STORE,
     GET_RESTAURANTS_BY_NAME,
     FILTER_PRODUCTS_BY_NAME,
     FILTER_RESTAURANTS_BY_NAME,
@@ -25,10 +27,12 @@ import {
     CREATE_CHECKOUT,
     GET_EMAIL_KEYS,
     SET_SEARCH,
+    GET_STORE,
 
 } from './actionsTypes';
 
 const initialState = {
+    suggestions: [],
     filteredProducts: [], // Lista filtrada de productos
     filteredRestaurants: [], // Lista filtrada de restaurantes
     filterByRating: null,
@@ -36,8 +40,10 @@ const initialState = {
     product: {},
     modalProductDetails: false,
     modalCart: false,
+    productsByStoreID: [],
     restaurants: [], // * stores
     restaurantSelected: {},
+    currentStore: {},
     paymentUrl: null,
     paymentData: null,
     emailKeys: {},
@@ -81,10 +87,27 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case GET_RESTAURANT:
-
             return {
                 ...state,
                 restaurantSelected: payload,
+            }
+        case SEARCH_PRODUCTS_BY_STORE:
+        const storeID = payload; 
+        const productsByStoreID = state.products.filter(product => product.storeID === storeID);
+        return {
+            ...state,
+            productsByStoreID: productsByStoreID,
+        };
+        case GET_SUGGESTIONS:
+            return {
+                ...state,
+                suggestions: payload, // Almacena las sugerencias en el estado.
+            }
+            
+        case GET_STORE:
+            return {
+                ...state,
+                currentStore: payload,
             }
 
         case FILTER_PRODUCTS_BY_NAME:
@@ -364,6 +387,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 return {
                     ...state,
                     search: false,
+                    restaurants: data,
                 }
 
         default:
