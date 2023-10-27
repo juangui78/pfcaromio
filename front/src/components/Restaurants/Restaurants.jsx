@@ -53,7 +53,6 @@ export default function Restaurants({ userData }) {
         dialogRef.current.close();
     }
 
-    
     const sendPaymentEmail = (e) => {
         
         // ! table: Variable con plantilla para el mail notificando al cliente la compra.....
