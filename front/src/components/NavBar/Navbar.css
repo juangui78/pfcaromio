@@ -7,3 +7,15 @@
 /* .nav-btn-user-container {
   padding-top: 6px;
 } */
+
+.custom-select {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.custom-select p {
+  margin-left: 20px; 
+  font-size: 14px;
+  cursor: pointer;
+}
+
