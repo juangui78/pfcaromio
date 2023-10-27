@@ -314,6 +314,28 @@ const Navbar = (props) => {
     setSearchPerformed(true);
   }
 
+  console.log(userData);
+  if (userData?.enabled === false) {
+    signOut().then(() => {
+      // La sesión se ha cerrado correctamente
+      // Puedes realizar acciones adicionales, como redirigir a la página de inicio
+      Swal.fire({
+        title: 'Su cuenta ha sido desactivada, por favor comunicate con nuestro soporte. caromiopizza@gmail.com',
+        icon: 'error'
+      })
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 4500);
+      
+    
+      
+    }).catch(error => {
+      // Si hay un error al cerrar la sesión, puedes manejarlo aquí
+      console.error('Error al cerrar sesión:', error);
+    });
+    
+  }
 
   return (
     <NavBar>
