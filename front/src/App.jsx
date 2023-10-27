@@ -55,7 +55,7 @@ const App = () => {
       window.location.reload()
     }
 
-    console.log('user Id:', userId);
+    //console.log('user Id:', userId);
     if (userId) {
       
       axios.get(`${BACKEND_URL}users/${userId}`)
@@ -75,7 +75,7 @@ const App = () => {
 
   function renderRestaurants() {
     if (showRestaurants) {
-      console.log(userData)
+      //console.log(userData)
       return <Restaurants userData={userData} />
     }
   }

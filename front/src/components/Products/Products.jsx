@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
+import rCard from '../reviewCard/reviewCard';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -158,6 +159,7 @@ const Products = () => {
         </Cards>
       </CardsContainer>
       <ReviewsStore />
+      <rCard />
     </Container>
   );
 };

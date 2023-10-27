@@ -25,7 +25,7 @@ const createProductsReview = async (userIdentifier, productId, rating, comment) 
 
         const user = await User.findOne({userIdentifier})
         user.reviews.push(newReview);
-        await User.save();
+        await user.save();
 
         return newReview;
     } catch (error) {
@@ -54,7 +54,7 @@ const createStoreReview = async (userIdentifier, StoreId, rating, comment) => {
 
         const user = await User.findOne({userIdentifier})
         user.reviews.push(newReview);
-        await User.save();
+        await user.save();
 
         return newReview;
     } catch (error) {
