@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import './Reviews.css'
 import { Form } from 'react-router-dom';
 import Swal from 'sweetalert2';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import axios from 'axios';
+const { userId } = useAuth();
+const { storeId } = useParams();
+
 const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -18,10 +23,12 @@ const Reviews = () => {
     // backend
     event.preventDefault()
     console.log(comment);
+    const { userId } = useAuth();
     if (comment.length != 0) {
       Swal.fire({
         title: 'Enviado.',
-        icon: 'success',
+        icon: 'success'
+        
     })
       setComment("");
       setRating(0);

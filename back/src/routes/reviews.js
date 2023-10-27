@@ -20,7 +20,8 @@ router.post('/product', async (req, res) => {
 // Ruta para crear una nueva review de una tienda
 router.post('/store', async (req, res) => {
     const { userIdentifier, StoreId, rating, comment } = req.body;
-
+    //console.log("Entro a la ruta");
+    //console.log(userIdentifier);
     try {
         const newReview = await createStoreReview(userIdentifier, StoreId, rating, comment);
         res.status(201).json(newReview);
