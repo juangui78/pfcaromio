@@ -49,10 +49,10 @@ const App = () => {
     if (userId) {
       axios.get(`${BACKEND_URL}users/${userId}`)
         .then(({ data }) => {
-            setUserData(data)
-            setTypeUser(data.role);
-            renderRestaurants()
-            localStorage.setItem('dataUser', JSON.stringify(data));
+          setUserData(data)
+          setTypeUser(data.role);
+          renderRestaurants()
+          localStorage.setItem('dataUser', JSON.stringify(data));
         })
         .catch((error) => {
           console.log('Error:', error.message)
@@ -61,7 +61,7 @@ const App = () => {
   }, [userId, searchState])
 
   function renderRestaurants() {
-    if(showRestaurants) {
+    if (showRestaurants) {
       console.log(userData)
       return <Restaurants userData={userData} />
     }
@@ -88,8 +88,7 @@ const App = () => {
                 showProducts && <Products />
               }
               {
-               /*  showRestaurants && <Restaurants userData={userData}/> */
-               renderRestaurants()
+                renderRestaurants()
               }
             </>
           }

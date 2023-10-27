@@ -11,7 +11,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css'
 import CartBtn from '../CartBtn/CartBtn';
 //import SearchBar from '../SearchBar/SearchBar';
-import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData, getSuggestions } from '../../redux/actions';
+import { orderByName, sortedByRating, filterByRating, setProductsList, onSearchData, getSuggestions, searchProductsByStore} from '../../redux/actions';
 
 import { IconContext } from "react-icons";
 
@@ -45,9 +45,11 @@ import LoginForm from '../Login/Login';
 
 //import './Navbar.css';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = 'http://localhost:3004/';
 
 const Navbar = (props) => {
+  const { userData } = props;
+
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,16 +70,17 @@ const Navbar = (props) => {
   const searchInputRef = useRef(null);
   const searchSelectRef = useRef(null);
 
-  const disableFilterBtn = location.pathname.startsWith('/products') || location.pathname.startsWith('/myRestaurant');
-
-  const { userData } = props;
-
   const [sortOrder, setSortOrder] = useState('desc');
   const [priceSortOrder, setPriceSortOrder] = useState('asc');
   const [searchBy, setSearchBy] = useState('restaurante');
   const [search, setSearch] = useState('');
-  const [availabity, setAvailability] = useState('enabled')
+
+  const searchState = useSelector((state) => state.search);
+  //const searchBy = useSelector((state) => state.searchBy);
+  const showProducts = (searchState && searchBy === 'pizza') ? true : false;
+
   const store = useSelector(state => state.restaurantSelected);
+  const disableFilterBtn = location.pathname.startsWith('/products') || searchBy === 'pizza' || searchState;
 
   useEffect(() => {
     if (store.id) {
@@ -187,20 +190,36 @@ const Navbar = (props) => {
   };
 
   const applyFilters = () => {
-    //const { storeId } = useParams();
     const storeId = currentStore.id;
-    let filteredProducts = axios
-      .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
-      .then((response) => {
-        setProducts(response.data);
-        dispatch(setProductsList(response.data));
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
 
+      let filteredProducts = axios
+        .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data));
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+    
     setRatingFilter('');
     setPriceFilter('');
+    filtersRef.current.close();
+  }
+
+  const deleteFilters = () => {
+    const storeId = currentStore.id;
+
+      let filteredProducts = axios
+        .get(`${BACKEND_URL}products/filtered/?maxPrice=${priceFilter}&minRating=${ratingFilter}&storeid=${storeId}`)
+        .then((response) => {
+          setProducts(response.data);
+          dispatch(setProductsList(response.data));
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+
     filtersRef.current.close();
   }
 
@@ -257,7 +276,15 @@ const Navbar = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search) {
+    if (location.pathname.startsWith('/products/') && search) {
+      // Lógica para buscar productos de la pizzería específica usando el storeId
+      // Puedes acceder al storeId desde la URL. Ejemplo: /products/1234
+      const storeId = location.pathname.split('/').pop(); // Obtiene el último segmento de la URL
+      dispatch(searchProductsByStore(storeId, search));
+      setSearch('');
+      setSearchPerformed(true);
+    } else if (search) {
+      // Lógica para buscar restaurantes
       dispatch(onSearchData(true, searchBy, search));
       setSearchBy('restaurante');
       setSearch('');
@@ -269,8 +296,8 @@ const Navbar = (props) => {
         showClass: {
           popup: 'animate__animated animate__fadeInDown animate__faster',
           backdrop: 'swal2-backdrop-show',
-          icon: 'swal2-icon-show'
-        }
+          icon: 'swal2-icon-show',
+        },
       });
     }
   };
@@ -289,28 +316,6 @@ const Navbar = (props) => {
     setSearchPerformed(true);
   }
 
-  // //se valida si esta inhabilitado para redireccionarlo
-  // const verifyStoreAvailibility = (userIdentifier) => {
-  //   axios(`${BACKEND_URL}getstore/${userIdentifier}`)
-  //     .then(({ data }) => {
-  //       const { enabled } = data;
-  //       setAvailability(enabled)
-  //     })
-  //     .catch((error) => {console.log('error al obtener estado de restaurante ' + error);})
-  // }
-
-  // verifyStoreAvailibility(userData?.userIdentifier)
-  // console.log(availabity);
-  // if (availabity === false) {
-  //   signOut(() => navigate('/home'))
-  //   Swal.fire({
-  //     title: 'Tu cuenta se encuentra inhabilitada por favor contacta a nuestro soporte. caromiopizza@gmail.com',
-  //     icon: 'warning',
-  //   })
-    
-  // }
-
-  console.log(userData);
 
   return (
     <NavBar>
@@ -327,7 +332,7 @@ const Navbar = (props) => {
         </Link>
 
         <div className='nav-input-search'>
-          <form onSubmit={handleSearch}>
+        <form onSubmit={handleSearch}>
             <div className="search">
               <select
                 ref={searchSelectRef}
@@ -336,8 +341,11 @@ const Navbar = (props) => {
                 id="searchBy"
                 onChange={handleChange}
               >
-                <option value="restaurante">Buscar restaurante</option>
-                <option value="pizza">Buscar pizza</option>
+                {location.pathname === '/home' ? (
+                  <option value="restaurante">Buscar restaurantes</option>
+                ) : (
+                  <option value="pizza">Buscar pizza</option>
+                )}
               </select>
               <input
                 ref={searchInputRef}
@@ -367,8 +375,6 @@ const Navbar = (props) => {
               </SuggestionsContainer>
             )}
           </form>
-
-
           <div className='filters'>
             <FilterByBtn onClick={showFilters} disabled={!disableFilterBtn}>
               <span>Filtrar por: </span>
@@ -480,7 +486,8 @@ const Navbar = (props) => {
           </section>
           <menu>
             <button title='filterBtn' type="button" onClick={applyFilters} className='filterBtn'>Filtrar</button>
-            <button title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cancelar</button>
+            <button title='filterBtn' type="button" onClick={deleteFilters} className='noFilterBtn'>Quitar filtros</button>
+            <button title='dialogBtn' id="cancel" type="reset" className="dialogBtn" onClick={closeFilters}>Cerrar</button>
           </menu>
         </form>
       </FilterModal>

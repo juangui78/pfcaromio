@@ -14,6 +14,7 @@ import {
   CardsContainer,
   Title,
   Cards,
+  SearchBarContainer
 } from './ProductsStyles';
 
 const Products = () => {
@@ -22,6 +23,7 @@ const Products = () => {
   const productsFromState = useSelector((state) => state.products);
   const store = useSelector((state) => state.restaurantSelected);
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     setProducts([]);
@@ -45,31 +47,51 @@ const Products = () => {
         });
     }
   }, [dispatch, storeId, productsFromState]);
+  
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const filteredProducts = productsFromState.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setProducts(filteredProducts);
+  };
 
+  
   return (
-    <Container>
-      <CardsContainer>
-        <Title>
-          <h1>Lista de productos {store.name ? `de ${store.name}` : ''}</h1>
-        </Title>
-        <Cards id="cards">
-          {products?.map((product) => {
+      <Container>
+        <CardsContainer>
+          <Title>
+            <h1>Lista de productos {store.name ? `de ${store.name}` : ''}</h1>
+          </Title>
+        <SearchBarContainer>
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Buscar por nombre"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="submit">Buscar</button>
+          </form>
+        </SearchBarContainer>
+          <Cards id="cards">
+            {products?.map((product) => {
             if (product.enabled) return (
-              <ProductCard
-                name={product.name}
-                price={product.price}
-                rating={product.rating}
-                image={product.image}
-                key={product._id}
-                id={product._id}
-              />)
-          })}
-        </Cards>
-      </CardsContainer>
-      <ReviewsStore />
-    </Container>
-  );
-
+                <ProductCard
+                  name={product.name}
+                  price={product.price}
+                  rating={product.rating}
+                  image={product.image}
+                  key={product._id}
+                  id={product._id}
+                />)
+            })}
+          </Cards>
+        </CardsContainer>
+        <ReviewsStore />
+      </Container>
+    );
 };
+
 
 export default Products;

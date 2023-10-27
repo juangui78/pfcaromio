@@ -54,12 +54,14 @@ export default function Restaurants({ userData }) {
     }
 
     const sendPaymentEmail = (e) => {
-
+        
+        // ! table: Variable con plantilla para el mail notificando al cliente la compra.....
         let table = '<table style="border:1px solid #EEE; border-collapse:collapse; text-align:left; width:500px"><tr><thead>';
         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px; width:50%">Item</th>'
         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Cantidad</th>'
         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Precio</th>';
         table += '<th style="background-color:#EEE; border:0px solid black; padding-left:10px; padding-right:10px">Subtotal</th></tr></thead><tbody>';
+        
         cartDetails.items.forEach(item => {
             table += `
              <tr>
@@ -86,6 +88,7 @@ export default function Restaurants({ userData }) {
             message_html: table,
         }
 
+        // ! Envío de email a por EmailJS
         emailjs.send(emailKeys.EMAILJS_SERVICE_ID, emailKeys.EMAILJS_TEMPLATE_ID, emailParams, emailKeys.EMAILJS_PUBLIC_KEY)
             .then((result) => {
                 console.log(result.text);

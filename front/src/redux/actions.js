@@ -1,4 +1,5 @@
 import {
+    SEARCH_PRODUCTS_BY_STORE,
     GET_PRODUCTS,
     SET_PRODUCTS,
     GET_RESTAURANTS,
@@ -30,7 +31,7 @@ import {
 
 import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/";
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = 'http://localhost:3004/';
 //const BACKEND_URL = 'http://localhost:3004/';
 
 export const getProducts = (id) => {
@@ -68,6 +69,13 @@ export const getProductsEnabled = (id) => {
         }
     }
 }
+
+export const searchProductsByStore = (storeId) => {
+    return {
+      type: SEARCH_PRODUCTS_BY_STORE,
+      payload: storeId,
+    };
+  };
 
 export const setProductsList = (products) => {
     return async function (dispatch) {
