@@ -31,7 +31,7 @@ import {
 
 import axios from 'axios';
 //axios.defaults.baseURL = "https://pfcaromio-production.up.railway.app/";
-const BACKEND_URL = 'http://localhost:3004/';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 //const BACKEND_URL = 'http://localhost:3004/';
 
 export const getProducts = (id) => {
@@ -226,7 +226,7 @@ export const getStore = (id) => {
 export const toggleStore = (storeId) => {
     return async function (dispatch) {
         try {
-            const { data } = await axios.put(`http://localhost:3004/stores/toggle/${storeId}`);
+            const { data } = await axios.put(`${BACKEND_URL}stores/toggle/${storeId}`);
             return data
         }
         catch (error) {
@@ -240,7 +240,7 @@ export const toggleStore = (storeId) => {
 export const toggleProduct = (productId) => {
     return async function (dispatch) {
         try {
-            const { data } = await axios.put(`http://localhost:3004/products/toggle/${productId}`);
+            const { data } = await axios.put(`${BACKEND_URL}products/toggle/${productId}`);
             return data
         }
         catch (error) {
@@ -501,7 +501,7 @@ export const deleteProduct = (productId) => {
     return async function (dispatch) {
         try {
             let response = null;
-            response = await axios.delete(`http://localhost:3004/products/${productId}`)
+            response = await axios.delete(`${BACKEND_URL}products/${productId}`)
             return response.data;
         }
         catch (error) {
