@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeProductDetails, addItemCart, getStore } from '../../redux/actions';
+import ReviewCard from '../ReviewsUser/ReviewsUser';
 import Reviews from '../Reviews/Reviews';
 
 const ProductDetails = ({ show }) => {
@@ -59,6 +60,7 @@ const ProductDetails = ({ show }) => {
               </Description>
                 </Details>
               <Reviews/>
+              <ReviewCard/>
             </ScrollableContent>
           </ModalContainer>
         </Overlay>

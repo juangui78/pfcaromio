@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
-import rCard from '../reviewCard/reviewCard';
+import ReviewCard from '../ReviewsUser/ReviewsUser.jsx';
+import { useAuth, useUser } from '@clerk/clerk-react'
+
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -23,6 +25,7 @@ import {
 
 const Products = () => {
   const topRef = useRef(null);
+  const { user } = useUser()
   const dispatch = useDispatch();
   const { storeId } = useParams();
   const productsFromState = useSelector((state) => state.products);
@@ -159,7 +162,17 @@ const Products = () => {
         </Cards>
       </CardsContainer>
       <ReviewsStore />
-      <rCard />
+      <ReviewCard id="Rcards">
+          {store.reviews?.map((review) => {
+              return (
+                <reviewCard
+                  rating={review.rating}
+                  comment={review.comment}
+                />
+              );
+            return null;
+          })}
+        </ReviewCard>
     </Container>
   );
 };
