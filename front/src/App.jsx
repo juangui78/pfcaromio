@@ -24,6 +24,7 @@ import ShoppingCard from './components/ShoppingCard/ShoppingCard';
 import DashboardSeller from './components/DashboardSeller/DashboardSeller';
 
 import DashboardAdmin from './components/DashboardAdmin/DashboardAdmin';
+import Redirect from './components/Redirect/Redirect';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 //const BACKEND_URL = 'http://localhost:3004/';
