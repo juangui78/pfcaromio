@@ -112,7 +112,7 @@ export default function Restaurants({ userData }) {
                .catch((error) => {
                    console.log(error)
                }); */
-
+        console.log(currentParams);
         if (currentParams.success) {
             dialogRef.current.showModal()
             setSearchParams();
