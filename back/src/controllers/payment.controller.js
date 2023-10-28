@@ -4,7 +4,7 @@ const {User} = require('../models/user');
 const {Store} = require('../models/store');
 require('dotenv').config();
 
-const { STRIPE_SECRET, EMAILJS_PUBLIC_KEY, EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID } = process.env;
+const { STRIPE_SECRET, EMAILJS_PUBLIC_KEY, EMAILJS_TEMPLATE_ID, EMAILJS_SERVICE_ID, FRONT_URL_DEPLOY } = process.env;
 const stripe = new Stripe(STRIPE_SECRET);
 
 const createCheckout = async (cartDetails) => {
@@ -28,8 +28,8 @@ const createCheckout = async (cartDetails) => {
 
         const session = await stripe.checkout.sessions.create({
             mode: 'payment',
-            success_url: 'http://localhost:5173/home?success=true',
-            cancel_url: 'http://localhost:5173?/home?cancel=true',
+            success_url: `${FRONT_URL_DEPLOY}/home?success=true`,
+            cancel_url: `${FRONT_URL_DEPLOY}/home?cancel=true`,
             line_items: itemsCart
         })
 
